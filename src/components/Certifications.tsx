@@ -1,5 +1,6 @@
 import { Award, Building2, CheckCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 const certifications = [
   {
@@ -12,6 +13,7 @@ const certifications = [
       "100印表機回收再利用碳粉匣",
     ],
     icon: Building2,
+    link: "/chunghwa-telecom",
   },
   {
     title: "台灣銀行共同供應契約",
@@ -23,6 +25,7 @@ const certifications = [
       "100印表機回收再利用碳粉匣",
     ],
     icon: Building2,
+    link: null,
   },
 ];
 
@@ -46,38 +49,52 @@ const Certifications = () => {
 
         {/* Certification Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {certifications.map((cert, index) => (
-            <Card
-              key={index}
-              className="group bg-background border-border hover:border-primary/30 transition-all duration-300 hover:-translate-y-2 shadow-card hover:shadow-eco-lg overflow-hidden"
-            >
-              <div className="eco-gradient p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-                    <cert.icon className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-primary-foreground">
-                      {cert.title}
-                    </h3>
-                    <p className="text-primary-foreground/80 text-sm">
-                      {cert.description}
-                    </p>
+          {certifications.map((cert, index) => {
+            const cardContent = (
+              <Card
+                className={`group bg-background border-border hover:border-primary/30 transition-all duration-300 hover:-translate-y-2 shadow-card hover:shadow-eco-lg overflow-hidden h-full ${cert.link ? "cursor-pointer" : ""}`}
+              >
+                <div className="eco-gradient p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center">
+                      <cert.icon className="w-6 h-6 text-primary-foreground" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-primary-foreground">
+                        {cert.title}
+                      </h3>
+                      <p className="text-primary-foreground/80 text-sm">
+                        {cert.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <CardContent className="p-6">
-                <ul className="space-y-3">
-                  {cert.details.map((detail, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm">
-                      <CheckCircle className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-muted-foreground">{detail}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          ))}
+                <CardContent className="p-6">
+                  <ul className="space-y-3">
+                    {cert.details.map((detail, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm">
+                        <CheckCircle className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                        <span className="text-muted-foreground">{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {cert.link && (
+                    <p className="mt-4 text-sm text-primary font-medium">
+                      點擊查看完整產品目錄 →
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            );
+
+            return cert.link ? (
+              <Link key={index} to={cert.link} className="block">
+                {cardContent}
+              </Link>
+            ) : (
+              <div key={index}>{cardContent}</div>
+            );
+          })}
         </div>
 
         {/* Trust Badges */}
