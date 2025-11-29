@@ -1,5 +1,6 @@
 import { ArrowRight, Recycle, Leaf, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -41,9 +42,11 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: "0.3s" }}>
-            <Button size="lg" variant="heroSolid" className="text-lg px-8">
-              查看產品
-              <ArrowRight className="w-5 h-5 ml-2" />
+            <Button size="lg" variant="heroSolid" className="text-lg px-8" asChild>
+              <Link to="/products">
+                查看產品
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
             </Button>
             <Button size="lg" variant="hero" className="text-lg px-8">
               回收報價
