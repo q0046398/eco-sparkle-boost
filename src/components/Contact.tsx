@@ -91,14 +91,6 @@ const Contact = () => {
                 <Button
                   size="lg"
                   className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-                  onClick={() => window.open('https://www.facebook.com/pages/%E7%B6%A0%E6%98%95%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/157211251012798', '_blank')}
-                >
-                  Facebook 專頁
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
                   onClick={() => window.location.href = 'tel:0925665321'}
                 >
                   <Phone className="w-5 h-5 mr-2" />
