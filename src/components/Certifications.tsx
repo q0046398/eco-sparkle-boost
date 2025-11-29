@@ -25,7 +25,7 @@ const certifications = [
       "100印表機回收再利用碳粉匣",
     ],
     icon: Building2,
-    link: null,
+    link: "/taiwan-bank",
   },
 ];
 
