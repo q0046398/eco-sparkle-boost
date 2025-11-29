@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Leaf, Phone, ShoppingBag } from "lucide-react";
+import { Menu, X, Phone, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,13 +21,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-lg eco-gradient flex items-center justify-center shadow-eco group-hover:shadow-eco-lg transition-shadow">
-              <Leaf className="w-6 h-6 text-primary-foreground" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-lg leading-tight text-foreground">綠昕科技</span>
-              <span className="text-xs text-muted-foreground">環保碳粉匣專家</span>
-            </div>
+            <img src={logo} alt="綠昕科技" className="h-12 w-auto object-contain" />
           </a>
 
           {/* Desktop Navigation */}
