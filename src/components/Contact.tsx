@@ -61,7 +61,7 @@ const Contact = () => {
                   <info.icon className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <h3 className="font-semibold text-foreground mb-1">{info.title}</h3>
-                <p className={`font-medium ${info.title === 'LINE 客服' ? 'text-[#00B900]' : 'text-primary'}`}>{info.value}</p>
+                <p className={`font-medium break-all ${info.title === 'LINE 客服' ? 'text-[#00B900]' : 'text-primary'}`}>{info.value}</p>
                 <p className="text-sm text-muted-foreground">{info.description}</p>
               </CardContent>
             </Card>
