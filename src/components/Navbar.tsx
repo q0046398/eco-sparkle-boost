@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Phone, ShoppingBag } from "lucide-react";
+import { Menu, X, Phone, ShoppingBag, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo-transparent.png";
 
@@ -50,10 +50,23 @@ const Navbar = () => {
                 </a>
               )
             ))}
-            <Button className="eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg transition-all">
-              <Phone className="w-4 h-4 mr-2" />
-              立即諮詢
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="outline"
+                className="border-[#00B900] text-[#00B900] hover:bg-[#00B900] hover:text-white"
+                onClick={() => window.open('https://line.me/ti/p/~0925665321', '_blank')}
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                LINE
+              </Button>
+              <Button 
+                className="eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg transition-all"
+                onClick={() => window.location.href = 'tel:0925665321'}
+              >
+                <Phone className="w-4 h-4 mr-2" />
+                立即諮詢
+              </Button>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -91,10 +104,23 @@ const Navbar = () => {
                   </a>
                 )
               ))}
-              <Button className="eco-gradient text-primary-foreground shadow-eco w-full mt-2">
-                <Phone className="w-4 h-4 mr-2" />
-                立即諮詢
-              </Button>
+              <div className="flex flex-col gap-2 mt-2">
+                <Button 
+                  variant="outline"
+                  className="border-[#00B900] text-[#00B900] hover:bg-[#00B900] hover:text-white w-full"
+                  onClick={() => window.open('https://line.me/ti/p/~0925665321', '_blank')}
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  LINE 線上客服
+                </Button>
+                <Button 
+                  className="eco-gradient text-primary-foreground shadow-eco w-full"
+                  onClick={() => window.location.href = 'tel:0925665321'}
+                >
+                  <Phone className="w-4 h-4 mr-2" />
+                  立即諮詢
+                </Button>
+              </div>
             </div>
           </div>
         )}

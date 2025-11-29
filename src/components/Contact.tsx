@@ -1,31 +1,33 @@
-import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageCircle, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 const contactInfo = [
   {
     icon: Phone,
-    title: "電話諮詢",
-    value: "歡迎來電洽詢",
-    description: "大量採購可議價",
+    title: "服務專線",
+    value: "0925-665-321",
+    description: "連絡電話：(02)2970-2232",
+  },
+  {
+    icon: Printer,
+    title: "傳真號碼",
+    value: "(02)2970-2252",
+    description: "傳真訂購服務",
+  },
+  {
+    icon: MessageCircle,
+    title: "LINE 客服",
+    value: "0925665321",
+    description: "加入好友即時諮詢",
+    link: "https://line.me/ti/p/~0925665321",
   },
   {
     icon: Mail,
     title: "電子郵件",
-    value: "隨時與我們聯繫",
+    value: "c0925665321@yahoo.com.tw",
     description: "專人回覆您的問題",
-  },
-  {
-    icon: MapPin,
-    title: "服務據點",
-    value: "台灣",
-    description: "全台配送服務",
-  },
-  {
-    icon: Clock,
-    title: "服務時間",
-    value: "週一至週五",
-    description: "09:00 - 18:00",
+    link: "mailto:c0925665321@yahoo.com.tw",
   },
 ];
 
@@ -49,13 +51,17 @@ const Contact = () => {
         {/* Contact Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {contactInfo.map((info) => (
-            <Card key={info.title} className="group bg-card border-border hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 shadow-card hover:shadow-eco">
+            <Card 
+              key={info.title} 
+              className={`group bg-card border-border hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 shadow-card hover:shadow-eco ${info.link ? 'cursor-pointer' : ''}`}
+              onClick={() => info.link && window.open(info.link, info.link.startsWith('mailto') ? '_self' : '_blank')}
+            >
               <CardContent className="pt-6 text-center">
-                <div className="w-12 h-12 mx-auto rounded-xl eco-gradient flex items-center justify-center mb-4 shadow-eco group-hover:scale-110 transition-transform">
+                <div className={`w-12 h-12 mx-auto rounded-xl flex items-center justify-center mb-4 shadow-eco group-hover:scale-110 transition-transform ${info.title === 'LINE 客服' ? 'bg-[#00B900]' : 'eco-gradient'}`}>
                   <info.icon className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <h3 className="font-semibold text-foreground mb-1">{info.title}</h3>
-                <p className="text-primary font-medium">{info.value}</p>
+                <p className={`font-medium ${info.title === 'LINE 客服' ? 'text-[#00B900]' : 'text-primary'}`}>{info.value}</p>
                 <p className="text-sm text-muted-foreground">{info.description}</p>
               </CardContent>
             </Card>
@@ -76,6 +82,14 @@ const Contact = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
                   size="lg"
+                  className="bg-[#00B900] text-white hover:bg-[#00B900]/90"
+                  onClick={() => window.open('https://line.me/ti/p/~0925665321', '_blank')}
+                >
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  LINE 線上客服
+                </Button>
+                <Button
+                  size="lg"
                   className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                   onClick={() => window.open('https://www.facebook.com/pages/%E7%B6%A0%E6%98%95%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/157211251012798', '_blank')}
                 >
@@ -85,8 +99,10 @@ const Contact = () => {
                   size="lg"
                   variant="outline"
                   className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                  onClick={() => window.location.href = 'tel:0925665321'}
                 >
-                  LINE 線上客服
+                  <Phone className="w-5 h-5 mr-2" />
+                  撥打電話
                 </Button>
               </div>
             </CardContent>
