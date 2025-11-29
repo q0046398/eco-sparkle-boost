@@ -1,4 +1,4 @@
-import { Printer, Recycle, Truck, ShieldCheck } from "lucide-react";
+import { Printer, Recycle, Truck, ShieldCheck, Tag } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 
@@ -9,6 +9,12 @@ const services = [
     description: "全新台灣製造環保碳粉匣，品質優良，價格實惠，適用各大廠牌印表機。",
     features: ["HP", "Canon", "Brother", "Samsung"],
     link: "/products",
+  },
+  {
+    icon: Tag,
+    title: "原廠碳粉匣特價銷售",
+    description: "由於雷射印表機的型號眾多，麻煩您與我們聯繫。",
+    features: ["原廠正品", "特惠價格", "歡迎洽詢"],
   },
   {
     icon: Recycle,
