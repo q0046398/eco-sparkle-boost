@@ -1,4 +1,4 @@
-import { Leaf, Facebook, Phone, Mail, MessageCircle, Printer } from "lucide-react";
+import { Leaf, Phone, Mail, MessageCircle, Printer } from "lucide-react";
 import logo from "@/assets/logo-transparent.png";
 
 const Footer = () => {
@@ -81,17 +81,6 @@ const Footer = () => {
                 >
                   <Mail className="w-4 h-4 flex-shrink-0" />
                   <span>c0925665321@yahoo.com.tw</span>
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://www.facebook.com/pages/%E7%B6%A0%E6%98%95%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/157211251012798"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-primary-foreground/70 hover:text-accent transition-colors"
-                >
-                  <Facebook className="w-4 h-4 flex-shrink-0" />
-                  <span>Facebook 粉絲專頁</span>
                 </a>
               </li>
             </ul>
