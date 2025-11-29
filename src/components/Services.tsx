@@ -15,6 +15,7 @@ const services = [
     title: "空匣回收服務",
     description: "高價回收印表機空匣，減少廢棄物產生，為地球盡一份心力。",
     features: ["即時報價", "到府收取", "現金支付"],
+    link: "/recycling",
   },
   {
     icon: Truck,
