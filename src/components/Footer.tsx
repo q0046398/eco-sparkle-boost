@@ -9,7 +9,7 @@ const Footer = () => {
           {/* Company Info */}
           <div>
             <a href="/" className="flex items-center gap-2 mb-4">
-              <img src={logo} alt="綠昕科技" className="h-10 w-auto object-contain brightness-0 invert" />
+              <img src={logo} alt="綠昕科技" className="h-10 w-auto object-contain rounded-md bg-white/90 p-1" />
               <div className="flex flex-col">
                 <span className="font-bold text-lg leading-tight text-primary-foreground">綠昕科技</span>
                 <span className="text-xs text-primary-foreground/60">Lyu Sin Technology Co., Ltd.</span>
