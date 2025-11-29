@@ -1,4 +1,5 @@
-import { Leaf, Facebook, Phone, Mail } from "lucide-react";
+import { Leaf, Facebook, Phone, Mail, MessageCircle, Printer } from "lucide-react";
+import logo from "@/assets/logo-transparent.png";
 
 const Footer = () => {
   return (
@@ -7,10 +8,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Company Info */}
           <div>
-            <a href="#" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-primary-foreground/20 flex items-center justify-center">
-                <Leaf className="w-6 h-6 text-primary-foreground" />
-              </div>
+            <a href="/" className="flex items-center gap-2 mb-4">
+              <img src={logo} alt="綠昕科技" className="h-10 w-auto object-contain brightness-0 invert" />
               <div className="flex flex-col">
                 <span className="font-bold text-lg leading-tight text-primary-foreground">綠昕科技</span>
                 <span className="text-xs text-primary-foreground/60">Lyu Sin Technology Co., Ltd.</span>
@@ -54,12 +53,35 @@ const Footer = () => {
             <h4 className="font-semibold text-primary-foreground mb-4">聯絡資訊</h4>
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-primary-foreground/70">
-                <Phone className="w-4 h-4" />
-                <span>歡迎來電洽詢</span>
+                <Phone className="w-4 h-4 flex-shrink-0" />
+                <div>
+                  <span className="block">服務專線：0925-665-321</span>
+                  <span className="block text-sm">連絡電話：(02)2970-2232</span>
+                </div>
               </li>
               <li className="flex items-center gap-3 text-primary-foreground/70">
-                <Mail className="w-4 h-4" />
-                <span>服務信箱</span>
+                <Printer className="w-4 h-4 flex-shrink-0" />
+                <span>傳真：(02)2970-2252</span>
+              </li>
+              <li>
+                <a 
+                  href="https://line.me/ti/p/~0925665321"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-primary-foreground/70 hover:text-[#00B900] transition-colors"
+                >
+                  <MessageCircle className="w-4 h-4 flex-shrink-0" />
+                  <span>LINE ID：0925665321</span>
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="mailto:c0925665321@yahoo.com.tw"
+                  className="flex items-center gap-3 text-primary-foreground/70 hover:text-accent transition-colors"
+                >
+                  <Mail className="w-4 h-4 flex-shrink-0" />
+                  <span>c0925665321@yahoo.com.tw</span>
+                </a>
               </li>
               <li>
                 <a 
@@ -68,7 +90,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 text-primary-foreground/70 hover:text-accent transition-colors"
                 >
-                  <Facebook className="w-4 h-4" />
+                  <Facebook className="w-4 h-4 flex-shrink-0" />
                   <span>Facebook 粉絲專頁</span>
                 </a>
               </li>
