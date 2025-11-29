@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Products from "./pages/Products";
 import Recycling from "./pages/Recycling";
 import ChunghwaTelecom from "./pages/ChunghwaTelecom";
+import TaiwanBank from "./pages/TaiwanBank";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/products" element={<Products />} />
           <Route path="/recycling" element={<Recycling />} />
           <Route path="/chunghwa-telecom" element={<ChunghwaTelecom />} />
+          <Route path="/taiwan-bank" element={<TaiwanBank />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
