@@ -1,5 +1,6 @@
 import { Printer, Recycle, Truck, ShieldCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 const services = [
   {
@@ -7,6 +8,7 @@ const services = [
     title: "環保碳粉匣銷售",
     description: "全新台灣製造環保碳粉匣，品質優良，價格實惠，適用各大廠牌印表機。",
     features: ["HP", "Canon", "Brother", "Samsung"],
+    link: "/products",
   },
   {
     icon: Recycle,
@@ -47,35 +49,46 @@ const Services = () => {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
-            <Card 
-              key={service.title} 
-              className="group bg-card border-border hover:border-primary/30 transition-all duration-300 hover:-translate-y-2 shadow-card hover:shadow-eco-lg"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <CardHeader className="pb-4">
-                <div className="w-14 h-14 rounded-xl eco-gradient flex items-center justify-center mb-4 shadow-eco group-hover:scale-110 transition-transform">
-                  <service.icon className="w-7 h-7 text-primary-foreground" />
-                </div>
-                <CardTitle className="text-xl text-foreground">{service.title}</CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  {service.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {service.features.map((feature) => (
-                    <span
-                      key={feature}
-                      className="px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-medium"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          {services.map((service, index) => {
+            const cardContent = (
+              <Card 
+                className={`group bg-card border-border hover:border-primary/30 transition-all duration-300 hover:-translate-y-2 shadow-card hover:shadow-eco-lg h-full ${service.link ? "cursor-pointer" : ""}`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <CardHeader className="pb-4">
+                  <div className="w-14 h-14 rounded-xl eco-gradient flex items-center justify-center mb-4 shadow-eco group-hover:scale-110 transition-transform">
+                    <service.icon className="w-7 h-7 text-primary-foreground" />
+                  </div>
+                  <CardTitle className="text-xl text-foreground">{service.title}</CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    {service.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-wrap gap-2">
+                    {service.features.map((feature) => (
+                      <span
+                        key={feature}
+                        className="px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-medium"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+
+            return service.link ? (
+              <Link key={service.title} to={service.link} className="block">
+                {cardContent}
+              </Link>
+            ) : (
+              <div key={service.title}>
+                {cardContent}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
