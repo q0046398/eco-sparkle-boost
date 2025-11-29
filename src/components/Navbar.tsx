@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, Phone, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo-transparent.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="/" className="flex items-center gap-2 group">
-            <img src={logo} alt="綠昕科技" className="h-12 w-auto object-contain" />
+            <img src={logo} alt="綠昕科技" className="h-12 w-auto object-contain mix-blend-multiply" />
+            <div className="flex flex-col">
+              <span className="font-bold text-lg leading-tight text-foreground">綠昕科技</span>
+              <span className="text-xs text-muted-foreground">環保碳粉匣專家</span>
+            </div>
           </a>
 
           {/* Desktop Navigation */}
