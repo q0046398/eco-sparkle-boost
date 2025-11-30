@@ -1,9 +1,7 @@
 import { Leaf, Phone, Mail, MessageCircle, Printer } from "lucide-react";
 import logo from "@/assets/logo-transparent.png";
-
 const Footer = () => {
-  return (
-    <footer className="hero-gradient pt-16 pb-8">
+  return <footer className="hero-gradient pt-16 pb-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Company Info */}
@@ -15,10 +13,7 @@ const Footer = () => {
                 <span className="text-xs text-primary-foreground/60">Lyu Sin Technology Co., Ltd.</span>
               </div>
             </a>
-            <p className="text-primary-foreground/70 leading-relaxed">
-              專注於環保碳粉匣製造與銷售，提供優質產品與專業服務，
-              與您一同為地球環保盡一份心力。
-            </p>
+            <p className="text-primary-foreground/70 leading-relaxed">專注於印表機耗材銷售，提供優質產品與專業服務， 與您一同為地球環保盡一份心力。</p>
           </div>
 
           {/* Quick Links */}
@@ -64,21 +59,13 @@ const Footer = () => {
                 <span>傳真：(02)2970-2252</span>
               </li>
               <li>
-                <a 
-                  href="https://line.me/ti/p/~0925665321"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-primary-foreground/70 hover:text-[#00B900] transition-colors"
-                >
+                <a href="https://line.me/ti/p/~0925665321" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-primary-foreground/70 hover:text-[#00B900] transition-colors">
                   <MessageCircle className="w-4 h-4 flex-shrink-0" />
                   <span>LINE ID：0925665321</span>
                 </a>
               </li>
               <li>
-                <a 
-                  href="mailto:c0925665321@yahoo.com.tw"
-                  className="flex items-center gap-3 text-primary-foreground/70 hover:text-accent transition-colors"
-                >
+                <a href="mailto:c0925665321@yahoo.com.tw" className="flex items-center gap-3 text-primary-foreground/70 hover:text-accent transition-colors">
                   <Mail className="w-4 h-4 flex-shrink-0" />
                   <span>c0925665321@yahoo.com.tw</span>
                 </a>
@@ -99,8 +86,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
