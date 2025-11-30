@@ -36,9 +36,8 @@ const Hero = () => {
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-up" style={{
           animationDelay: "0.2s"
-        }}>專注於印表機耗材銷售
-節省資源、愛護地球、價格實惠<br className="hidden md:block" />
-            節省資源、愛護地球、價格實惠
+        }}>
+            專注於印表機耗材銷售
           </p>
 
           {/* CTA Buttons */}
