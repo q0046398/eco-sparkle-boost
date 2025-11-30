@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowLeft, Leaf, ShoppingCart, Send, Phone } from "lucide-react";
+import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,16 +15,24 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
+interface ProductItem {
+  name: string;
+  quantity: string;
+}
+
 const Order = () => {
   const [searchParams] = useSearchParams();
-  const productName = searchParams.get("product") || "";
+  const initialProduct = searchParams.get("product") || "";
   const { toast } = useToast();
 
+  const [products, setProducts] = useState<ProductItem[]>([
+    { name: initialProduct, quantity: "1" }
+  ]);
+
   const [formData, setFormData] = useState({
-    productName: productName,
-    quantity: "1",
     customerName: "",
     phone: "",
+    email: "",
     contactTime: "",
     address: "",
     notes: "",
@@ -41,12 +49,42 @@ const Order = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleProductChange = (index: number, field: keyof ProductItem, value: string) => {
+    setProducts((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+  };
+
+  const addProduct = () => {
+    setProducts((prev) => [...prev, { name: "", quantity: "1" }]);
+  };
+
+  const removeProduct = (index: number) => {
+    if (products.length > 1) {
+      setProducts((prev) => prev.filter((_, i) => i !== index));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Validate products
+    const hasEmptyProduct = products.some((p) => !p.name.trim());
+    if (hasEmptyProduct) {
+      toast({
+        title: "請填寫產品名稱",
+        description: "請確認所有產品名稱都已填寫",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     // Validate required fields
-    if (!formData.productName || !formData.customerName || !formData.phone || !formData.contactTime || !formData.address) {
+    if (!formData.customerName || !formData.phone || !formData.contactTime || !formData.address) {
       toast({
         title: "請填寫必填欄位",
         description: "請確認所有必填欄位都已填寫完成",
@@ -65,11 +103,11 @@ const Order = () => {
     });
 
     // Reset form
+    setProducts([{ name: "", quantity: "1" }]);
     setFormData({
-      productName: "",
-      quantity: "1",
       customerName: "",
       phone: "",
+      email: "",
       contactTime: "",
       address: "",
       notes: "",
@@ -140,36 +178,67 @@ const Order = () => {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Product Name */}
-                  <div className="space-y-2">
-                    <Label htmlFor="productName">
-                      產品名稱 <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      id="productName"
-                      name="productName"
-                      placeholder="請輸入產品型號或名稱"
-                      value={formData.productName}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-
-                  {/* Quantity */}
-                  <div className="space-y-2">
-                    <Label htmlFor="quantity">
-                      產品數量 <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      id="quantity"
-                      name="quantity"
-                      type="number"
-                      min="1"
-                      placeholder="請輸入數量"
-                      value={formData.quantity}
-                      onChange={handleInputChange}
-                      required
-                    />
+                  {/* Products */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Label>
+                        訂購產品 <span className="text-destructive">*</span>
+                      </Label>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={addProduct}
+                        className="text-primary"
+                      >
+                        <Plus className="w-4 h-4 mr-1" />
+                        新增品項
+                      </Button>
+                    </div>
+                    
+                    {products.map((product, index) => (
+                      <div key={index} className="flex gap-3 items-start p-4 bg-muted/30 rounded-lg">
+                        <div className="flex-1 space-y-3">
+                          <div>
+                            <Label htmlFor={`product-name-${index}`} className="text-sm text-muted-foreground">
+                              產品名稱
+                            </Label>
+                            <Input
+                              id={`product-name-${index}`}
+                              placeholder="請輸入產品型號或名稱"
+                              value={product.name}
+                              onChange={(e) => handleProductChange(index, "name", e.target.value)}
+                              required
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor={`product-qty-${index}`} className="text-sm text-muted-foreground">
+                              數量
+                            </Label>
+                            <Input
+                              id={`product-qty-${index}`}
+                              type="number"
+                              min="1"
+                              placeholder="數量"
+                              value={product.quantity}
+                              onChange={(e) => handleProductChange(index, "quantity", e.target.value)}
+                              required
+                            />
+                          </div>
+                        </div>
+                        {products.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeProduct(index)}
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-6"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        )}
+                      </div>
+                    ))}
                   </div>
 
                   {/* Customer Name */}
@@ -200,6 +269,21 @@ const Order = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div className="space-y-2">
+                    <Label htmlFor="email">
+                      聯絡信箱
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="請輸入您的電子郵件"
+                      value={formData.email}
+                      onChange={handleInputChange}
                     />
                   </div>
 
