@@ -17,6 +17,18 @@ const certifications = [
   },
   {
     title: "台灣銀行共同供應契約",
+    description: "103年印表機回收再利用碳粉匣",
+    details: [
+      "招標案號：LP5-990036",
+      "立約商編號：11P-LP5-3562",
+      "台灣銀行(股)公司採購部",
+      "100印表機回收再利用碳粉匣",
+    ],
+    icon: Building2,
+    link: "/taiwan-bank",
+  },
+  {
+    title: "台灣銀行共同供應契約",
     description: "114年印表機回收再利用碳粉匣",
     details: [
       "訂約機關：臺灣銀行股份有限公司",
