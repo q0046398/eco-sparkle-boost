@@ -1,4 +1,4 @@
-import { ArrowRight, Recycle, Leaf, Award } from "lucide-react";
+import { ArrowRight, Leaf, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -16,7 +16,7 @@ const Hero = () => {
         <Leaf className="w-32 h-32 text-primary-foreground animate-float" />
       </div>
       <div className="absolute bottom-40 left-20 opacity-10">
-        <Recycle className="w-24 h-24 text-primary-foreground animate-float-delayed" />
+        <Leaf className="w-24 h-24 text-primary-foreground animate-float-delayed" />
       </div>
 
       <div className="container mx-auto px-4 pt-24 pb-16 relative z-10">
@@ -48,8 +48,10 @@ const Hero = () => {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </Button>
-            <Button size="lg" variant="hero" className="text-lg px-8">
-              回收報價
+            <Button size="lg" variant="hero" className="text-lg px-8" asChild>
+              <a href="#contact">
+                立即諮詢
+              </a>
             </Button>
           </div>
 
