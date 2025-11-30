@@ -24,7 +24,7 @@ const Navbar = () => {
             <img src={logo} alt="綠昕科技" className="h-12 w-auto object-contain mix-blend-multiply" />
             <div className="flex flex-col">
               <span className="font-bold text-lg leading-tight text-foreground">綠昕科技</span>
-              <span className="text-xs text-muted-foreground">環保碳粉匣專家</span>
+              <span className="text-xs text-muted-foreground">印表機耗材專家</span>
             </div>
           </a>
 
