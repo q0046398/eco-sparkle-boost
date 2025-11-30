@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -94,13 +95,45 @@ const Order = () => {
       return;
     }
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const { data, error } = await supabase.functions.invoke("send-order-email", {
+        body: {
+          products,
+          customerName: formData.customerName,
+          phone: formData.phone,
+          email: formData.email,
+          contactTime: formData.contactTime,
+          address: formData.address,
+          notes: formData.notes,
+        },
+      });
 
-    toast({
-      title: "訂單已送出！",
-      description: "我們將盡快與您聯繫確認訂單詳情",
-    });
+      if (error) {
+        console.error("Error sending order:", error);
+        toast({
+          title: "訂單送出失敗",
+          description: "請稍後再試或直接電話聯繫我們",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log("Order sent successfully:", data);
+      toast({
+        title: "訂單已送出！",
+        description: "我們將盡快與您聯繫確認訂單詳情",
+      });
+    } catch (err) {
+      console.error("Error:", err);
+      toast({
+        title: "訂單送出失敗",
+        description: "請稍後再試或直接電話聯繫我們",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
 
     // Reset form
     setProducts([{ name: "", quantity: "1" }]);
