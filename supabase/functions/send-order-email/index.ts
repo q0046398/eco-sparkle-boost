@@ -84,7 +84,7 @@ const handler = async (req: Request): Promise<Response> => {
       </div>
     `;
 
-    console.log("Sending email to dean0046298@gmail.com");
+    console.log("Sending email to greendaybreak1217@gmail.com");
 
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
     
@@ -96,7 +96,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: "綠昕科技 <onboarding@resend.dev>",
-        to: ["dean0046298@gmail.com"],
+        to: ["greendaybreak1217@gmail.com"],
         subject: `[新訂單] ${orderData.customerName} - ${orderData.products[0].name}`,
         html: emailHtml,
       }),
