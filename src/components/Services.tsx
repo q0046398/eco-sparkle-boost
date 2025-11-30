@@ -1,4 +1,4 @@
-import { Printer, Recycle, Truck, ShieldCheck, Tag } from "lucide-react";
+import { Printer, Truck, ShieldCheck, Tag } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 
@@ -15,13 +15,6 @@ const services = [
     title: "原廠碳粉匣特價銷售",
     description: "由於雷射印表機的型號眾多，麻煩您與我們聯繫。",
     features: ["原廠正品", "特惠價格", "歡迎洽詢"],
-  },
-  {
-    icon: Recycle,
-    title: "空匣回收服務",
-    description: "高價回收印表機空匣，減少廢棄物產生，為地球盡一份心力。",
-    features: ["即時報價", "到府收取", "現金支付"],
-    link: "/recycling",
   },
   {
     icon: Truck,
@@ -50,7 +43,7 @@ const Services = () => {
             專業環保碳粉匣服務
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            提供完整的碳粉匣銷售與回收解決方案，助您節省成本同時愛護環境
+            提供完整的碳粉匣銷售解決方案，助您節省成本同時愛護環境
           </p>
         </div>
 
