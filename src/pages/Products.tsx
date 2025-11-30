@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Search, Filter, ShoppingCart, Leaf, Recycle, Award, Truck, Phone, MessageCircle } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Search, Filter, ShoppingCart, Leaf, Recycle, Award, Truck, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -129,6 +129,11 @@ const Products = () => {
   const [selectedBrand, setSelectedBrand] = useState("全部品牌");
   const [selectedCategory, setSelectedCategory] = useState("全部類型");
   const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
+  const navigate = useNavigate();
+
+  const handleOrder = (productName: string) => {
+    navigate(`/order?product=${encodeURIComponent(productName)}`);
+  };
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
@@ -316,11 +321,11 @@ const Products = () => {
                           </Badge>
                           <Button 
                             size="sm" 
-                            className="bg-[#00B900] hover:bg-[#00B900]/90 text-white"
-                            onClick={() => window.open(`https://line.me/ti/p/~0925665321`, '_blank')}
+                            className="eco-gradient text-primary-foreground"
+                            onClick={() => handleOrder(`${product.brand} ${product.model}`)}
                           >
                             <ShoppingCart className="w-3 h-3 mr-1" />
-                            LINE訂購
+                            訂購
                           </Button>
                         </div>
                       </div>
@@ -371,10 +376,10 @@ const Products = () => {
                         <Button 
                           size="sm" 
                           variant="ghost" 
-                          className="text-[#00B900] hover:text-[#00B900] hover:bg-[#00B900]/10"
-                          onClick={() => window.open('https://line.me/ti/p/~0925665321', '_blank')}
+                          className="text-primary hover:text-primary hover:bg-primary/10"
+                          onClick={() => handleOrder(`${product.brand} ${product.model}`)}
                         >
-                          <MessageCircle className="w-4 h-4" />
+                          <ShoppingCart className="w-4 h-4" />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -398,14 +403,12 @@ const Products = () => {
               報價單尚未有報價之型號，歡迎來電洽詢，若您的叫貨量大，歡迎與業務代表議價唷！
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className="bg-[#00B900] hover:bg-[#00B900]/90 text-white w-full sm:w-auto"
-                onClick={() => window.open('https://line.me/ti/p/~0925665321', '_blank')}
-              >
-                <MessageCircle className="w-5 h-5 mr-2" />
-                LINE 線上訂購
-              </Button>
+              <Link to="/order">
+                <Button size="lg" className="eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg w-full sm:w-auto">
+                  <ShoppingCart className="w-5 h-5 mr-2" />
+                  立即訂購
+                </Button>
+              </Link>
               <a href={`tel:${phoneNumber}`}>
                 <Button size="lg" variant="outline" className="w-full sm:w-auto">
                   <Phone className="w-5 h-5 mr-2" />
