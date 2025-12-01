@@ -108,8 +108,9 @@ const OrderOriginal = () => {
     addToCart(productId, productName, quantity, priceType, unitPrice, "original");
 
     toast({
-      title: "已加入購物車",
+      title: "✓ 已加入購物車",
       description: `${productName} x ${quantity}`,
+      duration: 2000,
     });
   };
 
