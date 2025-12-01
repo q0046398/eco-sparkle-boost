@@ -15,6 +15,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import epson110080 from "@/assets/epson-110080.png";
+import epson110079 from "@/assets/epson-110079.png";
 
 interface ProductItem {
   name: string;
@@ -197,17 +199,31 @@ const OrderOriginal = () => {
               <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
                 原廠碳粉匣特價訂購
               </h1>
-              <div className="space-y-3 text-muted-foreground mb-4">
-                <div className="p-3 bg-muted/30 rounded-lg">
-                  <p className="font-medium text-foreground mb-1">標準容量碳粉匣</p>
-                  <p className="text-sm">EPSON AL-M220DN/M310/M320 (110080/S110080)</p>
-                  <p className="text-sm font-semibold text-primary">未稅 NT$3,500 ・ 含稅 NT$3,675</p>
-                </div>
-                <div className="p-3 bg-muted/30 rounded-lg">
-                  <p className="font-medium text-foreground mb-1">高印量碳粉匣</p>
-                  <p className="text-sm">EPSON M220DN/M310/M320 (110079/S110079/10079)</p>
-                  <p className="text-sm font-semibold text-primary">未稅 NT$4,550 ・ 含稅 NT$4,778</p>
-                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-4">
+                <Card className="overflow-hidden">
+                  <CardContent className="p-4">
+                    <img 
+                      src={epson110080} 
+                      alt="EPSON 110080/S110080 標準容量碳粉匣" 
+                      className="w-full h-48 object-contain mb-3"
+                    />
+                    <p className="font-medium text-foreground mb-1">標準容量碳粉匣</p>
+                    <p className="text-sm text-muted-foreground mb-2">EPSON AL-M220DN/M310/M320 (110080/S110080)</p>
+                    <p className="text-sm font-semibold text-primary">未稅 NT$3,500 ・ 含稅 NT$3,675</p>
+                  </CardContent>
+                </Card>
+                <Card className="overflow-hidden">
+                  <CardContent className="p-4">
+                    <img 
+                      src={epson110079} 
+                      alt="EPSON 110079/S110079/10079 高印量碳粉匣" 
+                      className="w-full h-48 object-contain mb-3"
+                    />
+                    <p className="font-medium text-foreground mb-1">高印量碳粉匣</p>
+                    <p className="text-sm text-muted-foreground mb-2">EPSON M220DN/M310/M320 (110079/S110079/10079)</p>
+                    <p className="text-sm font-semibold text-primary">未稅 NT$4,550 ・ 含稅 NT$4,778</p>
+                  </CardContent>
+                </Card>
               </div>
             </div>
 
