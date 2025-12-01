@@ -73,7 +73,7 @@ export const CartDialog = ({
                   <p className="text-sm text-muted-foreground">
                     {item.productType === "original" ? (
                       <>
-                        {item.priceType.includes("untaxed") ? "未稅" : "含稅"} NT$
+                        {item.priceType} NT$
                         {item.unitPrice.toLocaleString()}
                       </>
                     ) : (

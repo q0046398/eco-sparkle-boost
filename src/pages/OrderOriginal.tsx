@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/use-cart";
 import { MiniCart } from "@/components/MiniCart";
@@ -53,6 +54,10 @@ const OrderOriginal = () => {
   // Product quantities for selection
   const [product110080Qty, setProduct110080Qty] = useState(1);
   const [product110079Qty, setProduct110079Qty] = useState(1);
+  
+  // Tax options for each product
+  const [tax110080, setTax110080] = useState<"untaxed" | "taxed">("untaxed");
+  const [tax110079, setTax110079] = useState<"untaxed" | "taxed">("untaxed");
 
   const [products, setProducts] = useState<ProductItem[]>([
     { name: "", quantity: "1", priceType: "110080-untaxed" }
@@ -100,16 +105,18 @@ const OrderOriginal = () => {
   const handleAddToCart = (
     productId: "110080" | "110079",
     productName: string,
-    quantity: number
+    quantity: number,
+    taxOption: "untaxed" | "taxed"
   ) => {
-    const priceType = productId === "110080" ? "110080-untaxed" : "110079-untaxed";
-    const unitPrice = productId === "110080" ? 3500 : 4550;
+    const basePrice = productId === "110080" ? 3500 : 4550;
+    const unitPrice = taxOption === "taxed" ? Math.round(basePrice * 1.05) : basePrice;
+    const priceType = taxOption === "taxed" ? "含稅" : "未稅";
 
     addToCart(productId, productName, quantity, priceType, unitPrice, "original");
 
     toast({
       title: "✓ 已加入購物車",
-      description: `${productName} x ${quantity}`,
+      description: `${productName} (${priceType}) x ${quantity}`,
       duration: 2000,
     });
   };
@@ -303,9 +310,24 @@ const OrderOriginal = () => {
                       【台灣耗材】原廠 EPSON AL-M220DN/M310/M320 (110080/S110080)
                     </h3>
                     <div className="space-y-1">
-                      <p className="text-lg font-bold text-foreground">未稅 NT$3,500</p>
-                      <p className="text-sm text-muted-foreground">含稅 NT$3,675</p>
+                      <p className="text-lg font-bold text-foreground">
+                        {tax110080 === "untaxed" ? "未稅 NT$3,500" : "含稅 NT$3,675"}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {tax110080 === "untaxed" ? "含稅 NT$3,675" : "未稅 NT$3,500"}
+                      </p>
                     </div>
+                    
+                    <RadioGroup value={tax110080} onValueChange={(value) => setTax110080(value as "untaxed" | "taxed")} className="flex gap-4">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="untaxed" id="tax-110080-untaxed" />
+                        <Label htmlFor="tax-110080-untaxed" className="text-sm cursor-pointer">未稅</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="taxed" id="tax-110080-taxed" />
+                        <Label htmlFor="tax-110080-taxed" className="text-sm cursor-pointer">含稅</Label>
+                      </div>
+                    </RadioGroup>
                     
                     <div className="flex items-center justify-center gap-3 py-2">
                       <Button
@@ -332,7 +354,7 @@ const OrderOriginal = () => {
                     <Button 
                       className="w-full eco-gradient text-primary-foreground"
                       onClick={() => {
-                        handleAddToCart("110080", "EPSON 110080/S110080 標準容量碳粉匣", product110080Qty);
+                        handleAddToCart("110080", "EPSON 110080/S110080 標準容量碳粉匣", product110080Qty, tax110080);
                         setProduct110080Qty(1);
                       }}
                     >
@@ -357,9 +379,24 @@ const OrderOriginal = () => {
                       【台灣耗材】原廠 EPSON M220DN/M310/M320 (110079/S110079/10079)
                     </h3>
                     <div className="space-y-1">
-                      <p className="text-lg font-bold text-foreground">未稅 NT$4,550</p>
-                      <p className="text-sm text-muted-foreground">含稅 NT$4,778</p>
+                      <p className="text-lg font-bold text-foreground">
+                        {tax110079 === "untaxed" ? "未稅 NT$4,550" : "含稅 NT$4,778"}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {tax110079 === "untaxed" ? "含稅 NT$4,778" : "未稅 NT$4,550"}
+                      </p>
                     </div>
+                    
+                    <RadioGroup value={tax110079} onValueChange={(value) => setTax110079(value as "untaxed" | "taxed")} className="flex gap-4">
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="untaxed" id="tax-110079-untaxed" />
+                        <Label htmlFor="tax-110079-untaxed" className="text-sm cursor-pointer">未稅</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="taxed" id="tax-110079-taxed" />
+                        <Label htmlFor="tax-110079-taxed" className="text-sm cursor-pointer">含稅</Label>
+                      </div>
+                    </RadioGroup>
                     
                     <div className="flex items-center justify-center gap-3 py-2">
                       <Button
@@ -386,7 +423,7 @@ const OrderOriginal = () => {
                     <Button 
                       className="w-full eco-gradient text-primary-foreground"
                       onClick={() => {
-                        handleAddToCart("110079", "EPSON 110079/S110079/10079 高印量碳粉匣", product110079Qty);
+                        handleAddToCart("110079", "EPSON 110079/S110079/10079 高印量碳粉匣", product110079Qty, tax110079);
                         setProduct110079Qty(1);
                       }}
                     >
