@@ -23,7 +23,8 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/use-cart";
-import { FloatingCart } from "@/components/FloatingCart";
+import { MiniCart } from "@/components/MiniCart";
+import { CartDialog } from "@/components/CartDialog";
 import epson110080 from "@/assets/epson-110080.png";
 import epson110079 from "@/assets/epson-110079.png";
 
@@ -257,18 +258,12 @@ const OrderOriginal = () => {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button 
-                variant="outline"
-                className="relative"
-                onClick={() => setIsCartDialogOpen(true)}
-              >
-                <ShoppingCart className="w-4 h-4" />
-                {getTotalItems() > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {getTotalItems()}
-                  </span>
-                )}
-              </Button>
+              <MiniCart
+                cart={cart}
+                getTotalItems={getTotalItems}
+                getTotalPrice={getTotalPrice}
+                onOpenCart={() => setIsCartDialogOpen(true)}
+              />
               <a href="tel:02-2970-2232">
                 <Button className="eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg transition-all">
                   <Phone className="w-4 h-4 mr-2" />
@@ -281,7 +276,7 @@ const OrderOriginal = () => {
       </header>
 
       {/* Order Form Section */}
-      <section className="py-12 md:py-16 md:pr-[22rem]">
+      <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           {/* Product Display Section */}
           <div className="max-w-6xl mx-auto mb-12">
@@ -731,17 +726,6 @@ const OrderOriginal = () => {
           </Dialog>
         </div>
       </section>
-
-      {/* Floating Cart */}
-      <FloatingCart
-        cart={cart}
-        removeFromCart={removeFromCart}
-        updateCartItemQuantity={updateCartItemQuantity}
-        clearCart={handleClearCart}
-        getTotalItems={getTotalItems}
-        getTotalPrice={getTotalPrice}
-        onCheckout={proceedToCheckout}
-      />
 
       {/* Footer */}
       <footer className="py-8 bg-muted/30 border-t border-border">
