@@ -19,13 +19,14 @@ import { useToast } from "@/hooks/use-toast";
 interface ProductItem {
   name: string;
   quantity: string;
+  priceType: string;
 }
 
 const OrderEco = () => {
   const { toast } = useToast();
 
   const [products, setProducts] = useState<ProductItem[]>([
-    { name: "", quantity: "1" }
+    { name: "", quantity: "1", priceType: "contact" }
   ]);
 
   const [formData, setFormData] = useState({
@@ -57,7 +58,7 @@ const OrderEco = () => {
   };
 
   const addProduct = () => {
-    setProducts((prev) => [...prev, { name: "", quantity: "1" }]);
+    setProducts((prev) => [...prev, { name: "", quantity: "1", priceType: "contact" }]);
   };
 
   const removeProduct = (index: number) => {
@@ -135,7 +136,7 @@ const OrderEco = () => {
     }
 
     // Reset form
-    setProducts([{ name: "", quantity: "1" }]);
+    setProducts([{ name: "", quantity: "1", priceType: "contact" }]);
     setFormData({
       customerName: "",
       phone: "",
@@ -243,19 +244,37 @@ const OrderEco = () => {
                               required
                             />
                           </div>
-                          <div>
-                            <Label htmlFor={`product-qty-${index}`} className="text-sm text-muted-foreground">
-                              數量
-                            </Label>
-                            <Input
-                              id={`product-qty-${index}`}
-                              type="number"
-                              min="1"
-                              placeholder="數量"
-                              value={product.quantity}
-                              onChange={(e) => handleProductChange(index, "quantity", e.target.value)}
-                              required
-                            />
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <Label htmlFor={`product-qty-${index}`} className="text-sm text-muted-foreground">
+                                數量
+                              </Label>
+                              <Input
+                                id={`product-qty-${index}`}
+                                type="number"
+                                min="1"
+                                placeholder="數量"
+                                value={product.quantity}
+                                onChange={(e) => handleProductChange(index, "quantity", e.target.value)}
+                                required
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor={`product-price-${index}`} className="text-sm text-muted-foreground">
+                                報價方式
+                              </Label>
+                              <Select
+                                value={product.priceType}
+                                onValueChange={(value) => handleProductChange(index, "priceType", value)}
+                              >
+                                <SelectTrigger id={`product-price-${index}`}>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="contact">請聯繫報價</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
                           </div>
                         </div>
                         {products.length > 1 && (
