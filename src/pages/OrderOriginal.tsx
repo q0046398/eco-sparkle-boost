@@ -34,6 +34,7 @@ interface ProductItem {
 const OrderOriginal = () => {
   const { toast } = useToast();
   const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<"110080" | "110079">("110080");
 
   const [products, setProducts] = useState<ProductItem[]>([
     { name: "", quantity: "1", priceType: "110080-untaxed" }
@@ -68,7 +69,8 @@ const OrderOriginal = () => {
   };
 
   const addProduct = () => {
-    setProducts((prev) => [...prev, { name: "", quantity: "1", priceType: "110080-untaxed" }]);
+    const defaultPriceType = selectedProduct === "110080" ? "110080-untaxed" : "110079-untaxed";
+    setProducts((prev) => [...prev, { name: "", quantity: "1", priceType: defaultPriceType }]);
   };
 
   const removeProduct = (index: number) => {
@@ -229,7 +231,10 @@ const OrderOriginal = () => {
                     <Button 
                       variant="outline"
                       className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                      onClick={() => setIsOrderDialogOpen(true)}
+                      onClick={() => {
+                        setSelectedProduct("110080");
+                        setIsOrderDialogOpen(true);
+                      }}
                     >
                       訂購
                     </Button>
@@ -254,7 +259,10 @@ const OrderOriginal = () => {
                     <Button 
                       variant="outline"
                       className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                      onClick={() => setIsOrderDialogOpen(true)}
+                      onClick={() => {
+                        setSelectedProduct("110079");
+                        setIsOrderDialogOpen(true);
+                      }}
                     >
                       訂購
                     </Button>
@@ -265,10 +273,19 @@ const OrderOriginal = () => {
           </div>
 
           {/* Order Dialog */}
-          <Dialog open={isOrderDialogOpen} onOpenChange={setIsOrderDialogOpen}>
+          <Dialog open={isOrderDialogOpen} onOpenChange={(open) => {
+            setIsOrderDialogOpen(open);
+            if (open) {
+              // Reset products with correct initial price type when opening dialog
+              const defaultPriceType = selectedProduct === "110080" ? "110080-untaxed" : "110079-untaxed";
+              setProducts([{ name: "", quantity: "1", priceType: defaultPriceType }]);
+            }
+          }}>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle className="text-2xl">訂購資訊</DialogTitle>
+                <DialogTitle className="text-2xl">
+                  訂購資訊 - {selectedProduct === "110080" ? "標準容量碳粉匣 (110080)" : "高印量碳粉匣 (110079)"}
+                </DialogTitle>
                 <DialogDescription>
                   請填寫完整資訊以便我們為您處理訂單
                 </DialogDescription>
@@ -325,7 +342,7 @@ const OrderOriginal = () => {
                           </div>
                           <div>
                             <Label htmlFor={`product-price-${index}`} className="text-sm text-muted-foreground">
-                              型號價格
+                              價格類型
                             </Label>
                             <Select
                               value={product.priceType}
@@ -335,10 +352,17 @@ const OrderOriginal = () => {
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="110080-untaxed">110080 未稅 NT$3,500</SelectItem>
-                                <SelectItem value="110080-taxed">110080 含稅 NT$3,675</SelectItem>
-                                <SelectItem value="110079-untaxed">110079 未稅 NT$4,550</SelectItem>
-                                <SelectItem value="110079-taxed">110079 含稅 NT$4,778</SelectItem>
+                                {selectedProduct === "110080" ? (
+                                  <>
+                                    <SelectItem value="110080-untaxed">未稅 NT$3,500</SelectItem>
+                                    <SelectItem value="110080-taxed">含稅 NT$3,675</SelectItem>
+                                  </>
+                                ) : (
+                                  <>
+                                    <SelectItem value="110079-untaxed">未稅 NT$4,550</SelectItem>
+                                    <SelectItem value="110079-taxed">含稅 NT$4,778</SelectItem>
+                                  </>
+                                )}
                               </SelectContent>
                             </Select>
                           </div>
