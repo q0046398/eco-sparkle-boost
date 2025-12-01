@@ -731,10 +731,10 @@ const OrderOriginal = () => {
                           variant="outline"
                           size="sm"
                           onClick={() => {
-                            toast({
-                              title: "門市選擇功能",
-                              description: "請聯繫客服協助選擇門市",
-                            });
+                            const url = shippingMethod === "familymart" 
+                              ? "https://www.family.com.tw/marketing/inquiry.aspx"
+                              : "https://emap.pcsc.com.tw/";
+                            window.open(url, "_blank", "noopener,noreferrer");
                           }}
                         >
                           <Store className="w-4 h-4 mr-2" />
