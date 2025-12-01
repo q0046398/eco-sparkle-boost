@@ -1,4 +1,4 @@
-import { Shield, Award, Leaf, Handshake } from "lucide-react";
+import { Shield, Award, Leaf, Handshake, CheckCircle2, Building, Users } from "lucide-react";
 
 const pillars = [
   {
@@ -21,6 +21,15 @@ const pillars = [
   },
 ];
 
+const features = [
+  "台灣在地製造，品質有保障",
+  "符合環保署認證標準",
+  "專業技術團隊，品管嚴格",
+  "完善售後服務，安心購買",
+  "政府機關、學校採購首選",
+  "提供大量採購優惠價格",
+];
+
 const WhyChooseUs = () => {
   return (
     <section id="why-us" className="py-20 md:py-28 bg-background relative overflow-hidden">
@@ -34,7 +43,7 @@ const WhyChooseUs = () => {
         {/* Header */}
         <div className="text-center max-w-4xl mx-auto mb-16">
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            核心承諾
+            關於綠昕
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
             不只提供產品
@@ -42,24 +51,64 @@ const WhyChooseUs = () => {
           </h2>
         </div>
 
-        {/* Service Promise Card */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 md:p-10 border border-primary/10 shadow-eco">
-            <div className="flex items-start gap-5">
+        {/* Company Intro + Service Promise */}
+        <div className="grid lg:grid-cols-2 gap-8 mb-16">
+          {/* Company Card */}
+          <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 border border-primary/10 shadow-eco">
+            <div className="flex items-start gap-5 mb-6">
+              <div className="flex-shrink-0 w-14 h-14 rounded-2xl eco-gradient flex items-center justify-center shadow-eco">
+                <Building className="w-7 h-7 text-primary-foreground" />
+              </div>
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-1">
+                  綠昕科技有限公司
+                </h3>
+                <p className="text-muted-foreground text-sm">Lyu Sin Technology Co., Ltd.</p>
+              </div>
+            </div>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              綠昕科技成立於台灣，專注於印表機耗材銷售。我們相信，每一個小選擇都能為地球帶來改變。透過專業的技術與嚴格的品管，不僅給您最優質的品質和最好的服務，也替您節省一筆開銷。
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {features.map((feature) => (
+                <div key={feature} className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span className="text-foreground text-sm">{feature}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Service Promise Card */}
+          <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 border border-primary/10 shadow-eco">
+            <div className="flex items-start gap-5 mb-6">
               <div className="flex-shrink-0 w-14 h-14 rounded-2xl eco-gradient flex items-center justify-center shadow-eco">
                 <Handshake className="w-7 h-7 text-primary-foreground" />
               </div>
               <div>
-                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-1">
                   超越交易的服務承諾
                 </h3>
-                <p className="text-muted-foreground leading-relaxed text-lg">
-                  對綠昕而言，每一次訂單不是終點，而是長期合作的起點。我們深信，
-                  <span className="text-foreground font-semibold">
-                    用心服務好一位客戶，遠比追求無數一次性的訂單重要得多。
-                  </span>
-                  我們致力於成為您專屬的列印管家，提供持續、穩定的技術支援與耗材管理，確保您的辦公效率永不中斷。
-                </p>
+              </div>
+            </div>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              對綠昕而言，每一次訂單不是終點，而是長期合作的起點。我們深信，
+              <span className="text-foreground font-semibold">
+                用心服務好一位客戶，遠比追求無數一次性的訂單重要得多。
+              </span>
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              我們致力於成為您專屬的列印管家，提供持續、穩定的技術支援與耗材管理，確保您的辦公效率永不中斷。
+            </p>
+            {/* Trust Badges */}
+            <div className="flex items-center gap-4 mt-6 pt-6 border-t border-border">
+              <div className="flex items-center gap-2">
+                <Award className="w-5 h-5 text-primary" />
+                <span className="text-sm text-foreground font-medium">環保認證</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-primary" />
+                <span className="text-sm text-foreground font-medium">專業服務</span>
               </div>
             </div>
           </div>
