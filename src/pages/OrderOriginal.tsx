@@ -281,7 +281,7 @@ const OrderOriginal = () => {
       </header>
 
       {/* Order Form Section */}
-      <section className="py-12 md:py-16">
+      <section className="py-12 md:py-16 md:pr-[22rem]">
         <div className="container mx-auto px-4">
           {/* Product Display Section */}
           <div className="max-w-6xl mx-auto mb-12">
