@@ -189,17 +189,151 @@ const OrderEco = () => {
       {/* Order Form Section */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
+          {/* Product Display Section */}
+          <div className="max-w-6xl mx-auto mb-12">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full eco-gradient mb-4">
-                <ShoppingCart className="w-8 h-8 text-primary-foreground" />
-              </div>
               <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-                環保碳粉匣訂購
+                環保碳粉匣
               </h1>
-              <p className="text-muted-foreground">
-                台灣製造 ・ 品質優良 ・ 價格實惠 ・ 環保認證
-              </p>
+              <p className="text-muted-foreground">台灣製造 ・ 品質優良 ・ 價格實惠 ・ 環保認證</p>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50">
+                <CardContent className="p-6">
+                  <div className="bg-white rounded-lg p-8 flex items-center justify-center min-h-[200px] mb-4">
+                    <div className="text-center">
+                      <div className="w-20 h-20 mx-auto mb-3 rounded-full eco-gradient flex items-center justify-center">
+                        <Leaf className="w-10 h-10 text-primary-foreground" />
+                      </div>
+                      <p className="text-2xl font-bold text-foreground">HP</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-foreground text-center min-h-[2.5rem]">
+                      HP 系列環保碳粉匣
+                    </h3>
+                    <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
+                    <div className="flex justify-center pt-2">
+                      <Button 
+                        size="icon" 
+                        variant="outline"
+                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                        onClick={() => {
+                          const formSection = document.getElementById('order-form');
+                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
+                        <Plus className="w-5 h-5" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50">
+                <CardContent className="p-6">
+                  <div className="bg-white rounded-lg p-8 flex items-center justify-center min-h-[200px] mb-4">
+                    <div className="text-center">
+                      <div className="w-20 h-20 mx-auto mb-3 rounded-full eco-gradient flex items-center justify-center">
+                        <Leaf className="w-10 h-10 text-primary-foreground" />
+                      </div>
+                      <p className="text-2xl font-bold text-foreground">Canon</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-foreground text-center min-h-[2.5rem]">
+                      Canon 系列環保碳粉匣
+                    </h3>
+                    <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
+                    <div className="flex justify-center pt-2">
+                      <Button 
+                        size="icon" 
+                        variant="outline"
+                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                        onClick={() => {
+                          const formSection = document.getElementById('order-form');
+                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
+                        <Plus className="w-5 h-5" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50">
+                <CardContent className="p-6">
+                  <div className="bg-white rounded-lg p-8 flex items-center justify-center min-h-[200px] mb-4">
+                    <div className="text-center">
+                      <div className="w-20 h-20 mx-auto mb-3 rounded-full eco-gradient flex items-center justify-center">
+                        <Leaf className="w-10 h-10 text-primary-foreground" />
+                      </div>
+                      <p className="text-2xl font-bold text-foreground">Brother</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-foreground text-center min-h-[2.5rem]">
+                      Brother 系列環保碳粉匣
+                    </h3>
+                    <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
+                    <div className="flex justify-center pt-2">
+                      <Button 
+                        size="icon" 
+                        variant="outline"
+                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                        onClick={() => {
+                          const formSection = document.getElementById('order-form');
+                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
+                        <Plus className="w-5 h-5" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50">
+                <CardContent className="p-6">
+                  <div className="bg-white rounded-lg p-8 flex items-center justify-center min-h-[200px] mb-4">
+                    <div className="text-center">
+                      <div className="w-20 h-20 mx-auto mb-3 rounded-full eco-gradient flex items-center justify-center">
+                        <Leaf className="w-10 h-10 text-primary-foreground" />
+                      </div>
+                      <p className="text-2xl font-bold text-foreground">Samsung</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-medium text-foreground text-center min-h-[2.5rem]">
+                      Samsung 系列環保碳粉匣
+                    </h3>
+                    <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
+                    <div className="flex justify-center pt-2">
+                      <Button 
+                        size="icon" 
+                        variant="outline"
+                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                        onClick={() => {
+                          const formSection = document.getElementById('order-form');
+                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
+                        <Plus className="w-5 h-5" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Order Form */}
+          <div id="order-form" className="max-w-2xl mx-auto scroll-mt-24">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-foreground mb-2">填寫訂購資訊</h2>
+              <p className="text-muted-foreground">請填寫完整資訊以便我們為您處理訂單</p>
             </div>
 
             <Card className="border-border shadow-lg">
