@@ -1,6 +1,6 @@
 import { ArrowRight, Leaf, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+
 const Hero = () => {
   return <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden">
       {/* Background Pattern */}
@@ -44,14 +44,9 @@ const Hero = () => {
           animationDelay: "0.3s"
         }}>
             <Button size="lg" variant="heroSolid" className="text-lg px-8" asChild>
-              <Link to="/products">
-                查看產品
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="hero" className="text-lg px-8" asChild>
               <a href="#contact">
                 立即諮詢
+                <ArrowRight className="w-5 h-5 ml-2" />
               </a>
             </Button>
           </div>
