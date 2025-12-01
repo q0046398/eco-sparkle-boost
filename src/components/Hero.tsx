@@ -1,7 +1,9 @@
 import { ArrowRight, Leaf, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
 const Hero = () => {
-  return <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden">
+  return (
+    <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/30 rounded-full blur-3xl animate-float" />
@@ -25,23 +27,29 @@ const Hero = () => {
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight animate-fade-up" style={{
-          animationDelay: "0.1s"
-        }}>
+          <h1 
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight animate-fade-up" 
+            style={{ animationDelay: "0.1s" }}
+          >
             綠昕科技
             <span className="block mt-2 text-accent">印表機耗材專家</span>
           </h1>
 
           {/* Subheadline */}
-          <p style={{
-          animationDelay: "0.2s"
-        }} className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-up text-center">專注於印表機耗材銷售
- 頂級保固   政府信賴   價格優勢   環保認證</p>
+          <p 
+            style={{ animationDelay: "0.2s" }} 
+            className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-up text-center"
+          >
+            專注於印表機耗材銷售
+            <br />
+            頂級保固 ・ 政府信賴 ・ 價格優勢 ・ 環保認證
+          </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{
-          animationDelay: "0.3s"
-        }}>
+          <div 
+            className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" 
+            style={{ animationDelay: "0.3s" }}
+          >
             <Button size="lg" variant="heroSolid" className="text-lg px-8" asChild>
               <a href="#contact">
                 立即諮詢
@@ -51,9 +59,10 @@ const Hero = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-primary-foreground/10 animate-fade-up" style={{
-          animationDelay: "0.4s"
-        }}>
+          <div 
+            className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-primary-foreground/10 animate-fade-up" 
+            style={{ animationDelay: "0.4s" }}
+          >
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-accent mb-1">60萬+</div>
               <div className="text-sm text-primary-foreground/60">台灣雷射印表機</div>
@@ -76,6 +85,8 @@ const Hero = () => {
           <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(150, 30%, 98%)" />
         </svg>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default Hero;
