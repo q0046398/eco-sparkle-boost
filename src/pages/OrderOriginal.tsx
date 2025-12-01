@@ -191,40 +191,67 @@ const OrderOriginal = () => {
       {/* Order Form Section */}
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
+          {/* Product Display Section */}
+          <div className="max-w-4xl mx-auto mb-12">
             <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full eco-gradient mb-4">
                 <ShoppingCart className="w-8 h-8 text-primary-foreground" />
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                 原廠碳粉匣特價訂購
               </h1>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-4">
-                <Card className="overflow-hidden">
-                  <CardContent className="p-4">
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="bg-muted/30 rounded-lg p-4 mb-4">
                     <img 
                       src={epson110080} 
                       alt="EPSON 110080/S110080 標準容量碳粉匣" 
-                      className="w-full h-48 object-contain mb-3"
+                      className="w-full h-56 object-contain"
                     />
-                    <p className="font-medium text-foreground mb-1">標準容量碳粉匣</p>
-                    <p className="text-sm text-muted-foreground mb-2">EPSON AL-M220DN/M310/M320 (110080/S110080)</p>
-                    <p className="text-sm font-semibold text-primary">未稅 NT$3,500 ・ 含稅 NT$3,675</p>
-                  </CardContent>
-                </Card>
-                <Card className="overflow-hidden">
-                  <CardContent className="p-4">
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-bold text-lg text-foreground">標準容量碳粉匣</h3>
+                    <p className="text-sm text-muted-foreground">EPSON AL-M220DN/M310/M320</p>
+                    <p className="text-xs text-muted-foreground">型號：110080 / S110080</p>
+                    <div className="pt-2 border-t border-border">
+                      <p className="text-sm font-semibold text-primary">未稅 NT$3,500</p>
+                      <p className="text-sm font-semibold text-primary">含稅 NT$3,675</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="bg-muted/30 rounded-lg p-4 mb-4">
                     <img 
                       src={epson110079} 
                       alt="EPSON 110079/S110079/10079 高印量碳粉匣" 
-                      className="w-full h-48 object-contain mb-3"
+                      className="w-full h-56 object-contain"
                     />
-                    <p className="font-medium text-foreground mb-1">高印量碳粉匣</p>
-                    <p className="text-sm text-muted-foreground mb-2">EPSON M220DN/M310/M320 (110079/S110079/10079)</p>
-                    <p className="text-sm font-semibold text-primary">未稅 NT$4,550 ・ 含稅 NT$4,778</p>
-                  </CardContent>
-                </Card>
-              </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="font-bold text-lg text-foreground">高印量碳粉匣</h3>
+                    <p className="text-sm text-muted-foreground">EPSON M220DN/M310/M320</p>
+                    <p className="text-xs text-muted-foreground">型號：110079 / S110079 / 10079</p>
+                    <div className="pt-2 border-t border-border">
+                      <p className="text-sm font-semibold text-primary">未稅 NT$4,550</p>
+                      <p className="text-sm font-semibold text-primary">含稅 NT$4,778</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Order Form */}
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-foreground mb-2">填寫訂購資訊</h2>
+              <p className="text-muted-foreground">請選擇您要的型號並填寫完整資訊</p>
             </div>
 
             <Card className="border-border shadow-lg">
