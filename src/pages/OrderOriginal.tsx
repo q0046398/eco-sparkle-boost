@@ -26,7 +26,7 @@ const OrderOriginal = () => {
   const { toast } = useToast();
 
   const [products, setProducts] = useState<ProductItem[]>([
-    { name: "", quantity: "1", priceType: "untaxed" }
+    { name: "", quantity: "1", priceType: "110080-untaxed" }
   ]);
 
   const [formData, setFormData] = useState({
@@ -58,7 +58,7 @@ const OrderOriginal = () => {
   };
 
   const addProduct = () => {
-    setProducts((prev) => [...prev, { name: "", quantity: "1", priceType: "untaxed" }]);
+    setProducts((prev) => [...prev, { name: "", quantity: "1", priceType: "110080-untaxed" }]);
   };
 
   const removeProduct = (index: number) => {
@@ -136,7 +136,7 @@ const OrderOriginal = () => {
     }
 
     // Reset form
-    setProducts([{ name: "", quantity: "1", priceType: "untaxed" }]);
+    setProducts([{ name: "", quantity: "1", priceType: "110080-untaxed" }]);
     setFormData({
       customerName: "",
       phone: "",
@@ -197,12 +197,18 @@ const OrderOriginal = () => {
               <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
                 原廠碳粉匣特價訂購
               </h1>
-              <p className="text-muted-foreground mb-4">
-                EPSON AL-M220DN/M310/M320 (110080/S110080)
-              </p>
-              <p className="text-lg font-semibold text-primary">
-                特惠價格：NT$3,500 - 3,675
-              </p>
+              <div className="space-y-3 text-muted-foreground mb-4">
+                <div className="p-3 bg-muted/30 rounded-lg">
+                  <p className="font-medium text-foreground mb-1">標準容量碳粉匣</p>
+                  <p className="text-sm">EPSON AL-M220DN/M310/M320 (110080/S110080)</p>
+                  <p className="text-sm font-semibold text-primary">未稅 NT$3,500 ・ 含稅 NT$3,675</p>
+                </div>
+                <div className="p-3 bg-muted/30 rounded-lg">
+                  <p className="font-medium text-foreground mb-1">高印量碳粉匣</p>
+                  <p className="text-sm">EPSON M220DN/M310/M320 (110079/S110079/10079)</p>
+                  <p className="text-sm font-semibold text-primary">未稅 NT$4,550 ・ 含稅 NT$4,778</p>
+                </div>
+              </div>
             </div>
 
             <Card className="border-border shadow-lg">
@@ -264,7 +270,7 @@ const OrderOriginal = () => {
                             </div>
                             <div>
                               <Label htmlFor={`product-price-${index}`} className="text-sm text-muted-foreground">
-                                價格類型
+                                型號價格
                               </Label>
                               <Select
                                 value={product.priceType}
@@ -274,8 +280,10 @@ const OrderOriginal = () => {
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="untaxed">未稅 NT$3,500</SelectItem>
-                                  <SelectItem value="taxed">含稅 NT$3,675</SelectItem>
+                                  <SelectItem value="110080-untaxed">110080 未稅 NT$3,500</SelectItem>
+                                  <SelectItem value="110080-taxed">110080 含稅 NT$3,675</SelectItem>
+                                  <SelectItem value="110079-untaxed">110079 未稅 NT$4,550</SelectItem>
+                                  <SelectItem value="110079-taxed">110079 含稅 NT$4,778</SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
