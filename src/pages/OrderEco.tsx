@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/use-cart";
+import { FloatingCart } from "@/components/FloatingCart";
 
 interface ProductItem {
   name: string;
@@ -817,6 +818,17 @@ const OrderEco = () => {
           </Dialog>
         </div>
       </section>
+
+      {/* Floating Cart */}
+      <FloatingCart
+        cart={cart}
+        removeFromCart={removeFromCart}
+        updateCartItemQuantity={updateCartItemQuantity}
+        clearCart={handleClearCart}
+        getTotalItems={getTotalItems}
+        getTotalPrice={getTotalPrice}
+        onCheckout={proceedToCheckout}
+      />
 
       {/* Footer */}
       <footer className="py-8 bg-muted/30 border-t border-border">
