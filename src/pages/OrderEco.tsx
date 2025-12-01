@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2, Minus } from "lucide-react";
+import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2, Minus, Store, Truck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,12 +58,19 @@ const OrderEco = () => {
     { name: "", quantity: "1", priceType: "contact" }
   ]);
 
+  const [shippingMethod, setShippingMethod] = useState<"familymart" | "seven" | "home">("familymart");
+  const [storeName, setStoreName] = useState("");
+  const [deliveryAddress, setDeliveryAddress] = useState({
+    zipCode: "",
+    city: "",
+    address: "",
+  });
+
   const [formData, setFormData] = useState({
     customerName: "",
     phone: "",
     email: "",
     contactTime: "",
-    address: "",
     notes: "",
   });
 
@@ -156,7 +163,7 @@ const OrderEco = () => {
     }
 
     // Validate required fields
-    if (!formData.customerName || !formData.phone || !formData.contactTime || !formData.address) {
+    if (!formData.customerName || !formData.phone || !formData.contactTime) {
       toast({
         title: "請填寫必填欄位",
         description: "請確認所有必填欄位都已填寫完成",
@@ -166,7 +173,38 @@ const OrderEco = () => {
       return;
     }
 
+    // Validate shipping method specific fields
+    if ((shippingMethod === "familymart" || shippingMethod === "seven") && !storeName.trim()) {
+      toast({
+        title: "請填寫門市名稱",
+        description: "請選擇或填寫門市名稱",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (shippingMethod === "home" && (!deliveryAddress.zipCode || !deliveryAddress.city || !deliveryAddress.address)) {
+      toast({
+        title: "請填寫配送地址",
+        description: "請確認郵遞區號、城市和地址都已填寫",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
+      // Prepare shipping info based on method
+      let shippingInfo = "";
+      if (shippingMethod === "familymart") {
+        shippingInfo = `全家超商取貨 - ${storeName}`;
+      } else if (shippingMethod === "seven") {
+        shippingInfo = `7-11 超商取貨 - ${storeName}`;
+      } else {
+        shippingInfo = `宅配 - ${deliveryAddress.zipCode} ${deliveryAddress.city} ${deliveryAddress.address}`;
+      }
+
       const { data, error } = await supabase.functions.invoke("send-order-email", {
         body: {
           productType: "環保碳粉匣",
@@ -175,7 +213,7 @@ const OrderEco = () => {
           phone: formData.phone,
           email: formData.email,
           contactTime: formData.contactTime,
-          address: formData.address,
+          shippingInfo,
           notes: formData.notes,
         },
       });
@@ -220,8 +258,14 @@ const OrderEco = () => {
       phone: "",
       email: "",
       contactTime: "",
-      address: "",
       notes: "",
+    });
+    setShippingMethod("familymart");
+    setStoreName("");
+    setDeliveryAddress({
+      zipCode: "",
+      city: "",
+      address: "",
     });
 
     setIsSubmitting(false);
@@ -661,20 +705,125 @@ const OrderEco = () => {
                   </Select>
                 </div>
 
-                {/* Address */}
-                <div className="space-y-2">
-                  <Label htmlFor="address">
-                    寄送地址 <span className="text-destructive">*</span>
+                {/* Shipping Method */}
+                <div className="space-y-3">
+                  <Label>
+                    配送方式 <span className="text-destructive">*</span>
                   </Label>
-                  <Textarea
-                    id="address"
-                    name="address"
-                    placeholder="請輸入完整寄送地址"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    rows={2}
-                    required
-                  />
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div
+                      className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                        shippingMethod === "familymart"
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
+                      }`}
+                      onClick={() => setShippingMethod("familymart")}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                          shippingMethod === "familymart" ? "bg-primary text-primary-foreground" : "bg-muted"
+                        }`}>
+                          <Store className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="font-medium">全家超商取貨</p>
+                          <p className="text-xs text-muted-foreground">FamilyMart</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                        shippingMethod === "seven"
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
+                      }`}
+                      onClick={() => setShippingMethod("seven")}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                          shippingMethod === "seven" ? "bg-primary text-primary-foreground" : "bg-muted"
+                        }`}>
+                          <Store className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="font-medium">7-11 超商取貨</p>
+                          <p className="text-xs text-muted-foreground">7-ELEVEN</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                        shippingMethod === "home"
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
+                      }`}
+                      onClick={() => setShippingMethod("home")}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                          shippingMethod === "home" ? "bg-primary text-primary-foreground" : "bg-muted"
+                        }`}>
+                          <Truck className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="font-medium">宅配</p>
+                          <p className="text-xs text-muted-foreground">Home Delivery</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Store Selection (FamilyMart or 7-Eleven) */}
+                  {(shippingMethod === "familymart" || shippingMethod === "seven") && (
+                    <div className="space-y-2 pt-2">
+                      <div className="flex items-center gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            const url = shippingMethod === "familymart" 
+                              ? "https://www.family.com.tw/marketing/inquiry.aspx"
+                              : "https://emap.pcsc.com.tw/";
+                            window.open(url, "_blank", "noopener,noreferrer");
+                          }}
+                        >
+                          <Store className="w-4 h-4 mr-2" />
+                          門市選擇
+                        </Button>
+                      </div>
+                      <Input
+                        placeholder="請輸入或貼上選擇的門市名稱"
+                        value={storeName}
+                        onChange={(e) => setStoreName(e.target.value)}
+                      />
+                    </div>
+                  )}
+
+                  {/* Home Delivery Address */}
+                  {shippingMethod === "home" && (
+                    <div className="space-y-3 pt-2">
+                      <div className="grid grid-cols-2 gap-3">
+                        <Input
+                          placeholder="郵遞區號"
+                          value={deliveryAddress.zipCode}
+                          onChange={(e) => setDeliveryAddress({ ...deliveryAddress, zipCode: e.target.value })}
+                        />
+                        <Input
+                          placeholder="城市"
+                          value={deliveryAddress.city}
+                          onChange={(e) => setDeliveryAddress({ ...deliveryAddress, city: e.target.value })}
+                        />
+                      </div>
+                      <Input
+                        placeholder="詳細地址"
+                        value={deliveryAddress.address}
+                        onChange={(e) => setDeliveryAddress({ ...deliveryAddress, address: e.target.value })}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* Notes */}
