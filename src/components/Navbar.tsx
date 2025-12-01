@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { href: "/products", label: "產品目錄", isRoute: true },
+    { href: "/order", label: "產品訂購", isRoute: true },
     { href: "#services", label: "服務項目", isRoute: false },
     { href: "#impact", label: "環保效益", isRoute: false },
     { href: "#about", label: "關於我們", isRoute: false },

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 
 interface ProductItem {
@@ -21,14 +22,28 @@ interface ProductItem {
   quantity: string;
 }
 
+const productTypes = [
+  { value: "eco", label: "環保碳粉匣", description: "台灣製造，品質優良，價格實惠" },
+  { value: "original", label: "原廠碳粉匣特價", description: "原廠正品，特惠價格" },
+];
+
 const Order = () => {
   const [searchParams] = useSearchParams();
   const initialProduct = searchParams.get("product") || "";
+  const initialType = searchParams.get("type") || "eco";
   const { toast } = useToast();
 
+  const [productType, setProductType] = useState(initialType);
   const [products, setProducts] = useState<ProductItem[]>([
     { name: initialProduct, quantity: "1" }
   ]);
+
+  useEffect(() => {
+    const typeParam = searchParams.get("type");
+    if (typeParam && (typeParam === "eco" || typeParam === "original")) {
+      setProductType(typeParam);
+    }
+  }, [searchParams]);
 
   const [formData, setFormData] = useState({
     customerName: "",
@@ -96,8 +111,10 @@ const Order = () => {
     }
 
     try {
+      const selectedType = productTypes.find(t => t.value === productType);
       const { data, error } = await supabase.functions.invoke("send-order-email", {
         body: {
+          productType: selectedType?.label || "環保碳粉匣",
           products,
           customerName: formData.customerName,
           phone: formData.phone,
@@ -163,9 +180,9 @@ const Order = () => {
       <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
-            <Link to="/products" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+            <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
               <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">返回產品列表</span>
+              <span className="font-medium">返回首頁</span>
             </Link>
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-lg eco-gradient flex items-center justify-center shadow-eco">
@@ -211,6 +228,35 @@ const Order = () => {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Product Type Selection */}
+                  <div className="space-y-3">
+                    <Label>
+                      產品類型 <span className="text-destructive">*</span>
+                    </Label>
+                    <RadioGroup
+                      value={productType}
+                      onValueChange={setProductType}
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                    >
+                      {productTypes.map((type) => (
+                        <div key={type.value} className="relative">
+                          <RadioGroupItem
+                            value={type.value}
+                            id={type.value}
+                            className="peer sr-only"
+                          />
+                          <Label
+                            htmlFor={type.value}
+                            className="flex flex-col p-4 border-2 rounded-lg cursor-pointer transition-all peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 hover:border-primary/50"
+                          >
+                            <span className="font-semibold text-foreground">{type.label}</span>
+                            <span className="text-sm text-muted-foreground">{type.description}</span>
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+
                   {/* Products */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">

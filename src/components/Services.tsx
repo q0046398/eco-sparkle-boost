@@ -6,12 +6,13 @@ const services = [{
   title: "環保碳粉匣銷售",
   description: "全新台灣製造環保碳粉匣，品質優良，價格實惠，適用各大廠牌印表機。",
   features: ["HP", "Canon", "Brother", "Samsung"],
-  link: "/products"
+  link: "/order?type=eco"
 }, {
   icon: Tag,
   title: "原廠碳粉匣特價銷售",
   description: "由於雷射印表機的型號眾多，麻煩您與我們聯繫。",
-  features: ["原廠正品", "特惠價格", "歡迎洽詢"]
+  features: ["原廠正品", "特惠價格", "歡迎洽詢"],
+  link: "/order?type=original"
 }, {
   icon: Truck,
   title: "快速配送",
