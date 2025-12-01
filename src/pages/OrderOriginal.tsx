@@ -192,54 +192,80 @@ const OrderOriginal = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           {/* Product Display Section */}
-          <div className="max-w-4xl mx-auto mb-12">
+          <div className="max-w-6xl mx-auto mb-12">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full eco-gradient mb-4">
-                <ShoppingCart className="w-8 h-8 text-primary-foreground" />
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                原廠碳粉匣特價訂購
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                原廠碳粉匣
               </h1>
+              <p className="text-muted-foreground">EPSON 原廠碳粉匣特惠價格</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="bg-muted/30 rounded-lg p-4 mb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50">
+                <CardContent className="p-0">
+                  <div className="bg-white p-6 flex items-center justify-center min-h-[280px]">
                     <img 
                       src={epson110080} 
                       alt="EPSON 110080/S110080 標準容量碳粉匣" 
-                      className="w-full h-56 object-contain"
+                      className="w-full h-full object-contain"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="font-bold text-lg text-foreground">標準容量碳粉匣</h3>
-                    <p className="text-sm text-muted-foreground">EPSON AL-M220DN/M310/M320</p>
-                    <p className="text-xs text-muted-foreground">型號：110080 / S110080</p>
-                    <div className="pt-2 border-t border-border">
-                      <p className="text-sm font-semibold text-primary">未稅 NT$3,500</p>
-                      <p className="text-sm font-semibold text-primary">含稅 NT$3,675</p>
+                  <div className="p-4 space-y-2">
+                    <h3 className="font-medium text-foreground leading-snug min-h-[3rem]">
+                      【台灣耗材】原廠 W2013X/659X 高容量紅色碳粉匣 M856/M776 系列適用 HP 印表機
+                    </h3>
+                    <p className="text-lg font-bold text-foreground">NT$3,500</p>
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="text-xs text-muted-foreground">
+                        <p>未稅 NT$3,500</p>
+                        <p>含稅 NT$3,675</p>
+                      </div>
+                      <Button 
+                        size="icon" 
+                        variant="outline"
+                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                        onClick={() => {
+                          const formSection = document.getElementById('order-form');
+                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
+                        <Plus className="w-5 h-5" />
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
               </Card>
               
-              <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="bg-muted/30 rounded-lg p-4 mb-4">
+              <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50">
+                <CardContent className="p-0">
+                  <div className="bg-white p-6 flex items-center justify-center min-h-[280px]">
                     <img 
                       src={epson110079} 
                       alt="EPSON 110079/S110079/10079 高印量碳粉匣" 
-                      className="w-full h-56 object-contain"
+                      className="w-full h-full object-contain"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <h3 className="font-bold text-lg text-foreground">高印量碳粉匣</h3>
-                    <p className="text-sm text-muted-foreground">EPSON M220DN/M310/M320</p>
-                    <p className="text-xs text-muted-foreground">型號：110079 / S110079 / 10079</p>
-                    <div className="pt-2 border-t border-border">
-                      <p className="text-sm font-semibold text-primary">未稅 NT$4,550</p>
-                      <p className="text-sm font-semibold text-primary">含稅 NT$4,778</p>
+                  <div className="p-4 space-y-2">
+                    <h3 className="font-medium text-foreground leading-snug min-h-[3rem]">
+                      【台灣耗材】原廠 EPSON M220DN/M310DN/M320DN 原廠高印量碳粉匣 110079 S110079 10079
+                    </h3>
+                    <p className="text-lg font-bold text-foreground">NT$4,550</p>
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="text-xs text-muted-foreground">
+                        <p>未稅 NT$4,550</p>
+                        <p>含稅 NT$4,778</p>
+                      </div>
+                      <Button 
+                        size="icon" 
+                        variant="outline"
+                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                        onClick={() => {
+                          const formSection = document.getElementById('order-form');
+                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                      >
+                        <Plus className="w-5 h-5" />
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
@@ -248,7 +274,7 @@ const OrderOriginal = () => {
           </div>
 
           {/* Order Form */}
-          <div className="max-w-2xl mx-auto">
+          <div id="order-form" className="max-w-2xl mx-auto scroll-mt-24">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold text-foreground mb-2">填寫訂購資訊</h2>
               <p className="text-muted-foreground">請選擇您要的型號並填寫完整資訊</p>
