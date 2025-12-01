@@ -559,6 +559,18 @@ const OrderOriginal = () => {
                       )}
                     </div>
                   ))}
+                  
+                  {/* Order Total */}
+                  {products.length > 0 && calculateOrderTotal() > 0 && (
+                    <div className="border-t pt-4">
+                      <div className="flex justify-between items-center bg-primary/5 p-4 rounded-lg">
+                        <span className="text-lg font-semibold text-foreground">訂單總金額</span>
+                        <span className="text-2xl font-bold text-primary">
+                          NT${calculateOrderTotal().toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Customer Name */}
@@ -657,18 +669,6 @@ const OrderOriginal = () => {
                     rows={3}
                   />
                 </div>
-
-                {/* Order Total */}
-                {products.length > 0 && calculateOrderTotal() > 0 && (
-                  <div className="border-t pt-4">
-                    <div className="flex justify-between items-center bg-primary/5 p-4 rounded-lg">
-                      <span className="text-lg font-semibold text-foreground">訂單總金額</span>
-                      <span className="text-2xl font-bold text-primary">
-                        NT${calculateOrderTotal().toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-                )}
 
                 {/* Submit Button */}
                 <Button
