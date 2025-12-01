@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2, Minus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -39,16 +39,36 @@ interface CartItem {
   unitPrice: number;
 }
 
+const CART_STORAGE_KEY = "orderOriginal_cart";
+
 const OrderOriginal = () => {
   const { toast } = useToast();
   const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
   const [isCartDialogOpen, setIsCartDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<"110080" | "110079">("110080");
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    // Initialize cart from localStorage
+    try {
+      const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch (error) {
+      console.error("Failed to load cart from localStorage:", error);
+      return [];
+    }
+  });
   
   // Product quantities for selection
   const [product110080Qty, setProduct110080Qty] = useState(1);
   const [product110079Qty, setProduct110079Qty] = useState(1);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    } catch (error) {
+      console.error("Failed to save cart to localStorage:", error);
+    }
+  }, [cart]);
 
   const [products, setProducts] = useState<ProductItem[]>([
     { name: "", quantity: "1", priceType: "110080-untaxed" }
@@ -136,6 +156,13 @@ const OrderOriginal = () => {
     return cart.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
   };
 
+  const clearCart = () => {
+    setCart([]);
+    toast({
+      title: "購物車已清空",
+    });
+  };
+
   const proceedToCheckout = () => {
     if (cart.length === 0) {
       toast({
@@ -215,6 +242,9 @@ const OrderOriginal = () => {
         title: "訂單已送出！",
         description: "我們將盡快與您聯繫確認訂單詳情",
       });
+      
+      // Clear cart after successful order
+      setCart([]);
       
       // Close dialog and reset form
       setIsOrderDialogOpen(false);
@@ -643,10 +673,24 @@ const OrderOriginal = () => {
           <Dialog open={isCartDialogOpen} onOpenChange={setIsCartDialogOpen}>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle className="text-2xl">購物車</DialogTitle>
-                <DialogDescription>
-                  查看您選擇的商品
-                </DialogDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <DialogTitle className="text-2xl">購物車</DialogTitle>
+                    <DialogDescription>
+                      查看您選擇的商品
+                    </DialogDescription>
+                  </div>
+                  {cart.length > 0 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearCart}
+                      className="text-muted-foreground hover:text-destructive"
+                    >
+                      清空購物車
+                    </Button>
+                  )}
+                </div>
               </DialogHeader>
               
               {cart.length === 0 ? (
