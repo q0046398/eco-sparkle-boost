@@ -8,7 +8,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { href: "/order", label: "產品訂購", isRoute: true },
+    { href: "/order/eco", label: "環保碳粉匣", isRoute: true },
+    { href: "/order/original", label: "原廠碳粉匣", isRoute: true },
     { href: "#services", label: "服務項目", isRoute: false },
     { href: "#impact", label: "環保效益", isRoute: false },
     { href: "#about", label: "關於我們", isRoute: false },
