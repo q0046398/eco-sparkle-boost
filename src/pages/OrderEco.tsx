@@ -214,19 +214,16 @@ const OrderEco = () => {
                       HP 系列環保碳粉匣
                     </h3>
                     <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
-                    <div className="flex justify-center pt-2">
-                      <Button 
-                        size="icon" 
-                        variant="outline"
-                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                        onClick={() => {
-                          const formSection = document.getElementById('order-form');
-                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
-                        }}
-                      >
-                        <Plus className="w-5 h-5" />
-                      </Button>
-                    </div>
+                    <Button 
+                      variant="outline"
+                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                      onClick={() => {
+                        const formSection = document.getElementById('order-form');
+                        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      訂購
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -246,19 +243,16 @@ const OrderEco = () => {
                       Canon 系列環保碳粉匣
                     </h3>
                     <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
-                    <div className="flex justify-center pt-2">
-                      <Button 
-                        size="icon" 
-                        variant="outline"
-                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                        onClick={() => {
-                          const formSection = document.getElementById('order-form');
-                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
-                        }}
-                      >
-                        <Plus className="w-5 h-5" />
-                      </Button>
-                    </div>
+                    <Button 
+                      variant="outline"
+                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                      onClick={() => {
+                        const formSection = document.getElementById('order-form');
+                        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      訂購
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -278,19 +272,16 @@ const OrderEco = () => {
                       Brother 系列環保碳粉匣
                     </h3>
                     <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
-                    <div className="flex justify-center pt-2">
-                      <Button 
-                        size="icon" 
-                        variant="outline"
-                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                        onClick={() => {
-                          const formSection = document.getElementById('order-form');
-                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
-                        }}
-                      >
-                        <Plus className="w-5 h-5" />
-                      </Button>
-                    </div>
+                    <Button 
+                      variant="outline"
+                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                      onClick={() => {
+                        const formSection = document.getElementById('order-form');
+                        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      訂購
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -310,19 +301,16 @@ const OrderEco = () => {
                       Samsung 系列環保碳粉匣
                     </h3>
                     <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
-                    <div className="flex justify-center pt-2">
-                      <Button 
-                        size="icon" 
-                        variant="outline"
-                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                        onClick={() => {
-                          const formSection = document.getElementById('order-form');
-                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
-                        }}
-                      >
-                        <Plus className="w-5 h-5" />
-                      </Button>
-                    </div>
+                    <Button 
+                      variant="outline"
+                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                      onClick={() => {
+                        const formSection = document.getElementById('order-form');
+                        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      訂購
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
