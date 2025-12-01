@@ -104,8 +104,9 @@ const OrderEco = () => {
     addToCart(productId, productName, quantity, "contact", 0, "eco");
 
     toast({
-      title: "已加入購物車",
+      title: "✓ 已加入購物車",
       description: `${productName} x ${quantity}`,
+      duration: 2000,
     });
   };
 
