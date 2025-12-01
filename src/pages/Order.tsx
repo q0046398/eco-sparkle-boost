@@ -23,8 +23,16 @@ interface ProductItem {
 }
 
 const productTypes = [
-  { value: "eco", label: "環保碳粉匣", description: "台灣製造，品質優良，價格實惠" },
-  { value: "original", label: "原廠碳粉匣特價", description: "原廠正品，特惠價格" },
+  { 
+    value: "eco", 
+    label: "環保碳粉匣", 
+    description: "台灣製造，品質優良，價格實惠" 
+  },
+  { 
+    value: "original", 
+    label: "原廠碳粉匣特價", 
+    description: "EPSON AL-M220DN/M310/M320 (110080/S110080) NT$3,500-3,675｜原廠正品特惠" 
+  },
 ];
 
 const Order = () => {
