@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Minus, Plus, Trash2, Send, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +19,6 @@ interface CartDialogProps {
   clearCart: () => void;
   getTotalItems: () => number;
   getTotalPrice: () => number;
-  onCheckout: () => void;
 }
 
 export const CartDialog = ({
@@ -30,8 +30,13 @@ export const CartDialog = ({
   clearCart,
   getTotalItems,
   getTotalPrice,
-  onCheckout,
 }: CartDialogProps) => {
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    onOpenChange(false);
+    navigate("/checkout");
+  };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -136,7 +141,7 @@ export const CartDialog = ({
               )}
 
               <Button
-                onClick={onCheckout}
+                onClick={handleCheckout}
                 className="w-full eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg"
                 size="lg"
               >
