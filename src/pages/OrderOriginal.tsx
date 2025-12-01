@@ -128,6 +128,20 @@ const OrderOriginal = () => {
     });
   };
 
+  const calculateOrderTotal = () => {
+    return products.reduce((total, product) => {
+      const quantity = parseInt(product.quantity) || 0;
+      let price = 0;
+      
+      if (product.priceType === "110080-untaxed") price = 3500;
+      else if (product.priceType === "110080-taxed") price = 3675;
+      else if (product.priceType === "110079-untaxed") price = 4550;
+      else if (product.priceType === "110079-taxed") price = 4778;
+      
+      return total + (price * quantity);
+    }, 0);
+  };
+
   const proceedToCheckout = () => {
     if (cart.length === 0) {
       toast({
@@ -643,6 +657,18 @@ const OrderOriginal = () => {
                     rows={3}
                   />
                 </div>
+
+                {/* Order Total */}
+                {products.length > 0 && calculateOrderTotal() > 0 && (
+                  <div className="border-t pt-4">
+                    <div className="flex justify-between items-center bg-primary/5 p-4 rounded-lg">
+                      <span className="text-lg font-semibold text-foreground">訂單總金額</span>
+                      <span className="text-2xl font-bold text-primary">
+                        NT${calculateOrderTotal().toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Submit Button */}
                 <Button
