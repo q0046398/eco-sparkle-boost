@@ -142,6 +142,18 @@ const OrderOriginal = () => {
     }, 0);
   };
 
+  const calculateProductSubtotal = (product: ProductItem) => {
+    const quantity = parseInt(product.quantity) || 0;
+    let price = 0;
+    
+    if (product.priceType === "110080-untaxed") price = 3500;
+    else if (product.priceType === "110080-taxed") price = 3675;
+    else if (product.priceType === "110079-untaxed") price = 4550;
+    else if (product.priceType === "110079-taxed") price = 4778;
+    
+    return price * quantity;
+  };
+
   const proceedToCheckout = () => {
     if (cart.length === 0) {
       toast({
@@ -488,77 +500,88 @@ const OrderOriginal = () => {
                     </Button>
                   </div>
                   
-                  {products.map((product, index) => (
-                    <div key={index} className="flex gap-3 items-start p-4 bg-muted/30 rounded-lg">
-                      <div className="flex-1 space-y-3">
-                        <div>
-                          <Label htmlFor={`product-name-${index}`} className="text-sm text-muted-foreground">
-                            產品型號
-                          </Label>
-                          <Input
-                            id={`product-name-${index}`}
-                            placeholder="例如：110080 或 S110080"
-                            value={product.name}
-                            onChange={(e) => handleProductChange(index, "name", e.target.value)}
-                            required
-                          />
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
+                  {products.map((product, index) => {
+                    const subtotal = calculateProductSubtotal(product);
+                    return (
+                      <div key={index} className="flex gap-3 items-start p-4 bg-muted/30 rounded-lg">
+                        <div className="flex-1 space-y-3">
                           <div>
-                            <Label htmlFor={`product-qty-${index}`} className="text-sm text-muted-foreground">
-                              數量
+                            <Label htmlFor={`product-name-${index}`} className="text-sm text-muted-foreground">
+                              產品型號
                             </Label>
                             <Input
-                              id={`product-qty-${index}`}
-                              type="number"
-                              min="1"
-                              placeholder="數量"
-                              value={product.quantity}
-                              onChange={(e) => handleProductChange(index, "quantity", e.target.value)}
+                              id={`product-name-${index}`}
+                              placeholder="例如：110080 或 S110080"
+                              value={product.name}
+                              onChange={(e) => handleProductChange(index, "name", e.target.value)}
                               required
                             />
                           </div>
-                          <div>
-                            <Label htmlFor={`product-price-${index}`} className="text-sm text-muted-foreground">
-                              價格類型
-                            </Label>
-                            <Select
-                              value={product.priceType}
-                              onValueChange={(value) => handleProductChange(index, "priceType", value)}
-                            >
-                              <SelectTrigger id={`product-price-${index}`}>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {selectedProduct === "110080" ? (
-                                  <>
-                                    <SelectItem value="110080-untaxed">未稅 NT$3,500</SelectItem>
-                                    <SelectItem value="110080-taxed">含稅 NT$3,675</SelectItem>
-                                  </>
-                                ) : (
-                                  <>
-                                    <SelectItem value="110079-untaxed">未稅 NT$4,550</SelectItem>
-                                    <SelectItem value="110079-taxed">含稅 NT$4,778</SelectItem>
-                                  </>
-                                )}
-                              </SelectContent>
-                            </Select>
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <Label htmlFor={`product-qty-${index}`} className="text-sm text-muted-foreground">
+                                數量
+                              </Label>
+                              <Input
+                                id={`product-qty-${index}`}
+                                type="number"
+                                min="1"
+                                placeholder="數量"
+                                value={product.quantity}
+                                onChange={(e) => handleProductChange(index, "quantity", e.target.value)}
+                                required
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor={`product-price-${index}`} className="text-sm text-muted-foreground">
+                                價格類型
+                              </Label>
+                              <Select
+                                value={product.priceType}
+                                onValueChange={(value) => handleProductChange(index, "priceType", value)}
+                              >
+                                <SelectTrigger id={`product-price-${index}`}>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {selectedProduct === "110080" ? (
+                                    <>
+                                      <SelectItem value="110080-untaxed">未稅 NT$3,500</SelectItem>
+                                      <SelectItem value="110080-taxed">含稅 NT$3,675</SelectItem>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <SelectItem value="110079-untaxed">未稅 NT$4,550</SelectItem>
+                                      <SelectItem value="110079-taxed">含稅 NT$4,778</SelectItem>
+                                    </>
+                                  )}
+                                </SelectContent>
+                              </Select>
+                            </div>
                           </div>
+                          {subtotal > 0 && (
+                            <div className="flex justify-between items-center pt-2 border-t">
+                              <span className="text-sm text-muted-foreground">小計</span>
+                              <span className="text-lg font-bold text-primary">
+                                NT${subtotal.toLocaleString()}
+                              </span>
+                            </div>
+                          )}
                         </div>
+                        {products.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => removeProduct(index)}
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-6"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        )}
                       </div>
-                      {products.length > 1 && (
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => removeProduct(index)}
-                          className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-6"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      )}
-                    </div>
-                  ))}
+                    );
+                  })}
                   
                   {/* Order Total */}
                   {products.length > 0 && calculateOrderTotal() > 0 && (
