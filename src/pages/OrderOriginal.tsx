@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/use-cart";
+import { FloatingCart } from "@/components/FloatingCart";
 import epson110080 from "@/assets/epson-110080.png";
 import epson110079 from "@/assets/epson-110079.png";
 
@@ -730,6 +731,17 @@ const OrderOriginal = () => {
           </Dialog>
         </div>
       </section>
+
+      {/* Floating Cart */}
+      <FloatingCart
+        cart={cart}
+        removeFromCart={removeFromCart}
+        updateCartItemQuantity={updateCartItemQuantity}
+        clearCart={handleClearCart}
+        getTotalItems={getTotalItems}
+        getTotalPrice={getTotalPrice}
+        onCheckout={proceedToCheckout}
+      />
 
       {/* Footer */}
       <footer className="py-8 bg-muted/30 border-t border-border">
