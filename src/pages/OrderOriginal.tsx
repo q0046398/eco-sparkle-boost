@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2, Minus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,10 +31,24 @@ interface ProductItem {
   priceType: string;
 }
 
+interface CartItem {
+  productId: "110080" | "110079";
+  productName: string;
+  quantity: number;
+  priceType: string;
+  unitPrice: number;
+}
+
 const OrderOriginal = () => {
   const { toast } = useToast();
   const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
+  const [isCartDialogOpen, setIsCartDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<"110080" | "110079">("110080");
+  const [cart, setCart] = useState<CartItem[]>([]);
+  
+  // Product quantities for selection
+  const [product110080Qty, setProduct110080Qty] = useState(1);
+  const [product110079Qty, setProduct110079Qty] = useState(1);
 
   const [products, setProducts] = useState<ProductItem[]>([
     { name: "", quantity: "1", priceType: "110080-untaxed" }
@@ -77,6 +91,71 @@ const OrderOriginal = () => {
     if (products.length > 1) {
       setProducts((prev) => prev.filter((_, i) => i !== index));
     }
+  };
+
+  const addToCart = (productId: "110080" | "110079", productName: string, quantity: number) => {
+    const priceType = productId === "110080" ? "110080-untaxed" : "110079-untaxed";
+    const unitPrice = productId === "110080" ? 3500 : 4550;
+    
+    setCart((prev) => {
+      const existingItem = prev.find(item => item.productId === productId && item.priceType === priceType);
+      
+      if (existingItem) {
+        return prev.map(item => 
+          item.productId === productId && item.priceType === priceType
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      }
+      
+      return [...prev, { productId, productName, quantity, priceType, unitPrice }];
+    });
+    
+    toast({
+      title: "已加入購物車",
+      description: `${productName} x ${quantity}`,
+    });
+  };
+
+  const removeFromCart = (index: number) => {
+    setCart((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const updateCartItemQuantity = (index: number, newQuantity: number) => {
+    if (newQuantity < 1) return;
+    setCart((prev) => prev.map((item, i) => 
+      i === index ? { ...item, quantity: newQuantity } : item
+    ));
+  };
+
+  const getTotalItems = () => {
+    return cart.reduce((sum, item) => sum + item.quantity, 0);
+  };
+
+  const getTotalPrice = () => {
+    return cart.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
+  };
+
+  const proceedToCheckout = () => {
+    if (cart.length === 0) {
+      toast({
+        title: "購物車是空的",
+        description: "請先加入商品到購物車",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Convert cart items to products format
+    const cartProducts = cart.map(item => ({
+      name: item.productName,
+      quantity: item.quantity.toString(),
+      priceType: item.priceType,
+    }));
+    
+    setProducts(cartProducts);
+    setIsCartDialogOpen(false);
+    setIsOrderDialogOpen(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -191,12 +270,26 @@ const OrderOriginal = () => {
                 <span className="text-xs text-muted-foreground">環保碳粉匣專家</span>
               </div>
             </div>
-            <a href="tel:02-2970-2232">
-              <Button className="eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg transition-all">
-                <Phone className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">立即諮詢</span>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="outline"
+                className="relative"
+                onClick={() => setIsCartDialogOpen(true)}
+              >
+                <ShoppingCart className="w-4 h-4" />
+                {getTotalItems() > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {getTotalItems()}
+                  </span>
+                )}
               </Button>
-            </a>
+              <a href="tel:02-2970-2232">
+                <Button className="eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg transition-all">
+                  <Phone className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">立即諮詢</span>
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
       </header>
@@ -228,15 +321,38 @@ const OrderOriginal = () => {
                       【台灣耗材】原廠 EPSON AL-M220DN/M310/M320 (110080/S110080)
                     </h3>
                     <p className="text-lg font-bold text-foreground">NT$3,500</p>
+                    
+                    <div className="flex items-center justify-center gap-3 py-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setProduct110080Qty(Math.max(1, product110080Qty - 1))}
+                        className="h-8 w-8"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="text-lg font-semibold min-w-[2rem] text-center">
+                        {product110080Qty}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setProduct110080Qty(product110080Qty + 1)}
+                        className="h-8 w-8"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
                     <Button 
-                      variant="outline"
-                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                      className="w-full eco-gradient text-primary-foreground"
                       onClick={() => {
-                        setSelectedProduct("110080");
-                        setIsOrderDialogOpen(true);
+                        addToCart("110080", "EPSON 110080/S110080 標準容量碳粉匣", product110080Qty);
+                        setProduct110080Qty(1);
                       }}
                     >
-                      訂購
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      加入購物車
                     </Button>
                   </div>
                 </CardContent>
@@ -256,15 +372,38 @@ const OrderOriginal = () => {
                       【台灣耗材】原廠 EPSON M220DN/M310/M320 (110079/S110079/10079)
                     </h3>
                     <p className="text-lg font-bold text-foreground">NT$4,550</p>
+                    
+                    <div className="flex items-center justify-center gap-3 py-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setProduct110079Qty(Math.max(1, product110079Qty - 1))}
+                        className="h-8 w-8"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="text-lg font-semibold min-w-[2rem] text-center">
+                        {product110079Qty}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setProduct110079Qty(product110079Qty + 1)}
+                        className="h-8 w-8"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
                     <Button 
-                      variant="outline"
-                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                      className="w-full eco-gradient text-primary-foreground"
                       onClick={() => {
-                        setSelectedProduct("110079");
-                        setIsOrderDialogOpen(true);
+                        addToCart("110079", "EPSON 110079/S110079/10079 高印量碳粉匣", product110079Qty);
+                        setProduct110079Qty(1);
                       }}
                     >
-                      訂購
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      加入購物車
                     </Button>
                   </div>
                 </CardContent>
@@ -497,6 +636,91 @@ const OrderOriginal = () => {
                   )}
                 </Button>
               </form>
+            </DialogContent>
+          </Dialog>
+
+          {/* Cart Dialog */}
+          <Dialog open={isCartDialogOpen} onOpenChange={setIsCartDialogOpen}>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-2xl">購物車</DialogTitle>
+                <DialogDescription>
+                  查看您選擇的商品
+                </DialogDescription>
+              </DialogHeader>
+              
+              {cart.length === 0 ? (
+                <div className="py-12 text-center text-muted-foreground">
+                  <ShoppingCart className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                  <p>購物車是空的</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {cart.map((item, index) => (
+                    <div key={index} className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-foreground">{item.productName}</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {item.priceType.includes("untaxed") ? "未稅" : "含稅"} NT${item.unitPrice.toLocaleString()}
+                        </p>
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => updateCartItemQuantity(index, item.quantity - 1)}
+                          className="h-8 w-8"
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <span className="text-lg font-semibold min-w-[2rem] text-center">
+                          {item.quantity}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => updateCartItemQuantity(index, item.quantity + 1)}
+                          className="h-8 w-8"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      
+                      <div className="text-right min-w-[5rem]">
+                        <p className="font-bold text-foreground">
+                          NT${(item.unitPrice * item.quantity).toLocaleString()}
+                        </p>
+                      </div>
+                      
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeFromCart(index)}
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                  
+                  <div className="border-t pt-4 mt-4">
+                    <div className="flex justify-between items-center text-lg font-bold mb-4">
+                      <span>總計</span>
+                      <span>NT${getTotalPrice().toLocaleString()}</span>
+                    </div>
+                    
+                    <Button
+                      onClick={proceedToCheckout}
+                      className="w-full eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg"
+                      size="lg"
+                    >
+                      <Send className="w-5 h-5 mr-2" />
+                      前往結帳
+                    </Button>
+                  </div>
+                </div>
+              )}
             </DialogContent>
           </Dialog>
         </div>
