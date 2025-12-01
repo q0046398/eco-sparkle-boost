@@ -305,7 +305,10 @@ const OrderOriginal = () => {
                     <h3 className="font-medium text-foreground leading-snug min-h-[3rem]">
                       【台灣耗材】原廠 EPSON AL-M220DN/M310/M320 (110080/S110080)
                     </h3>
-                    <p className="text-lg font-bold text-foreground">NT$3,500</p>
+                    <div className="space-y-1">
+                      <p className="text-lg font-bold text-foreground">未稅 NT$3,500</p>
+                      <p className="text-sm text-muted-foreground">含稅 NT$3,675</p>
+                    </div>
                     
                     <div className="flex items-center justify-center gap-3 py-2">
                       <Button
@@ -356,7 +359,10 @@ const OrderOriginal = () => {
                     <h3 className="font-medium text-foreground leading-snug min-h-[3rem]">
                       【台灣耗材】原廠 EPSON M220DN/M310/M320 (110079/S110079/10079)
                     </h3>
-                    <p className="text-lg font-bold text-foreground">NT$4,550</p>
+                    <div className="space-y-1">
+                      <p className="text-lg font-bold text-foreground">未稅 NT$4,550</p>
+                      <p className="text-sm text-muted-foreground">含稅 NT$4,778</p>
+                    </div>
                     
                     <div className="flex items-center justify-center gap-3 py-2">
                       <Button
