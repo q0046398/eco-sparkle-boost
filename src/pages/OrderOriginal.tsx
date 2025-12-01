@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2, Minus } from "lucide-react";
+import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2, Minus, Store, Truck } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -70,6 +70,15 @@ const OrderOriginal = () => {
     contactTime: "",
     address: "",
     notes: "",
+  });
+
+  // Shipping method state
+  const [shippingMethod, setShippingMethod] = useState<"familymart" | "7-eleven" | "home-delivery">("home-delivery");
+  const [storeName, setStoreName] = useState("");
+  const [deliveryAddress, setDeliveryAddress] = useState({
+    address: "",
+    city: "",
+    zipCode: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -193,7 +202,7 @@ const OrderOriginal = () => {
     }
 
     // Validate required fields
-    if (!formData.customerName || !formData.phone || !formData.contactTime || !formData.address) {
+    if (!formData.customerName || !formData.phone || !formData.contactTime) {
       toast({
         title: "請填寫必填欄位",
         description: "請確認所有必填欄位都已填寫完成",
@@ -203,7 +212,38 @@ const OrderOriginal = () => {
       return;
     }
 
+    // Validate shipping method specific fields
+    if ((shippingMethod === "familymart" || shippingMethod === "7-eleven") && !storeName) {
+      toast({
+        title: "請選擇門市",
+        description: "請選擇超商門市以便寄送",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (shippingMethod === "home-delivery" && (!deliveryAddress.address || !deliveryAddress.city || !deliveryAddress.zipCode)) {
+      toast({
+        title: "請填寫完整寄送地址",
+        description: "請確認地址、城市和郵遞區號都已填寫",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
+      // Prepare shipping info
+      let shippingInfo = "";
+      if (shippingMethod === "familymart") {
+        shippingInfo = `全家超商取貨 - ${storeName}`;
+      } else if (shippingMethod === "7-eleven") {
+        shippingInfo = `7-11 超商取貨 - ${storeName}`;
+      } else {
+        shippingInfo = `宅配 - ${deliveryAddress.zipCode} ${deliveryAddress.city} ${deliveryAddress.address}`;
+      }
+
       const { data, error } = await supabase.functions.invoke("send-order-email", {
         body: {
           productType: "原廠碳粉匣特價",
@@ -212,7 +252,7 @@ const OrderOriginal = () => {
           phone: formData.phone,
           email: formData.email,
           contactTime: formData.contactTime,
-          address: formData.address,
+          address: shippingInfo,
           notes: formData.notes,
         },
       });
@@ -260,6 +300,9 @@ const OrderOriginal = () => {
       address: "",
       notes: "",
     });
+    setShippingMethod("home-delivery");
+    setStoreName("");
+    setDeliveryAddress({ address: "", city: "", zipCode: "" });
 
     setIsSubmitting(false);
   };
@@ -596,6 +639,169 @@ const OrderOriginal = () => {
                   )}
                 </div>
 
+                {/* Shipping Method */}
+                <div className="space-y-4">
+                  <Label>
+                    配送方式 <span className="text-destructive">*</span>
+                  </Label>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {/* FamilyMart Card */}
+                    <button
+                      type="button"
+                      onClick={() => setShippingMethod("familymart")}
+                      className={`p-4 rounded-lg border-2 transition-all text-left hover:shadow-md ${
+                        shippingMethod === "familymart"
+                          ? "border-primary bg-primary/5"
+                          : "border-border bg-background"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded-lg ${
+                          shippingMethod === "familymart" ? "bg-primary/10" : "bg-muted"
+                        }`}>
+                          <Store className={`w-5 h-5 ${
+                            shippingMethod === "familymart" ? "text-primary" : "text-muted-foreground"
+                          }`} />
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-foreground">全家超商</div>
+                          <div className="text-xs text-muted-foreground">超商取貨</div>
+                        </div>
+                      </div>
+                    </button>
+
+                    {/* 7-Eleven Card */}
+                    <button
+                      type="button"
+                      onClick={() => setShippingMethod("7-eleven")}
+                      className={`p-4 rounded-lg border-2 transition-all text-left hover:shadow-md ${
+                        shippingMethod === "7-eleven"
+                          ? "border-primary bg-primary/5"
+                          : "border-border bg-background"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded-lg ${
+                          shippingMethod === "7-eleven" ? "bg-primary/10" : "bg-muted"
+                        }`}>
+                          <Store className={`w-5 h-5 ${
+                            shippingMethod === "7-eleven" ? "text-primary" : "text-muted-foreground"
+                          }`} />
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-foreground">7-11</div>
+                          <div className="text-xs text-muted-foreground">超商取貨</div>
+                        </div>
+                      </div>
+                    </button>
+
+                    {/* Home Delivery Card */}
+                    <button
+                      type="button"
+                      onClick={() => setShippingMethod("home-delivery")}
+                      className={`p-4 rounded-lg border-2 transition-all text-left hover:shadow-md ${
+                        shippingMethod === "home-delivery"
+                          ? "border-primary bg-primary/5"
+                          : "border-border bg-background"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded-lg ${
+                          shippingMethod === "home-delivery" ? "bg-primary/10" : "bg-muted"
+                        }`}>
+                          <Truck className={`w-5 h-5 ${
+                            shippingMethod === "home-delivery" ? "text-primary" : "text-muted-foreground"
+                          }`} />
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-foreground">宅配</div>
+                          <div className="text-xs text-muted-foreground">送貨到府</div>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+
+                  {/* Conditional Store Selection for Convenience Stores */}
+                  {(shippingMethod === "familymart" || shippingMethod === "7-eleven") && (
+                    <div className="space-y-3 p-4 bg-muted/30 rounded-lg">
+                      <div className="flex gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            toast({
+                              title: "門市選擇功能",
+                              description: "請聯繫客服協助選擇門市",
+                            });
+                          }}
+                        >
+                          <Store className="w-4 h-4 mr-2" />
+                          門市選擇
+                        </Button>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="storeName">
+                          門市名稱 <span className="text-destructive">*</span>
+                        </Label>
+                        <Input
+                          id="storeName"
+                          placeholder="請輸入選擇的門市名稱"
+                          value={storeName}
+                          onChange={(e) => setStoreName(e.target.value)}
+                          required
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Conditional Address Fields for Home Delivery */}
+                  {shippingMethod === "home-delivery" && (
+                    <div className="space-y-3 p-4 bg-muted/30 rounded-lg">
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="space-y-2">
+                          <Label htmlFor="zipCode">
+                            郵遞區號 <span className="text-destructive">*</span>
+                          </Label>
+                          <Input
+                            id="zipCode"
+                            placeholder="例如：100"
+                            value={deliveryAddress.zipCode}
+                            onChange={(e) => setDeliveryAddress(prev => ({ ...prev, zipCode: e.target.value }))}
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="city">
+                            城市 <span className="text-destructive">*</span>
+                          </Label>
+                          <Input
+                            id="city"
+                            placeholder="例如：台北市"
+                            value={deliveryAddress.city}
+                            onChange={(e) => setDeliveryAddress(prev => ({ ...prev, city: e.target.value }))}
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="deliveryAddress">
+                          詳細地址 <span className="text-destructive">*</span>
+                        </Label>
+                        <Textarea
+                          id="deliveryAddress"
+                          placeholder="請輸入完整寄送地址"
+                          value={deliveryAddress.address}
+                          onChange={(e) => setDeliveryAddress(prev => ({ ...prev, address: e.target.value }))}
+                          rows={2}
+                          required
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 {/* Customer Name */}
                 <div className="space-y-2">
                   <Label htmlFor="customerName">
@@ -664,21 +870,6 @@ const OrderOriginal = () => {
                   </Select>
                 </div>
 
-                {/* Address */}
-                <div className="space-y-2">
-                  <Label htmlFor="address">
-                    寄送地址 <span className="text-destructive">*</span>
-                  </Label>
-                  <Textarea
-                    id="address"
-                    name="address"
-                    placeholder="請輸入完整寄送地址"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    rows={2}
-                    required
-                  />
-                </div>
 
                 {/* Notes */}
                 <div className="space-y-2">
