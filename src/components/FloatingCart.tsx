@@ -23,7 +23,7 @@ export const FloatingCart = ({
   getTotalPrice,
   onCheckout,
 }: FloatingCartProps) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   if (!isExpanded) {
     return (
