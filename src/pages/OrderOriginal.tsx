@@ -210,28 +210,21 @@ const OrderOriginal = () => {
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <div className="p-4 space-y-2">
+                  <div className="p-4 space-y-3">
                     <h3 className="font-medium text-foreground leading-snug min-h-[3rem]">
-                      【台灣耗材】原廠 W2013X/659X 高容量紅色碳粉匣 M856/M776 系列適用 HP 印表機
+                      【台灣耗材】原廠 EPSON AL-M220DN/M310/M320 (110080/S110080)
                     </h3>
                     <p className="text-lg font-bold text-foreground">NT$3,500</p>
-                    <div className="flex items-center justify-between pt-2">
-                      <div className="text-xs text-muted-foreground">
-                        <p>未稅 NT$3,500</p>
-                        <p>含稅 NT$3,675</p>
-                      </div>
-                      <Button 
-                        size="icon" 
-                        variant="outline"
-                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                        onClick={() => {
-                          const formSection = document.getElementById('order-form');
-                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
-                        }}
-                      >
-                        <Plus className="w-5 h-5" />
-                      </Button>
-                    </div>
+                    <Button 
+                      variant="outline"
+                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                      onClick={() => {
+                        const formSection = document.getElementById('order-form');
+                        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      訂購
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -245,28 +238,21 @@ const OrderOriginal = () => {
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <div className="p-4 space-y-2">
+                  <div className="p-4 space-y-3">
                     <h3 className="font-medium text-foreground leading-snug min-h-[3rem]">
-                      【台灣耗材】原廠 EPSON M220DN/M310DN/M320DN 原廠高印量碳粉匣 110079 S110079 10079
+                      【台灣耗材】原廠 EPSON M220DN/M310/M320 (110079/S110079/10079)
                     </h3>
                     <p className="text-lg font-bold text-foreground">NT$4,550</p>
-                    <div className="flex items-center justify-between pt-2">
-                      <div className="text-xs text-muted-foreground">
-                        <p>未稅 NT$4,550</p>
-                        <p>含稅 NT$4,778</p>
-                      </div>
-                      <Button 
-                        size="icon" 
-                        variant="outline"
-                        className="rounded-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                        onClick={() => {
-                          const formSection = document.getElementById('order-form');
-                          if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
-                        }}
-                      >
-                        <Plus className="w-5 h-5" />
-                      </Button>
-                    </div>
+                    <Button 
+                      variant="outline"
+                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
+                      onClick={() => {
+                        const formSection = document.getElementById('order-form');
+                        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      訂購
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
