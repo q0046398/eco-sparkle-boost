@@ -1,4 +1,4 @@
-import { Shield, Award, Leaf, Handshake, CheckCircle2, Building, Users } from "lucide-react";
+import { Shield, Award, Leaf, Handshake, CheckCircle2, Building, Users, TrendingUp } from "lucide-react";
 
 const pillars = [
   {
@@ -12,6 +12,12 @@ const pillars = [
     title: "政府信賴 實力背書",
     description:
       "作為台灣銀行等多個政府機關共同供應契約的立約商，我們的產品經過國家級標準認證。選擇綠昕，就是選擇一份官方認可的穩定與公信力。",
+  },
+  {
+    icon: TrendingUp,
+    title: "競爭力價格 永續效益",
+    description:
+      "我們的環保碳粉匣在品質與性能上媲美原廠，但能為您帶來更實惠的採購價格。作為共同供應契約立約商，我們的定價策略透明且具競爭力，為您實現高品質、低成本的雙贏效益。",
   },
   {
     icon: Leaf,
@@ -117,12 +123,12 @@ const WhyChooseUs = () => {
         {/* Section Title */}
         <div className="text-center mb-12">
           <h3 className="text-2xl md:text-3xl font-bold text-foreground">
-            綠昕環保列印<span className="text-primary">三大基石</span>
+            綠昕環保列印<span className="text-primary">四大基石</span>
           </h3>
         </div>
 
-        {/* Three Pillars */}
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Four Pillars */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {pillars.map((pillar, index) => (
             <div
               key={pillar.title}
