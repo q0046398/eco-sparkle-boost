@@ -26,7 +26,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/use-cart";
 import { MiniCart } from "@/components/MiniCart";
 import { CartDialog } from "@/components/CartDialog";
-import epson110080 from "@/assets/epson-110080.png";
+import epson110080 from "@/assets/epson-110080-box.png";
 import epson110079 from "@/assets/epson-110079.png";
 
 interface ProductItem {
