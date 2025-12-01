@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 
 interface ProductItem {
@@ -22,36 +21,12 @@ interface ProductItem {
   quantity: string;
 }
 
-const productTypes = [
-  { 
-    value: "eco", 
-    label: "環保碳粉匣", 
-    description: "台灣製造，品質優良，價格實惠" 
-  },
-  { 
-    value: "original", 
-    label: "原廠碳粉匣特價", 
-    description: "EPSON AL-M220DN/M310/M320 (110080/S110080) NT$3,500-3,675｜原廠正品特惠" 
-  },
-];
-
-const Order = () => {
-  const [searchParams] = useSearchParams();
-  const initialProduct = searchParams.get("product") || "";
-  const initialType = searchParams.get("type") || "eco";
+const OrderEco = () => {
   const { toast } = useToast();
 
-  const [productType, setProductType] = useState(initialType);
   const [products, setProducts] = useState<ProductItem[]>([
-    { name: initialProduct, quantity: "1" }
+    { name: "", quantity: "1" }
   ]);
-
-  useEffect(() => {
-    const typeParam = searchParams.get("type");
-    if (typeParam && (typeParam === "eco" || typeParam === "original")) {
-      setProductType(typeParam);
-    }
-  }, [searchParams]);
 
   const [formData, setFormData] = useState({
     customerName: "",
@@ -119,10 +94,9 @@ const Order = () => {
     }
 
     try {
-      const selectedType = productTypes.find(t => t.value === productType);
       const { data, error } = await supabase.functions.invoke("send-order-email", {
         body: {
-          productType: selectedType?.label || "環保碳粉匣",
+          productType: "環保碳粉匣",
           products,
           customerName: formData.customerName,
           phone: formData.phone,
@@ -220,10 +194,10 @@ const Order = () => {
                 <ShoppingCart className="w-8 h-8 text-primary-foreground" />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-                產品訂購
+                環保碳粉匣訂購
               </h1>
               <p className="text-muted-foreground">
-                請填寫以下訂購資訊，我們將盡快與您聯繫
+                台灣製造 ・ 品質優良 ・ 價格實惠 ・ 環保認證
               </p>
             </div>
 
@@ -236,35 +210,6 @@ const Order = () => {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Product Type Selection */}
-                  <div className="space-y-3">
-                    <Label>
-                      產品類型 <span className="text-destructive">*</span>
-                    </Label>
-                    <RadioGroup
-                      value={productType}
-                      onValueChange={setProductType}
-                      className="grid grid-cols-1 sm:grid-cols-2 gap-3"
-                    >
-                      {productTypes.map((type) => (
-                        <div key={type.value} className="relative">
-                          <RadioGroupItem
-                            value={type.value}
-                            id={type.value}
-                            className="peer sr-only"
-                          />
-                          <Label
-                            htmlFor={type.value}
-                            className="flex flex-col p-4 border-2 rounded-lg cursor-pointer transition-all peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 hover:border-primary/50"
-                          >
-                            <span className="font-semibold text-foreground">{type.label}</span>
-                            <span className="text-sm text-muted-foreground">{type.description}</span>
-                          </Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  </div>
-
                   {/* Products */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
@@ -472,11 +417,8 @@ const Order = () => {
       {/* Footer */}
       <footer className="py-8 bg-muted/30 border-t border-border">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-muted-foreground">
-            © 2024 綠昕科技有限公司 版權所有 | 
-            <a href="tel:02-2970-2232" className="hover:text-primary ml-1">02-2970-2232</a> | 
-            <a href="tel:0925-665321" className="hover:text-primary ml-1">0925-665321</a> | 
-            <span className="ml-1">新北市新莊區五工路125號</span>
+          <p className="text-muted-foreground text-sm">
+            © 2024 綠昕科技有限公司 版權所有
           </p>
         </div>
       </footer>
@@ -484,4 +426,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default OrderEco;
