@@ -8,6 +8,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -26,6 +33,7 @@ interface ProductItem {
 
 const OrderOriginal = () => {
   const { toast } = useToast();
+  const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
 
   const [products, setProducts] = useState<ProductItem[]>([
     { name: "", quantity: "1", priceType: "110080-untaxed" }
@@ -126,6 +134,9 @@ const OrderOriginal = () => {
         title: "訂單已送出！",
         description: "我們將盡快與您聯繫確認訂單詳情",
       });
+      
+      // Close dialog and reset form
+      setIsOrderDialogOpen(false);
     } catch (err) {
       console.error("Error:", err);
       toast({
@@ -218,10 +229,7 @@ const OrderOriginal = () => {
                     <Button 
                       variant="outline"
                       className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                      onClick={() => {
-                        const formSection = document.getElementById('order-form');
-                        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
-                      }}
+                      onClick={() => setIsOrderDialogOpen(true)}
                     >
                       訂購
                     </Button>
@@ -246,10 +254,7 @@ const OrderOriginal = () => {
                     <Button 
                       variant="outline"
                       className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                      onClick={() => {
-                        const formSection = document.getElementById('order-form');
-                        if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
-                      }}
+                      onClick={() => setIsOrderDialogOpen(true)}
                     >
                       訂購
                     </Button>
@@ -259,244 +264,217 @@ const OrderOriginal = () => {
             </div>
           </div>
 
-          {/* Order Form */}
-          <div id="order-form" className="max-w-2xl mx-auto scroll-mt-24">
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-foreground mb-2">填寫訂購資訊</h2>
-              <p className="text-muted-foreground">請選擇您要的型號並填寫完整資訊</p>
-            </div>
-
-            <Card className="border-border shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-xl">訂購資訊</CardTitle>
-                <CardDescription>
+          {/* Order Dialog */}
+          <Dialog open={isOrderDialogOpen} onOpenChange={setIsOrderDialogOpen}>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-2xl">訂購資訊</DialogTitle>
+                <DialogDescription>
                   請填寫完整資訊以便我們為您處理訂單
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Products */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <Label>
-                        訂購產品 <span className="text-destructive">*</span>
-                      </Label>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        onClick={addProduct}
-                        className="text-primary"
-                      >
-                        <Plus className="w-4 h-4 mr-1" />
-                        新增品項
-                      </Button>
-                    </div>
-                    
-                    {products.map((product, index) => (
-                      <div key={index} className="flex gap-3 items-start p-4 bg-muted/30 rounded-lg">
-                        <div className="flex-1 space-y-3">
+                </DialogDescription>
+              </DialogHeader>
+              
+              <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+                {/* Products */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <Label>
+                      訂購產品 <span className="text-destructive">*</span>
+                    </Label>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={addProduct}
+                      className="text-primary"
+                    >
+                      <Plus className="w-4 h-4 mr-1" />
+                      新增品項
+                    </Button>
+                  </div>
+                  
+                  {products.map((product, index) => (
+                    <div key={index} className="flex gap-3 items-start p-4 bg-muted/30 rounded-lg">
+                      <div className="flex-1 space-y-3">
+                        <div>
+                          <Label htmlFor={`product-name-${index}`} className="text-sm text-muted-foreground">
+                            產品型號
+                          </Label>
+                          <Input
+                            id={`product-name-${index}`}
+                            placeholder="例如：110080 或 S110080"
+                            value={product.name}
+                            onChange={(e) => handleProductChange(index, "name", e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <Label htmlFor={`product-name-${index}`} className="text-sm text-muted-foreground">
-                              產品型號
+                            <Label htmlFor={`product-qty-${index}`} className="text-sm text-muted-foreground">
+                              數量
                             </Label>
                             <Input
-                              id={`product-name-${index}`}
-                              placeholder="例如：110080 或 S110080"
-                              value={product.name}
-                              onChange={(e) => handleProductChange(index, "name", e.target.value)}
+                              id={`product-qty-${index}`}
+                              type="number"
+                              min="1"
+                              placeholder="數量"
+                              value={product.quantity}
+                              onChange={(e) => handleProductChange(index, "quantity", e.target.value)}
                               required
                             />
                           </div>
-                          <div className="grid grid-cols-2 gap-3">
-                            <div>
-                              <Label htmlFor={`product-qty-${index}`} className="text-sm text-muted-foreground">
-                                數量
-                              </Label>
-                              <Input
-                                id={`product-qty-${index}`}
-                                type="number"
-                                min="1"
-                                placeholder="數量"
-                                value={product.quantity}
-                                onChange={(e) => handleProductChange(index, "quantity", e.target.value)}
-                                required
-                              />
-                            </div>
-                            <div>
-                              <Label htmlFor={`product-price-${index}`} className="text-sm text-muted-foreground">
-                                型號價格
-                              </Label>
-                              <Select
-                                value={product.priceType}
-                                onValueChange={(value) => handleProductChange(index, "priceType", value)}
-                              >
-                                <SelectTrigger id={`product-price-${index}`}>
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="110080-untaxed">110080 未稅 NT$3,500</SelectItem>
-                                  <SelectItem value="110080-taxed">110080 含稅 NT$3,675</SelectItem>
-                                  <SelectItem value="110079-untaxed">110079 未稅 NT$4,550</SelectItem>
-                                  <SelectItem value="110079-taxed">110079 含稅 NT$4,778</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
+                          <div>
+                            <Label htmlFor={`product-price-${index}`} className="text-sm text-muted-foreground">
+                              型號價格
+                            </Label>
+                            <Select
+                              value={product.priceType}
+                              onValueChange={(value) => handleProductChange(index, "priceType", value)}
+                            >
+                              <SelectTrigger id={`product-price-${index}`}>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="110080-untaxed">110080 未稅 NT$3,500</SelectItem>
+                                <SelectItem value="110080-taxed">110080 含稅 NT$3,675</SelectItem>
+                                <SelectItem value="110079-untaxed">110079 未稅 NT$4,550</SelectItem>
+                                <SelectItem value="110079-taxed">110079 含稅 NT$4,778</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
                         </div>
-                        {products.length > 1 && (
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => removeProduct(index)}
-                            className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-6"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        )}
                       </div>
-                    ))}
-                  </div>
+                      {products.length > 1 && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeProduct(index)}
+                          className="text-destructive hover:text-destructive hover:bg-destructive/10 mt-6"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </div>
 
-                  {/* Customer Name */}
-                  <div className="space-y-2">
-                    <Label htmlFor="customerName">
-                      客戶名稱 <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      id="customerName"
-                      name="customerName"
-                      placeholder="請輸入您的姓名或公司名稱"
-                      value={formData.customerName}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
+                {/* Customer Name */}
+                <div className="space-y-2">
+                  <Label htmlFor="customerName">
+                    客戶名稱 <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="customerName"
+                    name="customerName"
+                    placeholder="請輸入您的姓名或公司名稱"
+                    value={formData.customerName}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
 
-                  {/* Phone */}
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">
-                      聯絡電話 <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      placeholder="請輸入您的聯絡電話"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
+                {/* Phone */}
+                <div className="space-y-2">
+                  <Label htmlFor="phone">
+                    聯絡電話 <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    placeholder="請輸入您的聯絡電話"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
 
-                  {/* Email */}
-                  <div className="space-y-2">
-                    <Label htmlFor="email">
-                      聯絡信箱
-                    </Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="請輸入您的電子郵件"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+                {/* Email */}
+                <div className="space-y-2">
+                  <Label htmlFor="email">
+                    聯絡信箱
+                  </Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="請輸入您的電子郵件"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-                  {/* Contact Time */}
-                  <div className="space-y-2">
-                    <Label htmlFor="contactTime">
-                      方便聯繫時間 <span className="text-destructive">*</span>
-                    </Label>
-                    <Select
-                      value={formData.contactTime}
-                      onValueChange={(value) => handleSelectChange("contactTime", value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="請選擇方便聯繫的時間" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {contactTimes.map((time) => (
-                          <SelectItem key={time} value={time}>
-                            {time}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* Address */}
-                  <div className="space-y-2">
-                    <Label htmlFor="address">
-                      寄送地址 <span className="text-destructive">*</span>
-                    </Label>
-                    <Textarea
-                      id="address"
-                      name="address"
-                      placeholder="請輸入完整寄送地址"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      rows={2}
-                      required
-                    />
-                  </div>
-
-                  {/* Notes */}
-                  <div className="space-y-2">
-                    <Label htmlFor="notes">備註（選填）</Label>
-                    <Textarea
-                      id="notes"
-                      name="notes"
-                      placeholder="如有其他需求請在此說明"
-                      value={formData.notes}
-                      onChange={handleInputChange}
-                      rows={3}
-                    />
-                  </div>
-
-                  {/* Submit Button */}
-                  <Button
-                    type="submit"
-                    className="w-full eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg"
-                    size="lg"
-                    disabled={isSubmitting}
+                {/* Contact Time */}
+                <div className="space-y-2">
+                  <Label htmlFor="contactTime">
+                    方便聯繫時間 <span className="text-destructive">*</span>
+                  </Label>
+                  <Select
+                    value={formData.contactTime}
+                    onValueChange={(value) => handleSelectChange("contactTime", value)}
                   >
-                    {isSubmitting ? (
-                      <>處理中...</>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5 mr-2" />
-                        送出訂單
-                      </>
-                    )}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
+                    <SelectTrigger>
+                      <SelectValue placeholder="請選擇方便聯繫的時間" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {contactTimes.map((time) => (
+                        <SelectItem key={time} value={time}>
+                          {time}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-            {/* Contact Info */}
-            <div className="mt-8 text-center">
-              <p className="text-muted-foreground mb-4">
-                如有任何問題，歡迎直接聯繫我們
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="tel:02-2970-2232">
-                  <Button variant="outline" className="w-full sm:w-auto">
-                    <Phone className="w-4 h-4 mr-2" />
-                    客服專線：02-2970-2232
-                  </Button>
-                </a>
-                <a href="tel:0925-665321">
-                  <Button variant="outline" className="w-full sm:w-auto">
-                    <Phone className="w-4 h-4 mr-2" />
-                    行動電話：0925-665321
-                  </Button>
-                </a>
-              </div>
-            </div>
-          </div>
+                {/* Address */}
+                <div className="space-y-2">
+                  <Label htmlFor="address">
+                    寄送地址 <span className="text-destructive">*</span>
+                  </Label>
+                  <Textarea
+                    id="address"
+                    name="address"
+                    placeholder="請輸入完整寄送地址"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    rows={2}
+                    required
+                  />
+                </div>
+
+                {/* Notes */}
+                <div className="space-y-2">
+                  <Label htmlFor="notes">備註（選填）</Label>
+                  <Textarea
+                    id="notes"
+                    name="notes"
+                    placeholder="如有其他需求請在此說明"
+                    value={formData.notes}
+                    onChange={handleInputChange}
+                    rows={3}
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <Button
+                  type="submit"
+                  className="w-full eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg"
+                  size="lg"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>處理中...</>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5 mr-2" />
+                      送出訂單
+                    </>
+                  )}
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
       </section>
 
