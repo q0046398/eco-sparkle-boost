@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2, Minus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/hooks/use-cart";
 
 interface ProductItem {
   name: string;
@@ -31,7 +32,25 @@ interface ProductItem {
 
 const OrderEco = () => {
   const { toast } = useToast();
+  const {
+    cart,
+    addToCart,
+    removeFromCart,
+    updateCartItemQuantity,
+    clearCart,
+    getTotalItems,
+    getTotalPrice,
+  } = useCart();
+  
   const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
+  const [isCartDialogOpen, setIsCartDialogOpen] = useState(false);
+  const [selectedBrand, setSelectedBrand] = useState<"HP" | "Canon" | "Brother" | "Samsung">("HP");
+  
+  // Product quantities for selection
+  const [hpQty, setHpQty] = useState(1);
+  const [canonQty, setCanonQty] = useState(1);
+  const [brotherQty, setBrotherQty] = useState(1);
+  const [samsungQty, setSamsungQty] = useState(1);
 
   const [products, setProducts] = useState<ProductItem[]>([
     { name: "", quantity: "1", priceType: "contact" }
@@ -73,6 +92,48 @@ const OrderEco = () => {
     if (products.length > 1) {
       setProducts((prev) => prev.filter((_, i) => i !== index));
     }
+  };
+
+  const handleAddToCart = (
+    productId: string,
+    productName: string,
+    quantity: number
+  ) => {
+    addToCart(productId, productName, quantity, "contact", 0, "eco");
+
+    toast({
+      title: "已加入購物車",
+      description: `${productName} x ${quantity}`,
+    });
+  };
+
+  const handleClearCart = () => {
+    clearCart();
+    toast({
+      title: "購物車已清空",
+    });
+  };
+
+  const proceedToCheckout = () => {
+    if (cart.length === 0) {
+      toast({
+        title: "購物車是空的",
+        description: "請先加入商品到購物車",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Convert cart items to products format
+    const cartProducts = cart.map((item) => ({
+      name: item.productName,
+      quantity: item.quantity.toString(),
+      priceType: item.priceType,
+    }));
+
+    setProducts(cartProducts);
+    setIsCartDialogOpen(false);
+    setIsOrderDialogOpen(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -133,6 +194,9 @@ const OrderEco = () => {
         description: "我們將盡快與您聯繫確認訂單詳情",
       });
       
+      // Clear cart after successful order
+      clearCart();
+      
       // Close dialog and reset form
       setIsOrderDialogOpen(false);
     } catch (err) {
@@ -187,12 +251,26 @@ const OrderEco = () => {
                 <span className="text-xs text-muted-foreground">環保碳粉匣專家</span>
               </div>
             </div>
-            <a href="tel:02-2970-2232">
-              <Button className="eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg transition-all">
-                <Phone className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">立即諮詢</span>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="outline"
+                className="relative"
+                onClick={() => setIsCartDialogOpen(true)}
+              >
+                <ShoppingCart className="w-4 h-4" />
+                {getTotalItems() > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {getTotalItems()}
+                  </span>
+                )}
               </Button>
-            </a>
+              <a href="tel:02-2970-2232">
+                <Button className="eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg transition-all">
+                  <Phone className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">立即諮詢</span>
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
       </header>
@@ -225,12 +303,38 @@ const OrderEco = () => {
                       HP 系列環保碳粉匣
                     </h3>
                     <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
+                    
+                    <div className="flex items-center justify-center gap-3 py-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setHpQty(Math.max(1, hpQty - 1))}
+                        className="h-8 w-8"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="text-lg font-semibold min-w-[2rem] text-center">
+                        {hpQty}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setHpQty(hpQty + 1)}
+                        className="h-8 w-8"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
                     <Button 
-                      variant="outline"
-                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                      onClick={() => setIsOrderDialogOpen(true)}
+                      className="w-full eco-gradient text-primary-foreground"
+                      onClick={() => {
+                        handleAddToCart("HP", "HP 系列環保碳粉匣", hpQty);
+                        setHpQty(1);
+                      }}
                     >
-                      訂購
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      加入購物車
                     </Button>
                   </div>
                 </CardContent>
@@ -251,12 +355,38 @@ const OrderEco = () => {
                       Canon 系列環保碳粉匣
                     </h3>
                     <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
+                    
+                    <div className="flex items-center justify-center gap-3 py-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setCanonQty(Math.max(1, canonQty - 1))}
+                        className="h-8 w-8"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="text-lg font-semibold min-w-[2rem] text-center">
+                        {canonQty}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setCanonQty(canonQty + 1)}
+                        className="h-8 w-8"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
                     <Button 
-                      variant="outline"
-                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                      onClick={() => setIsOrderDialogOpen(true)}
+                      className="w-full eco-gradient text-primary-foreground"
+                      onClick={() => {
+                        handleAddToCart("Canon", "Canon 系列環保碳粉匣", canonQty);
+                        setCanonQty(1);
+                      }}
                     >
-                      訂購
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      加入購物車
                     </Button>
                   </div>
                 </CardContent>
@@ -277,12 +407,38 @@ const OrderEco = () => {
                       Brother 系列環保碳粉匣
                     </h3>
                     <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
+                    
+                    <div className="flex items-center justify-center gap-3 py-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setBrotherQty(Math.max(1, brotherQty - 1))}
+                        className="h-8 w-8"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="text-lg font-semibold min-w-[2rem] text-center">
+                        {brotherQty}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setBrotherQty(brotherQty + 1)}
+                        className="h-8 w-8"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
                     <Button 
-                      variant="outline"
-                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                      onClick={() => setIsOrderDialogOpen(true)}
+                      className="w-full eco-gradient text-primary-foreground"
+                      onClick={() => {
+                        handleAddToCart("Brother", "Brother 系列環保碳粉匣", brotherQty);
+                        setBrotherQty(1);
+                      }}
                     >
-                      訂購
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      加入購物車
                     </Button>
                   </div>
                 </CardContent>
@@ -303,12 +459,38 @@ const OrderEco = () => {
                       Samsung 系列環保碳粉匣
                     </h3>
                     <p className="text-sm text-center text-muted-foreground">請聯繫報價</p>
+                    
+                    <div className="flex items-center justify-center gap-3 py-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setSamsungQty(Math.max(1, samsungQty - 1))}
+                        className="h-8 w-8"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="text-lg font-semibold min-w-[2rem] text-center">
+                        {samsungQty}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => setSamsungQty(samsungQty + 1)}
+                        className="h-8 w-8"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
                     <Button 
-                      variant="outline"
-                      className="w-full border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground"
-                      onClick={() => setIsOrderDialogOpen(true)}
+                      className="w-full eco-gradient text-primary-foreground"
+                      onClick={() => {
+                        handleAddToCart("Samsung", "Samsung 系列環保碳粉匣", samsungQty);
+                        setSamsungQty(1);
+                      }}
                     >
-                      訂購
+                      <ShoppingCart className="w-4 h-4 mr-2" />
+                      加入購物車
                     </Button>
                   </div>
                 </CardContent>
@@ -522,6 +704,115 @@ const OrderEco = () => {
                   )}
                 </Button>
               </form>
+            </DialogContent>
+          </Dialog>
+
+          {/* Cart Dialog */}
+          <Dialog open={isCartDialogOpen} onOpenChange={setIsCartDialogOpen}>
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <DialogTitle className="text-2xl">購物車</DialogTitle>
+                    <DialogDescription>
+                      查看您選擇的商品
+                    </DialogDescription>
+                  </div>
+                  {cart.length > 0 && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleClearCart}
+                      className="text-muted-foreground hover:text-destructive"
+                    >
+                      清空購物車
+                    </Button>
+                  )}
+                </div>
+              </DialogHeader>
+              
+              {cart.length === 0 ? (
+                <div className="py-12 text-center text-muted-foreground">
+                  <ShoppingCart className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                  <p>購物車是空的</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {cart.map((item, index) => (
+                    <div key={index} className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-foreground">{item.productName}</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {item.productType === "original" ? (
+                            <>
+                              {item.priceType.includes("untaxed") ? "未稅" : "含稅"} NT${item.unitPrice.toLocaleString()}
+                            </>
+                          ) : (
+                            "請聯繫報價"
+                          )}
+                        </p>
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => updateCartItemQuantity(index, item.quantity - 1)}
+                          className="h-8 w-8"
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <span className="text-lg font-semibold min-w-[2rem] text-center">
+                          {item.quantity}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => updateCartItemQuantity(index, item.quantity + 1)}
+                          className="h-8 w-8"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      
+                      {item.productType === "original" && (
+                        <div className="text-right min-w-[5rem]">
+                          <p className="font-bold text-foreground">
+                            NT${(item.unitPrice * item.quantity).toLocaleString()}
+                          </p>
+                        </div>
+                      )}
+                      
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeFromCart(index)}
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                  
+                  <div className="border-t pt-4 mt-4">
+                    {getTotalPrice() > 0 && (
+                      <div className="flex justify-between items-center text-lg font-bold mb-4">
+                        <span>總計</span>
+                        <span>NT${getTotalPrice().toLocaleString()}</span>
+                      </div>
+                    )}
+                    
+                    <Button
+                      onClick={proceedToCheckout}
+                      className="w-full eco-gradient text-primary-foreground shadow-eco hover:shadow-eco-lg"
+                      size="lg"
+                    >
+                      <Send className="w-5 h-5 mr-2" />
+                      前往結帳
+                    </Button>
+                  </div>
+                </div>
+              )}
             </DialogContent>
           </Dialog>
         </div>

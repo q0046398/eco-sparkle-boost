@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2, Minus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/hooks/use-cart";
 import epson110080 from "@/assets/epson-110080.png";
 import epson110079 from "@/assets/epson-110079.png";
 
@@ -31,44 +32,25 @@ interface ProductItem {
   priceType: string;
 }
 
-interface CartItem {
-  productId: "110080" | "110079";
-  productName: string;
-  quantity: number;
-  priceType: string;
-  unitPrice: number;
-}
-
-const CART_STORAGE_KEY = "orderOriginal_cart";
-
 const OrderOriginal = () => {
   const { toast } = useToast();
+  const {
+    cart,
+    addToCart,
+    removeFromCart,
+    updateCartItemQuantity,
+    clearCart,
+    getTotalItems,
+    getTotalPrice,
+  } = useCart();
+  
   const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
   const [isCartDialogOpen, setIsCartDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<"110080" | "110079">("110080");
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    // Initialize cart from localStorage
-    try {
-      const savedCart = localStorage.getItem(CART_STORAGE_KEY);
-      return savedCart ? JSON.parse(savedCart) : [];
-    } catch (error) {
-      console.error("Failed to load cart from localStorage:", error);
-      return [];
-    }
-  });
   
   // Product quantities for selection
   const [product110080Qty, setProduct110080Qty] = useState(1);
   const [product110079Qty, setProduct110079Qty] = useState(1);
-
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    try {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-    } catch (error) {
-      console.error("Failed to save cart to localStorage:", error);
-    }
-  }, [cart]);
 
   const [products, setProducts] = useState<ProductItem[]>([
     { name: "", quantity: "1", priceType: "110080-untaxed" }
@@ -113,51 +95,24 @@ const OrderOriginal = () => {
     }
   };
 
-  const addToCart = (productId: "110080" | "110079", productName: string, quantity: number) => {
+  const handleAddToCart = (
+    productId: "110080" | "110079",
+    productName: string,
+    quantity: number
+  ) => {
     const priceType = productId === "110080" ? "110080-untaxed" : "110079-untaxed";
     const unitPrice = productId === "110080" ? 3500 : 4550;
-    
-    setCart((prev) => {
-      const existingItem = prev.find(item => item.productId === productId && item.priceType === priceType);
-      
-      if (existingItem) {
-        return prev.map(item => 
-          item.productId === productId && item.priceType === priceType
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      
-      return [...prev, { productId, productName, quantity, priceType, unitPrice }];
-    });
-    
+
+    addToCart(productId, productName, quantity, priceType, unitPrice, "original");
+
     toast({
       title: "已加入購物車",
       description: `${productName} x ${quantity}`,
     });
   };
 
-  const removeFromCart = (index: number) => {
-    setCart((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const updateCartItemQuantity = (index: number, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    setCart((prev) => prev.map((item, i) => 
-      i === index ? { ...item, quantity: newQuantity } : item
-    ));
-  };
-
-  const getTotalItems = () => {
-    return cart.reduce((sum, item) => sum + item.quantity, 0);
-  };
-
-  const getTotalPrice = () => {
-    return cart.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
-  };
-
-  const clearCart = () => {
-    setCart([]);
+  const handleClearCart = () => {
+    clearCart();
     toast({
       title: "購物車已清空",
     });
@@ -244,7 +199,7 @@ const OrderOriginal = () => {
       });
       
       // Clear cart after successful order
-      setCart([]);
+      clearCart();
       
       // Close dialog and reset form
       setIsOrderDialogOpen(false);
@@ -377,7 +332,7 @@ const OrderOriginal = () => {
                     <Button 
                       className="w-full eco-gradient text-primary-foreground"
                       onClick={() => {
-                        addToCart("110080", "EPSON 110080/S110080 標準容量碳粉匣", product110080Qty);
+                        handleAddToCart("110080", "EPSON 110080/S110080 標準容量碳粉匣", product110080Qty);
                         setProduct110080Qty(1);
                       }}
                     >
@@ -428,7 +383,7 @@ const OrderOriginal = () => {
                     <Button 
                       className="w-full eco-gradient text-primary-foreground"
                       onClick={() => {
-                        addToCart("110079", "EPSON 110079/S110079/10079 高印量碳粉匣", product110079Qty);
+                        handleAddToCart("110079", "EPSON 110079/S110079/10079 高印量碳粉匣", product110079Qty);
                         setProduct110079Qty(1);
                       }}
                     >
@@ -684,7 +639,7 @@ const OrderOriginal = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={clearCart}
+                      onClick={handleClearCart}
                       className="text-muted-foreground hover:text-destructive"
                     >
                       清空購物車
