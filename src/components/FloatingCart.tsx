@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ShoppingCart, X, Minus, Plus, Trash2, Send, ChevronRight, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -24,6 +24,31 @@ export const FloatingCart = ({
   onCheckout,
 }: FloatingCartProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Auto-collapse on scroll
+  useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout;
+    
+    const handleScroll = () => {
+      // Only auto-collapse if currently expanded
+      if (isExpanded) {
+        // Clear any existing timeout
+        clearTimeout(scrollTimeout);
+        
+        // Set a small delay to avoid flickering during quick scrolls
+        scrollTimeout = setTimeout(() => {
+          setIsExpanded(false);
+        }, 150);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, [isExpanded]);
 
   if (!isExpanded) {
     return (
