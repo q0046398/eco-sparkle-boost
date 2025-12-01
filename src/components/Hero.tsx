@@ -1,6 +1,5 @@
 import { ArrowRight, Leaf, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 const Hero = () => {
   return <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden">
       {/* Background Pattern */}
@@ -34,10 +33,10 @@ const Hero = () => {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-up" style={{
+          <p style={{
           animationDelay: "0.2s"
-        }}>                                               專注於印表機耗材銷售 
-節省資源、愛護地球、價格實惠        </p>
+        }} className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-up text-center">專注於印表機耗材銷售
+ 頂級保固   政府信賴   價格優勢   環保認證</p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{
