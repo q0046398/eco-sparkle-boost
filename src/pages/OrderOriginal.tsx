@@ -26,14 +26,62 @@ import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/use-cart";
 import { MiniCart } from "@/components/MiniCart";
 import { CartDialog } from "@/components/CartDialog";
-import epson110080 from "@/assets/epson-110080-box.png";
-import epson110079 from "@/assets/epson-110079.png";
+import productPlaceholder from "@/assets/product-placeholder.png";
 
-interface ProductItem {
+interface Product {
+  id: string;
+  modelNumber: string;
   name: string;
-  quantity: string;
-  priceType: string;
+  price: number;
+  compatibility: string;
 }
+
+const products: Product[] = [
+  { id: "S110078", modelNumber: "S110078", name: "EPSON AL-M320DN 原廠超大高印碳粉匣 10078", price: 5400, compatibility: "AL-M320DN" },
+  { id: "S110079", modelNumber: "S110079", name: "EPSON M220DN/M310/M320 原廠高印量碳粉匣", price: 4550, compatibility: "M220DN / M310 / M320" },
+  { id: "S110080", modelNumber: "S110080", name: "EPSON AL-M220DN/M310/M320 原廠碳粉匣", price: 3500, compatibility: "AL-M220DN / M310 / M320" },
+  { id: "C1700組", modelNumber: "C1700組", name: "EPSON AL-C1700/C1750N 原廠碳粉匣 (四色套組)", price: 7200, compatibility: "C1700 / C1750N / CX17NF" },
+  { id: "S050166", modelNumber: "S050166", name: "EPSON EPL-6200 / S050166 原廠高容量碳粉匣", price: 2000, compatibility: "EPL-6200" },
+  { id: "S050245", modelNumber: "S050245", name: "EPSON C4200/C4200DN 原廠黑色碳粉匣 (S050286)", price: 2450, compatibility: "C4200 / C4200DN" },
+  { id: "S050283", modelNumber: "S050283", name: "EPSON C4200/C4200DN 原廠黃色碳粉匣 (S050242)", price: 6400, compatibility: "C4200 / C4200DN" },
+  { id: "S050284", modelNumber: "S050284", name: "EPSON C4200/C4200DN 原廠紅色(洋紅)碳粉匣", price: 6400, compatibility: "C4200 / C4200DN" },
+  { id: "S050285", modelNumber: "S050285", name: "EPSON C4200/C4200DN 原廠藍色(青色)碳粉匣", price: 6400, compatibility: "C4200 / C4200DN" },
+  { id: "S050475", modelNumber: "S050475", name: "EPSON C9200 高容量紅色碳粉", price: 3000, compatibility: "C9200 / C9200N" },
+  { id: "S050477", modelNumber: "S050477", name: "EPSON C9200 高容量黑色碳粉", price: 2000, compatibility: "C9200 / C9200N" },
+  { id: "S050588", modelNumber: "S050588", name: "EPSON M2410DN/MX21DNF 原廠高容量黑色碳粉匣", price: 1500, compatibility: "M2410DN / MX21DNF" },
+  { id: "S050590", modelNumber: "S050590", name: "EPSON AL-C3900/CX37DNF 全新原廠黃色碳粉匣", price: 5814, compatibility: "AL-C3900 / CX37DNF" },
+  { id: "S050591", modelNumber: "S050591", name: "EPSON AL-C3900/CX37DNF 全新原廠紅色碳粉匣", price: 5814, compatibility: "AL-C3900 / CX37DNF" },
+  { id: "S050592", modelNumber: "S050592", name: "EPSON AL-C3900/CX37DNF 全新原廠藍色碳粉匣", price: 5814, compatibility: "AL-C3900 / CX37DNF" },
+  { id: "S050593", modelNumber: "S050593", name: "EPSON AL-C3900/CX37DNF 全新原廠黑色碳粉匣", price: 5814, compatibility: "AL-C3900 / CX37DNF" },
+  { id: "S050602", modelNumber: "S050602", name: "EPSON AL-C9300N 全新原廠原裝黃色碳粉匣", price: 6120, compatibility: "AL-C9300N" },
+  { id: "S050604", modelNumber: "S050604", name: "EPSON AL-C9300N 全新原廠原裝藍色碳粉匣", price: 6120, compatibility: "AL-C9300N" },
+  { id: "S050605", modelNumber: "S050605", name: "EPSON AL-C9300N 全新原廠原裝黑色碳粉匣", price: 3500, compatibility: "AL-C9300N" },
+  { id: "S050611", modelNumber: "S050611", name: "EPSON AL-C1700/C1750N 原廠黃色碳粉匣", price: 1867, compatibility: "C1700 / C1750N / CX17NF" },
+  { id: "S050612", modelNumber: "S050612", name: "EPSON AL-C1700/C1750N 原廠紅色碳粉匣", price: 1867, compatibility: "C1700 / C1750N / CX17NF" },
+  { id: "S050613", modelNumber: "S050613", name: "EPSON AL-C1700/C1750N 原廠藍色碳粉匣", price: 1867, compatibility: "C1700 / C1750N / CX17NF" },
+  { id: "S050614", modelNumber: "S050614", name: "EPSON AL-C1700/C1750N 原廠黑色碳粉匣", price: 2000, compatibility: "C1700 / C1750N / CX17NF" },
+  { id: "S050691", modelNumber: "S050691", name: "EPSON AL-M300/M300DN/MX300DNF 原廠高容量碳粉匣", price: 5400, compatibility: "AL-M300 / M300DN" },
+  { id: "S050747", modelNumber: "S050747", name: "EPSON AL-C300N/DN 全新原廠原裝黃色碳粉匣", price: 8400, compatibility: "AL-C300N / DN" },
+  { id: "S050748", modelNumber: "S050748", name: "EPSON AL-C300N/DN 全新原廠原裝紅色碳粉匣", price: 8400, compatibility: "AL-C300N / DN" },
+  { id: "S050749", modelNumber: "S050749", name: "EPSON AL-C300N/DN 全新原廠原裝藍色碳粉匣", price: 8400, compatibility: "AL-C300N / DN" },
+  { id: "S050750", modelNumber: "S050750", name: "EPSON AL-C300N/DN 全新原廠原裝黑色碳粉匣", price: 5600, compatibility: "AL-C300N / DN" },
+  { id: "S050762", modelNumber: "S050762", name: "EPSON AL-M8200 全新原廠原裝高容量碳粉匣", price: 8976, compatibility: "AL-M8200" },
+  { id: "S051124", modelNumber: "S051124", name: "EPSON C3800/C3800DN 原廠高容量黃色碳粉匣", price: 6800, compatibility: "AcuLaser C3800 / DN" },
+  { id: "S051125", modelNumber: "S051125", name: "EPSON C3800/C3800DN 原廠高容量紅色碳粉匣", price: 6800, compatibility: "AcuLaser C3800 / DN" },
+  { id: "S051126", modelNumber: "S051126", name: "EPSON C3800/C3800DN 原廠高容量藍色碳粉匣", price: 6800, compatibility: "AcuLaser C3800 / DN" },
+  { id: "S051127", modelNumber: "S051127", name: "EPSON C3800/C3800DN 原廠高容量黑色碳粉匣", price: 5610, compatibility: "AcuLaser C3800 / DN" },
+  { id: "S051158", modelNumber: "S051158", name: "EPSON AL-C2800N 全新原廠原裝黃色碳粉匣", price: 6400, compatibility: "AL-C2800N" },
+  { id: "S051159", modelNumber: "S051159", name: "EPSON AL-C2800N 全新原廠原裝紅色碳粉匣", price: 6400, compatibility: "AL-C2800N" },
+  { id: "S051189", modelNumber: "S051189", name: "EPSON M8000N/M8000 全新原廠碳粉匣", price: 5100, compatibility: "M8000N / M8000" },
+  { id: "S050477-2", modelNumber: "S050477", name: "EPSON C9200 黑色高容量碳粉匣感光鼓組", price: 6100, compatibility: "C9200 (感光鼓)" },
+  { id: "S051109", modelNumber: "S051109", name: "EPSON AL-C4200 C4200N 全新原廠原裝感光鼓", price: 8600, compatibility: "AL-C4200 / C4200N (感光鼓)" },
+  { id: "S051175", modelNumber: "S051175", name: "EPSON C9200 S051175 黃色原廠感光滾筒", price: 7038, compatibility: "C9200 (感光鼓)" },
+  { id: "S051176", modelNumber: "S051176", name: "EPSON C9200 S051176 紅色原廠感光滾筒", price: 7038, compatibility: "C9200 (感光鼓)" },
+  { id: "S051177", modelNumber: "S051177", name: "EPSON C9200 S051177 藍色原廠感光滾筒", price: 7038, compatibility: "C9200 (感光鼓)" },
+  { id: "S051178", modelNumber: "S051178", name: "EPSON C9200 S051178 黑色原廠感光滾筒", price: 7956, compatibility: "C9200 (感光鼓)" },
+  { id: "T9691", modelNumber: "T9691", name: "EPSON WF-M5799 全新原廠墨水袋 (黑)", price: 3300, compatibility: "WF-M5799 / WF-M5299" },
+  { id: "T9701", modelNumber: "T9701", name: "EPSON WF-M5799 全新原廠墨水袋 (高容量)", price: 11500, compatibility: "WF-M5799 / WF-M5299" },
+];
 
 const OrderOriginal = () => {
   const { toast } = useToast();
@@ -49,33 +97,43 @@ const OrderOriginal = () => {
   } = useCart();
   
   const [isCartDialogOpen, setIsCartDialogOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<"110080" | "110079">("110080");
-  
-  // Product quantities for selection
-  const [product110080Qty, setProduct110080Qty] = useState(1);
-  const [product110079Qty, setProduct110079Qty] = useState(1);
-  
-  // Tax options for each product
-  const [tax110080, setTax110080] = useState<"untaxed" | "taxed">("untaxed");
-  const [tax110079, setTax110079] = useState<"untaxed" | "taxed">("untaxed");
+  const [selectedQuantities, setSelectedQuantities] = useState<Record<string, number>>({});
+  const [selectedTaxOptions, setSelectedTaxOptions] = useState<Record<string, "untaxed" | "taxed">>({});
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleAddToCart = (
-    productId: "110080" | "110079",
-    productName: string,
-    quantity: number,
-    taxOption: "untaxed" | "taxed"
-  ) => {
-    const basePrice = productId === "110080" ? 3500 : 4550;
-    const unitPrice = taxOption === "taxed" ? Math.round(basePrice * 1.05) : basePrice;
+  const filteredProducts = products.filter(product => 
+    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.modelNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.compatibility.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const getQuantity = (productId: string) => selectedQuantities[productId] || 1;
+  const getTaxOption = (productId: string) => selectedTaxOptions[productId] || "untaxed";
+
+  const setQuantity = (productId: string, qty: number) => {
+    setSelectedQuantities(prev => ({ ...prev, [productId]: qty }));
+  };
+
+  const setTaxOption = (productId: string, option: "untaxed" | "taxed") => {
+    setSelectedTaxOptions(prev => ({ ...prev, [productId]: option }));
+  };
+
+  const handleAddToCart = (product: Product) => {
+    const quantity = getQuantity(product.id);
+    const taxOption = getTaxOption(product.id);
+    const unitPrice = taxOption === "taxed" ? Math.round(product.price * 1.05) : product.price;
     const priceType = taxOption === "taxed" ? "含稅" : "未稅";
 
-    addToCart(productId, productName, quantity, priceType, unitPrice, "original");
+    addToCart(product.id, product.name, quantity, priceType, unitPrice, "original");
 
     toast({
       title: "✓ 已加入購物車",
-      description: `${productName} (${priceType}) x ${quantity}`,
+      description: `${product.name} (${priceType}) x ${quantity}`,
       duration: 2000,
     });
+
+    // Reset quantity after adding to cart
+    setQuantity(product.id, 1);
   };
 
   const handleClearCart = () => {
@@ -126,153 +184,122 @@ const OrderOriginal = () => {
       <section className="py-12 md:py-16">
         <div className="container mx-auto px-4">
           {/* Product Display Section */}
-          <div className="max-w-6xl mx-auto mb-12">
+          <div className="max-w-7xl mx-auto mb-12">
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
                 原廠碳粉匣
               </h1>
               <p className="text-muted-foreground">EPSON 原廠碳粉匣特惠價格</p>
             </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50">
-                <CardContent className="p-0">
-                  <div className="bg-white p-6 flex items-center justify-center min-h-[280px]">
-                    <img 
-                      src={epson110080} 
-                      alt="EPSON 110080/S110080 標準容量碳粉匣" 
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="p-4 space-y-3">
-                    <h3 className="font-medium text-foreground leading-snug min-h-[3rem]">
-                      【台灣耗材】原廠 EPSON AL-M220DN/M310/M320 (110080/S110080)
-                    </h3>
-                    <div className="space-y-1">
-                      <p className="text-lg font-bold text-foreground">
-                        {tax110080 === "untaxed" ? "未稅 NT$3,500" : "含稅 NT$3,675"}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {tax110080 === "untaxed" ? "含稅 NT$3,675" : "未稅 NT$3,500"}
-                      </p>
-                    </div>
-                    
-                    <RadioGroup value={tax110080} onValueChange={(value) => setTax110080(value as "untaxed" | "taxed")} className="flex gap-4">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="untaxed" id="tax-110080-untaxed" />
-                        <Label htmlFor="tax-110080-untaxed" className="text-sm cursor-pointer">未稅</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="taxed" id="tax-110080-taxed" />
-                        <Label htmlFor="tax-110080-taxed" className="text-sm cursor-pointer">含稅</Label>
-                      </div>
-                    </RadioGroup>
-                    
-                    <div className="flex items-center justify-center gap-3 py-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => setProduct110080Qty(Math.max(1, product110080Qty - 1))}
-                        className="h-8 w-8"
-                      >
-                        <Minus className="h-4 w-4" />
-                      </Button>
-                      <span className="text-lg font-semibold min-w-[2rem] text-center">
-                        {product110080Qty}
-                      </span>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => setProduct110080Qty(product110080Qty + 1)}
-                        className="h-8 w-8"
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    
-                    <Button 
-                      className="w-full eco-gradient text-primary-foreground"
-                      onClick={() => {
-                        handleAddToCart("110080", "EPSON 110080/S110080 標準容量碳粉匣", product110080Qty, tax110080);
-                        setProduct110080Qty(1);
-                      }}
-                    >
-                      <ShoppingCart className="w-4 h-4 mr-2" />
-                      加入購物車
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50">
-                <CardContent className="p-0">
-                  <div className="bg-white p-6 flex items-center justify-center min-h-[280px]">
-                    <img 
-                      src={epson110079} 
-                      alt="EPSON 110079/S110079/10079 高印量碳粉匣" 
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="p-4 space-y-3">
-                    <h3 className="font-medium text-foreground leading-snug min-h-[3rem]">
-                      【台灣耗材】原廠 EPSON M220DN/M310/M320 (110079/S110079/10079)
-                    </h3>
-                    <div className="space-y-1">
-                      <p className="text-lg font-bold text-foreground">
-                        {tax110079 === "untaxed" ? "未稅 NT$4,550" : "含稅 NT$4,778"}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {tax110079 === "untaxed" ? "含稅 NT$4,778" : "未稅 NT$4,550"}
-                      </p>
-                    </div>
-                    
-                    <RadioGroup value={tax110079} onValueChange={(value) => setTax110079(value as "untaxed" | "taxed")} className="flex gap-4">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="untaxed" id="tax-110079-untaxed" />
-                        <Label htmlFor="tax-110079-untaxed" className="text-sm cursor-pointer">未稅</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="taxed" id="tax-110079-taxed" />
-                        <Label htmlFor="tax-110079-taxed" className="text-sm cursor-pointer">含稅</Label>
-                      </div>
-                    </RadioGroup>
-                    
-                    <div className="flex items-center justify-center gap-3 py-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => setProduct110079Qty(Math.max(1, product110079Qty - 1))}
-                        className="h-8 w-8"
-                      >
-                        <Minus className="h-4 w-4" />
-                      </Button>
-                      <span className="text-lg font-semibold min-w-[2rem] text-center">
-                        {product110079Qty}
-                      </span>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => setProduct110079Qty(product110079Qty + 1)}
-                        className="h-8 w-8"
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    
-                    <Button 
-                      className="w-full eco-gradient text-primary-foreground"
-                      onClick={() => {
-                        handleAddToCart("110079", "EPSON 110079/S110079/10079 高印量碳粉匣", product110079Qty, tax110079);
-                        setProduct110079Qty(1);
-                      }}
-                    >
-                      <ShoppingCart className="w-4 h-4 mr-2" />
-                      加入購物車
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+
+            {/* Search Bar */}
+            <div className="mb-8 max-w-2xl mx-auto">
+              <Input
+                type="text"
+                placeholder="搜尋產品型號、名稱或適用機型..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="text-lg"
+              />
             </div>
+
+            {/* Product Count */}
+            <div className="mb-4 text-center text-muted-foreground">
+              共 {filteredProducts.length} 項產品
+            </div>
+            
+            {/* Products Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredProducts.map((product) => {
+                const quantity = getQuantity(product.id);
+                const taxOption = getTaxOption(product.id);
+                const displayPrice = taxOption === "taxed" ? Math.round(product.price * 1.05) : product.price;
+                const alternatePrice = taxOption === "taxed" ? product.price : Math.round(product.price * 1.05);
+
+                return (
+                  <Card key={product.id} className="group overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50">
+                    <CardContent className="p-0">
+                      <div className="bg-white p-4 flex items-center justify-center min-h-[180px]">
+                        <img 
+                          src={productPlaceholder} 
+                          alt={product.name} 
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      <div className="p-4 space-y-3">
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">型號: {product.modelNumber}</p>
+                          <h3 className="font-medium text-sm text-foreground leading-snug min-h-[2.5rem]">
+                            {product.name}
+                          </h3>
+                          <p className="text-xs text-muted-foreground mt-1">適用: {product.compatibility}</p>
+                        </div>
+                        
+                        <div className="space-y-1">
+                          <p className="text-lg font-bold text-foreground">
+                            {taxOption === "untaxed" ? "未稅" : "含稅"} NT${displayPrice.toLocaleString()}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {taxOption === "untaxed" ? "含稅" : "未稅"} NT${alternatePrice.toLocaleString()}
+                          </p>
+                        </div>
+                        
+                        <RadioGroup 
+                          value={taxOption} 
+                          onValueChange={(value) => setTaxOption(product.id, value as "untaxed" | "taxed")} 
+                          className="flex gap-4"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="untaxed" id={`tax-${product.id}-untaxed`} />
+                            <Label htmlFor={`tax-${product.id}-untaxed`} className="text-sm cursor-pointer">未稅</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="taxed" id={`tax-${product.id}-taxed`} />
+                            <Label htmlFor={`tax-${product.id}-taxed`} className="text-sm cursor-pointer">含稅</Label>
+                          </div>
+                        </RadioGroup>
+                        
+                        <div className="flex items-center justify-center gap-3 py-2">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => setQuantity(product.id, Math.max(1, quantity - 1))}
+                            className="h-8 w-8"
+                          >
+                            <Minus className="h-4 w-4" />
+                          </Button>
+                          <span className="text-lg font-semibold min-w-[2rem] text-center">
+                            {quantity}
+                          </span>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => setQuantity(product.id, quantity + 1)}
+                            className="h-8 w-8"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        
+                        <Button 
+                          className="w-full eco-gradient text-primary-foreground"
+                          onClick={() => handleAddToCart(product)}
+                        >
+                          <ShoppingCart className="w-4 h-4 mr-2" />
+                          加入購物車
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+
+            {filteredProducts.length === 0 && (
+              <div className="text-center py-12 text-muted-foreground">
+                <p>沒有找到符合的產品</p>
+              </div>
+            )}
           </div>
 
           {/* Cart Dialog */}
