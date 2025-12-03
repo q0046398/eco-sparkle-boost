@@ -28,7 +28,7 @@ interface Product {
   category: string;
 }
 
-// Products data - deduplicated by model number
+// Products data - from CSV (deduplicated by model number)
 const products: Product[] = [
   // Brother
   { id: "eco-1", brand: "Brother", modelNumber: "DCI-B-TN450", name: "TN450 環保碳粉匣", compatibility: "MFC-7360/7360N/MFC-7460DN/7860DW/DCP-7060D/HL-2220/2240D/FAX-2840 高印量", price: 562, category: "碳粉匣" },
@@ -39,114 +39,105 @@ const products: Product[] = [
   
   // Fuji-Xerox
   { id: "eco-4", brand: "Fuji-Xerox", modelNumber: "DCI-X-CWAA0711", name: "CWAA0711 環保碳粉匣", compatibility: "DocuPrint2065/3055", price: 1265, category: "碳粉匣" },
+  { id: "eco-5", brand: "Fuji-Xerox", modelNumber: "DCI-X-CT201632", name: "CT201632 環保碳粉匣 黑色", compatibility: "DocuPrint CM305df/CP305d", price: 400, category: "彩色碳粉匣" },
+  { id: "eco-6", brand: "Fuji-Xerox", modelNumber: "DCI-X-CT201633", name: "CT201633 環保碳粉匣 藍色", compatibility: "DocuPrint CM305df/CP305d", price: 425, category: "彩色碳粉匣" },
+  { id: "eco-7", brand: "Fuji-Xerox", modelNumber: "DCI-X-CT201634", name: "CT201634 環保碳粉匣 紅色", compatibility: "DocuPrint CM305df/CP305d", price: 425, category: "彩色碳粉匣" },
+  { id: "eco-8", brand: "Fuji-Xerox", modelNumber: "DCI-X-CT201635", name: "CT201635 環保碳粉匣 黃色", compatibility: "DocuPrint CM305df/CP305d", price: 425, category: "彩色碳粉匣" },
+  { id: "eco-9", brand: "Fuji-Xerox", modelNumber: "DCI-X-CT201938", name: "CT201938 環保碳粉匣", compatibility: "DocuPrint P355d/M355df", price: 1245, category: "碳粉匣" },
+  { id: "eco-10", brand: "Fuji-Xerox", modelNumber: "DCI-X-CT201664", name: "CT201664 環保碳粉匣 黑色", compatibility: "DocuPrint C5005d", price: 2470, category: "彩色碳粉匣" },
+  { id: "eco-11", brand: "Fuji-Xerox", modelNumber: "DCI-X-CT201665", name: "CT201665 環保碳粉匣 藍色", compatibility: "DocuPrint C5005d", price: 2551, category: "彩色碳粉匣" },
+  { id: "eco-12", brand: "Fuji-Xerox", modelNumber: "DCI-X-CT201666", name: "CT201666 環保碳粉匣 紅色", compatibility: "DocuPrint C5005d", price: 2551, category: "彩色碳粉匣" },
+  { id: "eco-13", brand: "Fuji-Xerox", modelNumber: "DCI-X-CT201667", name: "CT201667 環保碳粉匣 黃色", compatibility: "DocuPrint C5005d", price: 2551, category: "彩色碳粉匣" },
+  { id: "eco-14", brand: "Fuji-Xerox", modelNumber: "DCI-X-CT202330", name: "CT202330 環保碳粉匣", compatibility: "DocuPrint P225d/P225db/P265dw/M225dw/M225z/M265z", price: 646, category: "碳粉匣" },
   
-  // HP - LaserJet Enterprise
-  { id: "eco-5", brand: "HP", modelNumber: "LHPCF237A", name: "CF237A 環保碳粉匣", compatibility: "LaserJet Enterprise M607dn/M608dn 標準印量", price: 2169, category: "碳粉匣" },
-  { id: "eco-6", brand: "HP", modelNumber: "DCI-H-CF237X", name: "CF237X 環保碳粉匣", compatibility: "LaserJet Enterprise M608dn 高印量", price: 2522, category: "碳粉匣" },
-  { id: "eco-7", brand: "HP", modelNumber: "DCI-H-CF237Y", name: "CF237Y 環保碳粉匣", compatibility: "LaserJet Enterprise M608dn/M609dn 超高印量", price: 3326, category: "碳粉匣" },
-  { id: "eco-8", brand: "HP", modelNumber: "DCI-H-CF237Z", name: "CF237Z 環保碳粉匣", compatibility: "LaserJet Enterprise M607dn/M608dn/M609dn", price: 1391, category: "碳粉匣" },
+  // HP - LaserJet 5200
+  { id: "eco-15", brand: "HP", modelNumber: "DCI-H-Q7516A", name: "Q7516A 環保碳粉匣", compatibility: "LaserJet 5200系列", price: 1103, category: "碳粉匣" },
   
-  // HP - LaserJet M433/M436
-  { id: "eco-9", brand: "HP", modelNumber: "DCI-H-CF256A", name: "CF256A 環保碳粉匣", compatibility: "LaserJet M433a/M436dn/M436n/M436nda", price: 1106, category: "碳粉匣" },
-  { id: "eco-10", brand: "HP", modelNumber: "DCI-H-CF256X", name: "CF256X 環保碳粉匣", compatibility: "LaserJet M433a/M436dn/M436n/M436nda", price: 1305, category: "碳粉匣" },
+  // HP - LaserJet P系列
+  { id: "eco-16", brand: "HP", modelNumber: "DCI-H-CB436A", name: "CB436A 環保碳粉匣", compatibility: "LaserJet P1505/P1505n/M1522MFP/M1120MFP", price: 432, category: "碳粉匣" },
+  { id: "eco-17", brand: "HP", modelNumber: "DCI-H-CB435A", name: "CB435A 環保碳粉匣", compatibility: "LaserJet P1005/P1006", price: 441, category: "碳粉匣" },
+  { id: "eco-18", brand: "HP", modelNumber: "DCI-H-CE505A", name: "CE505A 環保碳粉匣", compatibility: "LaserJet P2035/n/2055d/dn/x", price: 536, category: "碳粉匣" },
+  { id: "eco-19", brand: "HP", modelNumber: "DCI-H-CE255X", name: "CE255X 環保碳粉匣 高印量", compatibility: "LaserJet P3015/n/d/dn/x", price: 948, category: "碳粉匣" },
+  { id: "eco-20", brand: "HP", modelNumber: "DCI-H-CE285A", name: "CE285A 環保碳粉匣", compatibility: "LaserJet P1102w/M1132", price: 443, category: "碳粉匣" },
   
-  // HP - LaserJet Pro M15/M28
-  { id: "eco-11", brand: "HP", modelNumber: "DCI-H-CF248A", name: "CF248A 環保碳粉匣 (有晶片)", compatibility: "LaserJet Pro M15w/M28w", price: 795, category: "碳粉匣" },
-  { id: "eco-12", brand: "HP", modelNumber: "DCI-H-CF248A-NC", name: "CF248A 環保碳粉匣 (無晶片)", compatibility: "LaserJet Pro M15w/M28w", price: 336, category: "碳粉匣" },
+  // HP - LaserJet Pro 400 Color
+  { id: "eco-21", brand: "HP", modelNumber: "DCI-H-CE410X", name: "CE410X 環保碳粉匣 黑色高印量", compatibility: "LaserJet Pro 400 Color M451/M475", price: 800, category: "彩色碳粉匣" },
+  { id: "eco-22", brand: "HP", modelNumber: "DCI-H-CE411A", name: "CE411A 環保碳粉匣 藍色", compatibility: "LaserJet Pro 400 Color M451/M475", price: 800, category: "彩色碳粉匣" },
+  { id: "eco-23", brand: "HP", modelNumber: "DCI-H-CE413A", name: "CE413A 環保碳粉匣 紅色", compatibility: "LaserJet Pro 400 Color M451/M475", price: 800, category: "彩色碳粉匣" },
+  { id: "eco-24", brand: "HP", modelNumber: "DCI-H-CE412A", name: "CE412A 環保碳粉匣 黃色", compatibility: "LaserJet Pro 400 Color M451/M475", price: 800, category: "彩色碳粉匣" },
   
-  // HP - LaserJet Pro M102/M130
-  { id: "eco-13", brand: "HP", modelNumber: "DCI-H-CF217A", name: "CF217A 環保碳粉匣 (有晶片)", compatibility: "LaserJet Pro M102a/M102w/M130a/M130fn/M130fw/M130nw", price: 579, category: "碳粉匣" },
-  { id: "eco-14", brand: "HP", modelNumber: "DCI-H-CF217A-NC", name: "CF217A 環保碳粉匣 (無晶片)", compatibility: "LaserJet Pro M102a/M102w/M130a/M130fn/M130fw/M130nw", price: 336, category: "碳粉匣" },
+  // HP - LaserJet Pro M401/M425
+  { id: "eco-25", brand: "HP", modelNumber: "DCI-H-CF280A", name: "CF280A 環保碳粉匣", compatibility: "LaserJet Pro M401/M425", price: 617, category: "碳粉匣" },
+  { id: "eco-26", brand: "HP", modelNumber: "DCI-H-CF280X", name: "CF280X 環保碳粉匣 高印量", compatibility: "LaserJet Pro M401/M425", price: 779, category: "碳粉匣" },
   
-  // HP - LaserJet Pro M104/M132
-  { id: "eco-15", brand: "HP", modelNumber: "DCI-H-CF218A", name: "CF218A 環保碳粉匣 (有晶片)", compatibility: "LaserJet Pro M104a/M104w/M132a/M132fn/M132fp/M132fw/M132nw/M132snw", price: 579, category: "碳粉匣" },
-  { id: "eco-16", brand: "HP", modelNumber: "DCI-H-CF218A-NC", name: "CF218A 環保碳粉匣 (無晶片)", compatibility: "LaserJet Pro M104a/M104w/M132a/M132fn/M132fp/M132fw/M132nw/M132snw", price: 336, category: "碳粉匣" },
+  // HP - LaserJet Enterprise 600
+  { id: "eco-27", brand: "HP", modelNumber: "DCI-H-CE390X", name: "CE390X 環保碳粉匣 高印量", compatibility: "LaserJet Enterprise 600 M602dn/M603dn/M4555MFP", price: 1472, category: "碳粉匣" },
   
-  // HP - LaserJet Pro P1102/M1132
-  { id: "eco-17", brand: "HP", modelNumber: "DCI-H-CE285A", name: "CE285A 環保碳粉匣", compatibility: "LaserJet Pro M1132/M1212/P1102/P1102W", price: 402, category: "碳粉匣" },
-  
-  // HP - LaserJet Pro M12/M26
-  { id: "eco-18", brand: "HP", modelNumber: "DCI-H-CF279A", name: "CF279A 環保碳粉匣 (有晶片)", compatibility: "LaserJet Pro M12a/M12w/M26a/M26nw", price: 579, category: "碳粉匣" },
-  { id: "eco-19", brand: "HP", modelNumber: "DCI-H-CF279A-NC", name: "CF279A 環保碳粉匣 (無晶片)", compatibility: "LaserJet Pro M12a/M12w/M26a/M26nw", price: 336, category: "碳粉匣" },
-  
-  // HP - LaserJet Pro M125/M127/M201/M225
-  { id: "eco-20", brand: "HP", modelNumber: "DCI-H-CF283A", name: "CF283A 環保碳粉匣", compatibility: "LaserJet Pro M125a/M125nw/M127fn/M127fw/M201dw/M225dw", price: 412, category: "碳粉匣" },
-  { id: "eco-21", brand: "HP", modelNumber: "DCI-H-CF283X", name: "CF283X 環保碳粉匣", compatibility: "LaserJet Pro M201dw/M225dw 高印量", price: 482, category: "碳粉匣" },
-  
-  // HP - LaserJet Pro M203/M227
-  { id: "eco-22", brand: "HP", modelNumber: "DCI-H-CF230A", name: "CF230A 環保碳粉匣 (有晶片)", compatibility: "LaserJet Pro M203d/M203dn/M203dw/M227fdn/M227fdw/M227sdn", price: 978, category: "碳粉匣" },
-  { id: "eco-23", brand: "HP", modelNumber: "DCI-H-CF230A-NC", name: "CF230A 環保碳粉匣 (無晶片)", compatibility: "LaserJet Pro M203d/M203dn/M203dw/M227fdn/M227fdw/M227sdn", price: 386, category: "碳粉匣" },
-  { id: "eco-24", brand: "HP", modelNumber: "DCI-H-CF230X", name: "CF230X 環保碳粉匣 (有晶片)", compatibility: "LaserJet Pro M203d/M203dn/M203dw/M227fdn/M227fdw/M227sdn 高印量", price: 1269, category: "碳粉匣" },
-  { id: "eco-25", brand: "HP", modelNumber: "DCI-H-CF230X-NC", name: "CF230X 環保碳粉匣 (無晶片)", compatibility: "LaserJet Pro M203d/M203dn/M203dw/M227fdn/M227fdw/M227sdn 高印量", price: 435, category: "碳粉匣" },
-  
-  // HP - LaserJet Pro M304/M404/M428
-  { id: "eco-26", brand: "HP", modelNumber: "DCI-H-CF276A", name: "CF276A 環保碳粉匣 (有晶片)", compatibility: "LaserJet Pro M304a/M404n/M404dn/M404dw/M428dw/M428fdn/M428fdw", price: 2244, category: "碳粉匣" },
-  { id: "eco-27", brand: "HP", modelNumber: "DCI-H-CF276A-NC", name: "CF276A 環保碳粉匣 (無晶片)", compatibility: "LaserJet Pro M304a/M404n/M404dn/M404dw/M428dw/M428fdn/M428fdw", price: 867, category: "碳粉匣" },
-  { id: "eco-28", brand: "HP", modelNumber: "DCI-H-CF276X", name: "CF276X 環保碳粉匣 (有晶片)", compatibility: "LaserJet Pro M304a/M404n/M404dn/M404dw/M428dw/M428fdn/M428fdw 高印量", price: 3490, category: "碳粉匣" },
-  { id: "eco-29", brand: "HP", modelNumber: "DCI-H-CF276X-NC", name: "CF276X 環保碳粉匣 (無晶片)", compatibility: "LaserJet Pro M304a/M404n/M404dn/M404dw/M428dw/M428fdn/M428fdw 高印量", price: 867, category: "碳粉匣" },
+  // HP - Color LaserJet Enterprise CP5525dn
+  { id: "eco-28", brand: "HP", modelNumber: "DCI-H-CE271A", name: "CE271A 環保碳粉匣 藍色", compatibility: "Color LaserJet Enterprise CP5525dn", price: 1614, category: "彩色碳粉匣" },
+  { id: "eco-29", brand: "HP", modelNumber: "DCI-H-CE273A", name: "CE273A 環保碳粉匣 紅色", compatibility: "Color LaserJet Enterprise CP5525dn", price: 1614, category: "彩色碳粉匣" },
+  { id: "eco-30", brand: "HP", modelNumber: "DCI-H-CE272A", name: "CE272A 環保碳粉匣 黃色", compatibility: "Color LaserJet Enterprise CP5525dn", price: 1614, category: "彩色碳粉匣" },
   
   // HP - LaserJet Pro M402/M426
-  { id: "eco-30", brand: "HP", modelNumber: "DCI-H-CF226A", name: "CF226A 環保碳粉匣", compatibility: "LaserJet Pro M402d/M402dn/M402dne/M402dw/M402n/M426dw/M426fdn/M426fdw", price: 1133, category: "碳粉匣" },
-  { id: "eco-31", brand: "HP", modelNumber: "DCI-H-CF226X", name: "CF226X 環保碳粉匣", compatibility: "LaserJet Pro M402d/M402dn/M402dne/M402dw/M402n/M426dw/M426fdn/M426fdw 高印量", price: 1283, category: "碳粉匣" },
+  { id: "eco-31", brand: "HP", modelNumber: "DCI-H-CF226A", name: "CF226A 環保碳粉匣", compatibility: "LaserJet Pro M402n/M402dn", price: 900, category: "碳粉匣" },
+  { id: "eco-32", brand: "HP", modelNumber: "DCI-H-CF226X", name: "CF226X 環保碳粉匣 高印量", compatibility: "LaserJet Pro M402n/M402dn", price: 1109, category: "碳粉匣" },
   
-  // HP - LaserJet Pro M403/M427
-  { id: "eco-32", brand: "HP", modelNumber: "DCI-H-CF228A", name: "CF228A 環保碳粉匣 (有晶片)", compatibility: "LaserJet Pro M403d/M403dn/M403n/M427dw/M427fdn/M427fdw", price: 1399, category: "碳粉匣" },
-  { id: "eco-33", brand: "HP", modelNumber: "DCI-H-CF228A-NC", name: "CF228A 環保碳粉匣 (無晶片)", compatibility: "LaserJet Pro M403d/M403dn/M403n/M427dw/M427fdn/M427fdw", price: 579, category: "碳粉匣" },
-  { id: "eco-34", brand: "HP", modelNumber: "DCI-H-CF228X", name: "CF228X 環保碳粉匣 (有晶片)", compatibility: "LaserJet Pro M403d/M403dn/M403n/M427dw/M427fdn/M427fdw 高印量", price: 1549, category: "碳粉匣" },
-  { id: "eco-35", brand: "HP", modelNumber: "DCI-H-CF228X-NC", name: "CF228X 環保碳粉匣 (無晶片)", compatibility: "LaserJet Pro M403d/M403dn/M403n/M427dw/M427fdn/M427fdw 高印量", price: 622, category: "碳粉匣" },
+  // HP - LaserJet Pro M501/Enterprise M506
+  { id: "eco-33", brand: "HP", modelNumber: "DCI-H-CF287A", name: "CF287A 環保碳粉匣", compatibility: "LaserJet Pro M501dn/Enterprise M506dn/x", price: 1594, category: "碳粉匣" },
+  { id: "eco-34", brand: "HP", modelNumber: "DCI-H-CF287X", name: "CF287X 環保碳粉匣 高印量", compatibility: "LaserJet Pro M501dn/Enterprise M506dn/x", price: 1821, category: "碳粉匣" },
   
-  // HP - LaserJet Pro M501/M506/M527
-  { id: "eco-36", brand: "HP", modelNumber: "DCI-H-CF287A", name: "CF287A 環保碳粉匣", compatibility: "LaserJet Pro M501dn/M501n/Enterprise M506/M527", price: 1698, category: "碳粉匣" },
-  { id: "eco-37", brand: "HP", modelNumber: "DCI-H-CF287X", name: "CF287X 環保碳粉匣", compatibility: "LaserJet Pro M501dn/M501n/Enterprise M506/M527 高印量", price: 1965, category: "碳粉匣" },
+  // HP - Color LaserJet Pro M377/M452/M477
+  { id: "eco-35", brand: "HP", modelNumber: "DCI-H-CF410A", name: "CF410A 環保碳粉匣 黑色", compatibility: "Color LaserJet Pro MFP M377dw/M452dn/dw/nw/M477fdw/fnw", price: 1225, category: "彩色碳粉匣" },
   
-  // HP - LaserJet Pro M1536/P1566/P1606
-  { id: "eco-38", brand: "HP", modelNumber: "DCI-H-CE278A", name: "CE278A 環保碳粉匣", compatibility: "LaserJet Pro M1536dnf/P1566/P1606dn", price: 402, category: "碳粉匣" },
+  // HP - LaserJet Pro M203/M227
+  { id: "eco-36", brand: "HP", modelNumber: "DCI-H-CF230A", name: "CF230A 環保碳粉匣 標準印量", compatibility: "LaserJet Pro M203dw/M227fdw", price: 1060, category: "碳粉匣" },
+  { id: "eco-37", brand: "HP", modelNumber: "DCI-H-CF230X", name: "CF230X 環保碳粉匣 高印量", compatibility: "LaserJet Pro M203dw/M227fdw", price: 1498, category: "碳粉匣" },
+  
+  // HP - LaserJet Pro M12/M26
+  { id: "eco-38", brand: "HP", modelNumber: "DCI-H-CF279A", name: "CF279A 環保碳粉匣", compatibility: "LaserJet Pro M12a/M12w/MFP M26a/M26nw", price: 577, category: "碳粉匣" },
+  
+  // HP - Color LaserJet Pro M154/M181
+  { id: "eco-39", brand: "HP", modelNumber: "DCI-H-CF510A", name: "CF510A 環保碳粉匣 黑色", compatibility: "Color LaserJet Pro M154nw/MFP M181fw", price: 1051, category: "彩色碳粉匣" },
+  { id: "eco-40", brand: "HP", modelNumber: "DCI-H-CF511A", name: "CF511A 環保碳粉匣 藍色", compatibility: "Color LaserJet Pro M154nw/MFP M181fw", price: 1060, category: "彩色碳粉匣" },
+  { id: "eco-41", brand: "HP", modelNumber: "DCI-H-CF513A", name: "CF513A 環保碳粉匣 紅色", compatibility: "Color LaserJet Pro M154nw/MFP M181fw", price: 1060, category: "彩色碳粉匣" },
+  { id: "eco-42", brand: "HP", modelNumber: "DCI-H-CF512A", name: "CF512A 環保碳粉匣 黃色", compatibility: "Color LaserJet Pro M154nw/MFP M181fw", price: 1060, category: "彩色碳粉匣" },
+  
+  // HP - Color LaserJet Pro M254/M281
+  { id: "eco-43", brand: "HP", modelNumber: "DCI-H-CF500X", name: "CF500X 環保碳粉匣 黑色高印量", compatibility: "Color LaserJet Pro M254dw/MFP M281dw", price: 1134, category: "彩色碳粉匣" },
+  { id: "eco-44", brand: "HP", modelNumber: "DCI-H-CF501X", name: "CF501X 環保碳粉匣 藍色高印量", compatibility: "Color LaserJet Pro M254dw/MFP M281dw", price: 1134, category: "彩色碳粉匣" },
+  { id: "eco-45", brand: "HP", modelNumber: "DCI-H-CF503X", name: "CF503X 環保碳粉匣 紅色高印量", compatibility: "Color LaserJet Pro M254dw/MFP M281dw", price: 1134, category: "彩色碳粉匣" },
+  { id: "eco-46", brand: "HP", modelNumber: "DCI-H-CF502X", name: "CF502X 環保碳粉匣 黃色高印量", compatibility: "Color LaserJet Pro M254dw/MFP M281dw", price: 1134, category: "彩色碳粉匣" },
   
   // HP - Color LaserJet Enterprise M552/M553/M577
-  { id: "eco-39", brand: "HP", modelNumber: "DCI-H-CF360A", name: "CF360A 環保碳粉匣 黑色", compatibility: "Color LaserJet Enterprise M552dn/M553dn/M553n/M553x/M577dn/M577f", price: 2242, category: "彩色碳粉匣" },
-  { id: "eco-40", brand: "HP", modelNumber: "DCI-H-CF360X", name: "CF360X 環保碳粉匣 黑色高印量", compatibility: "Color LaserJet Enterprise M552dn/M553dn/M553n/M553x/M577dn/M577f", price: 3543, category: "彩色碳粉匣" },
-  { id: "eco-41", brand: "HP", modelNumber: "DCI-H-CF361A", name: "CF361A 環保碳粉匣 青色", compatibility: "Color LaserJet Enterprise M552dn/M553dn/M553n/M553x/M577dn/M577f", price: 2865, category: "彩色碳粉匣" },
-  { id: "eco-42", brand: "HP", modelNumber: "DCI-H-CF361X", name: "CF361X 環保碳粉匣 青色高印量", compatibility: "Color LaserJet Enterprise M552dn/M553dn/M553n/M553x/M577dn/M577f", price: 4358, category: "彩色碳粉匣" },
-  { id: "eco-43", brand: "HP", modelNumber: "DCI-H-CF362A", name: "CF362A 環保碳粉匣 黃色", compatibility: "Color LaserJet Enterprise M552dn/M553dn/M553n/M553x/M577dn/M577f", price: 2865, category: "彩色碳粉匣" },
-  { id: "eco-44", brand: "HP", modelNumber: "DCI-H-CF362X", name: "CF362X 環保碳粉匣 黃色高印量", compatibility: "Color LaserJet Enterprise M552dn/M553dn/M553n/M553x/M577dn/M577f", price: 4358, category: "彩色碳粉匣" },
-  { id: "eco-45", brand: "HP", modelNumber: "DCI-H-CF363A", name: "CF363A 環保碳粉匣 洋紅色", compatibility: "Color LaserJet Enterprise M552dn/M553dn/M553n/M553x/M577dn/M577f", price: 2865, category: "彩色碳粉匣" },
-  { id: "eco-46", brand: "HP", modelNumber: "DCI-H-CF363X", name: "CF363X 環保碳粉匣 洋紅色高印量", compatibility: "Color LaserJet Enterprise M552dn/M553dn/M553n/M553x/M577dn/M577f", price: 4358, category: "彩色碳粉匣" },
+  { id: "eco-47", brand: "HP", modelNumber: "DCI-H-CF360X", name: "CF360X 環保碳粉匣 黑色高印量", compatibility: "Color LaserJet Enterprise M552dn/M553dn/MFP CM4540/M577dn/M577f/M577z", price: 2201, category: "彩色碳粉匣" },
+  { id: "eco-48", brand: "HP", modelNumber: "DCI-H-CF361X", name: "CF361X 環保碳粉匣 藍色高印量", compatibility: "Color LaserJet Enterprise M552dn/M553dn/MFP CM4540/M577dn/M577f/M577z", price: 2115, category: "彩色碳粉匣" },
+  { id: "eco-49", brand: "HP", modelNumber: "DCI-H-CF363X", name: "CF363X 環保碳粉匣 紅色高印量", compatibility: "Color LaserJet Enterprise M552dn/M553dn/MFP CM4540/M577dn/M577f/M577z", price: 2220, category: "彩色碳粉匣" },
+  { id: "eco-50", brand: "HP", modelNumber: "DCI-H-CF362X", name: "CF362X 環保碳粉匣 黃色高印量", compatibility: "Color LaserJet Enterprise M552dn/M553dn/MFP CM4540/M577dn/M577f/M577z", price: 2220, category: "彩色碳粉匣" },
   
-  // HP - Color LaserJet Pro M252/M274/M277
-  { id: "eco-47", brand: "HP", modelNumber: "DCI-H-CF400A", name: "CF400A 環保碳粉匣 黑色", compatibility: "Color LaserJet Pro M252dw/M252n/M274n/M277dw/M277n", price: 1133, category: "彩色碳粉匣" },
-  { id: "eco-48", brand: "HP", modelNumber: "DCI-H-CF400X", name: "CF400X 環保碳粉匣 黑色高印量", compatibility: "Color LaserJet Pro M252dw/M252n/M274n/M277dw/M277n", price: 1391, category: "彩色碳粉匣" },
-  { id: "eco-49", brand: "HP", modelNumber: "DCI-H-CF401A", name: "CF401A 環保碳粉匣 青色", compatibility: "Color LaserJet Pro M252dw/M252n/M274n/M277dw/M277n", price: 1133, category: "彩色碳粉匣" },
-  { id: "eco-50", brand: "HP", modelNumber: "DCI-H-CF401X", name: "CF401X 環保碳粉匣 青色高印量", compatibility: "Color LaserJet Pro M252dw/M252n/M274n/M277dw/M277n", price: 1391, category: "彩色碳粉匣" },
-  { id: "eco-51", brand: "HP", modelNumber: "DCI-H-CF402A", name: "CF402A 環保碳粉匣 黃色", compatibility: "Color LaserJet Pro M252dw/M252n/M274n/M277dw/M277n", price: 1133, category: "彩色碳粉匣" },
-  { id: "eco-52", brand: "HP", modelNumber: "DCI-H-CF402X", name: "CF402X 環保碳粉匣 黃色高印量", compatibility: "Color LaserJet Pro M252dw/M252n/M274n/M277dw/M277n", price: 1391, category: "彩色碳粉匣" },
-  { id: "eco-53", brand: "HP", modelNumber: "DCI-H-CF403A", name: "CF403A 環保碳粉匣 洋紅色", compatibility: "Color LaserJet Pro M252dw/M252n/M274n/M277dw/M277n", price: 1133, category: "彩色碳粉匣" },
-  { id: "eco-54", brand: "HP", modelNumber: "DCI-H-CF403X", name: "CF403X 環保碳粉匣 洋紅色高印量", compatibility: "Color LaserJet Pro M252dw/M252n/M274n/M277dw/M277n", price: 1391, category: "彩色碳粉匣" },
+  // HP - LaserJet Enterprise M607/M608
+  { id: "eco-51", brand: "HP", modelNumber: "DCI-H-CF237A", name: "CF237A 環保碳粉匣 標準印量", compatibility: "LaserJet Enterprise M607dn/M608dn", price: 2169, category: "碳粉匣" },
+  { id: "eco-52", brand: "HP", modelNumber: "DCI-H-CF237X", name: "CF237X 環保碳粉匣 高印量", compatibility: "LaserJet Enterprise M608dn", price: 2522, category: "碳粉匣" },
   
-  // HP - Color LaserJet Pro M452/M477
-  { id: "eco-55", brand: "HP", modelNumber: "DCI-H-CF410A", name: "CF410A 環保碳粉匣 黑色", compatibility: "Color LaserJet Pro M452dn/M452dw/M452nw/M477fdn/M477fdw/M477fnw", price: 1362, category: "彩色碳粉匣" },
-  { id: "eco-56", brand: "HP", modelNumber: "DCI-H-CF410X", name: "CF410X 環保碳粉匣 黑色高印量", compatibility: "Color LaserJet Pro M452dn/M452dw/M452nw/M477fdn/M477fdw/M477fnw", price: 1965, category: "彩色碳粉匣" },
-  { id: "eco-57", brand: "HP", modelNumber: "DCI-H-CF411A", name: "CF411A 環保碳粉匣 青色", compatibility: "Color LaserJet Pro M452dn/M452dw/M452nw/M477fdn/M477fdw/M477fnw", price: 1362, category: "彩色碳粉匣" },
-  { id: "eco-58", brand: "HP", modelNumber: "DCI-H-CF411X", name: "CF411X 環保碳粉匣 青色高印量", compatibility: "Color LaserJet Pro M452dn/M452dw/M452nw/M477fdn/M477fdw/M477fnw", price: 1965, category: "彩色碳粉匣" },
-  { id: "eco-59", brand: "HP", modelNumber: "DCI-H-CF412A", name: "CF412A 環保碳粉匣 黃色", compatibility: "Color LaserJet Pro M452dn/M452dw/M452nw/M477fdn/M477fdw/M477fnw", price: 1362, category: "彩色碳粉匣" },
-  { id: "eco-60", brand: "HP", modelNumber: "DCI-H-CF412X", name: "CF412X 環保碳粉匣 黃色高印量", compatibility: "Color LaserJet Pro M452dn/M452dw/M452nw/M477fdn/M477fdw/M477fnw", price: 1965, category: "彩色碳粉匣" },
-  { id: "eco-61", brand: "HP", modelNumber: "DCI-H-CF413A", name: "CF413A 環保碳粉匣 洋紅色", compatibility: "Color LaserJet Pro M452dn/M452dw/M452nw/M477fdn/M477fdw/M477fnw", price: 1362, category: "彩色碳粉匣" },
-  { id: "eco-62", brand: "HP", modelNumber: "DCI-H-CF413X", name: "CF413X 環保碳粉匣 洋紅色高印量", compatibility: "Color LaserJet Pro M452dn/M452dw/M452nw/M477fdn/M477fdw/M477fnw", price: 1965, category: "彩色碳粉匣" },
+  // HP - LaserJet Pro M404/M428
+  { id: "eco-53", brand: "HP", modelNumber: "DCI-H-CF276A", name: "CF276A 環保碳粉匣 標準印量", compatibility: "LaserJet Pro M404dn/MFP M428fdn", price: 1493, category: "碳粉匣" },
+  { id: "eco-54", brand: "HP", modelNumber: "DCI-H-CF276X", name: "CF276X 環保碳粉匣 高印量", compatibility: "LaserJet Pro M404dn/MFP M428fdn", price: 1968, category: "碳粉匣" },
   
-  // HP - Color LaserJet Pro M254/M280/M281 (無晶片)
-  { id: "eco-63", brand: "HP", modelNumber: "DCI-H-CF500A-NC", name: "CF500A 環保碳粉匣 黑色 (無晶片)", compatibility: "Color LaserJet Pro M254dw/M254nw/M280nw/M281fdn/M281fdw", price: 650, category: "彩色碳粉匣" },
-  { id: "eco-64", brand: "HP", modelNumber: "DCI-H-CF500X-NC", name: "CF500X 環保碳粉匣 黑色高印量 (無晶片)", compatibility: "Color LaserJet Pro M254dw/M254nw/M280nw/M281fdn/M281fdw", price: 650, category: "彩色碳粉匣" },
-  { id: "eco-65", brand: "HP", modelNumber: "DCI-H-CF501A-NC", name: "CF501A 環保碳粉匣 青色 (無晶片)", compatibility: "Color LaserJet Pro M254dw/M254nw/M280nw/M281fdn/M281fdw", price: 650, category: "彩色碳粉匣" },
-  { id: "eco-66", brand: "HP", modelNumber: "DCI-H-CF501X-NC", name: "CF501X 環保碳粉匣 青色高印量 (無晶片)", compatibility: "Color LaserJet Pro M254dw/M254nw/M280nw/M281fdn/M281fdw", price: 650, category: "彩色碳粉匣" },
-  { id: "eco-67", brand: "HP", modelNumber: "DCI-H-CF502A-NC", name: "CF502A 環保碳粉匣 黃色 (無晶片)", compatibility: "Color LaserJet Pro M254dw/M254nw/M280nw/M281fdn/M281fdw", price: 650, category: "彩色碳粉匣" },
-  { id: "eco-68", brand: "HP", modelNumber: "DCI-H-CF502X-NC", name: "CF502X 環保碳粉匣 黃色高印量 (無晶片)", compatibility: "Color LaserJet Pro M254dw/M254nw/M280nw/M281fdn/M281fdw", price: 650, category: "彩色碳粉匣" },
-  { id: "eco-69", brand: "HP", modelNumber: "DCI-H-CF503A-NC", name: "CF503A 環保碳粉匣 洋紅色 (無晶片)", compatibility: "Color LaserJet Pro M254dw/M254nw/M280nw/M281fdn/M281fdw", price: 650, category: "彩色碳粉匣" },
-  { id: "eco-70", brand: "HP", modelNumber: "DCI-H-CF503X-NC", name: "CF503X 環保碳粉匣 洋紅色高印量 (無晶片)", compatibility: "Color LaserJet Pro M254dw/M254nw/M280nw/M281fdn/M281fdw", price: 650, category: "彩色碳粉匣" },
+  // HP - Color LaserJet Pro M454/M479
+  { id: "eco-55", brand: "HP", modelNumber: "DCI-H-W2040X", name: "W2040X 環保碳粉匣 黑色高印量", compatibility: "Color LaserJet Pro M454dn/MFP M479fdw", price: 2126, category: "彩色碳粉匣" },
+  { id: "eco-56", brand: "HP", modelNumber: "DCI-H-W2041X", name: "W2041X 環保碳粉匣 藍色高印量", compatibility: "Color LaserJet Pro M454dn/MFP M479fdw", price: 2126, category: "彩色碳粉匣" },
+  { id: "eco-57", brand: "HP", modelNumber: "DCI-H-W2043X", name: "W2043X 環保碳粉匣 紅色高印量", compatibility: "Color LaserJet Pro M454dn/MFP M479fdw", price: 2126, category: "彩色碳粉匣" },
+  { id: "eco-58", brand: "HP", modelNumber: "DCI-H-W2042X", name: "W2042X 環保碳粉匣 黃色高印量", compatibility: "Color LaserJet Pro M454dn/MFP M479fdw", price: 2126, category: "彩色碳粉匣" },
   
-  // HP - Color LaserJet Pro M154/M180/M181 (無晶片)
-  { id: "eco-71", brand: "HP", modelNumber: "DCI-H-CF510A-NC", name: "CF510A 環保碳粉匣 黑色 (無晶片)", compatibility: "Color LaserJet Pro M154a/M154nw/M180n/M180nw/M181fw", price: 650, category: "彩色碳粉匣" },
-  { id: "eco-72", brand: "HP", modelNumber: "DCI-H-CF511A-NC", name: "CF511A 環保碳粉匣 青色 (無晶片)", compatibility: "Color LaserJet Pro M154a/M154nw/M180n/M180nw/M181fw", price: 650, category: "彩色碳粉匣" },
-  { id: "eco-73", brand: "HP", modelNumber: "DCI-H-CF512A-NC", name: "CF512A 環保碳粉匣 黃色 (無晶片)", compatibility: "Color LaserJet Pro M154a/M154nw/M180n/M180nw/M181fw", price: 650, category: "彩色碳粉匣" },
-  { id: "eco-74", brand: "HP", modelNumber: "DCI-H-CF513A-NC", name: "CF513A 環保碳粉匣 洋紅色 (無晶片)", compatibility: "Color LaserJet Pro M154a/M154nw/M180n/M180nw/M181fw", price: 650, category: "彩色碳粉匣" },
+  // HP - LaserJet Pro M15/M28
+  { id: "eco-59", brand: "HP", modelNumber: "DCI-H-CF248A", name: "CF248A 環保碳粉匣 黑色", compatibility: "LaserJet Pro M15w/M28w", price: 616, category: "碳粉匣" },
+  
+  // HP - LaserJet M610/M611/M612/M634/M635/M636
+  { id: "eco-60", brand: "HP", modelNumber: "DCI-H-W1470A", name: "W1470A 環保碳粉匣 黑色標準印量", compatibility: "HP LJ M610/M611/M612/M634/M635/M636", price: 1964, category: "碳粉匣" },
+  { id: "eco-61", brand: "HP", modelNumber: "DCI-H-W1470X", name: "W1470X 環保碳粉匣 黑色高印量", compatibility: "HP LJ M611/M612/M634/M635/M636", price: 2444, category: "碳粉匣" },
+  
+  // HP - LaserJet Enterprise M507/M528
+  { id: "eco-62", brand: "HP", modelNumber: "DCI-H-CF289A", name: "CF289A 環保碳粉匣 黑色標準印量", compatibility: "LaserJet Enterprise M507/MFP M528", price: 1265, category: "碳粉匣" },
+  { id: "eco-63", brand: "HP", modelNumber: "DCI-H-CF289X", name: "CF289X 環保碳粉匣 黑色高印量", compatibility: "LaserJet Enterprise M507/MFP M528", price: 1670, category: "碳粉匣" },
 ];
 
 const brands = ["全部", "Brother", "Epson", "Fuji-Xerox", "HP"];
