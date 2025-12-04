@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2, Minus, Store, Truck } from "lucide-react";
+import { ArrowLeft, Leaf, ShoppingCart, Send, Phone, Plus, Trash2, Minus, Store, Truck, ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -138,6 +138,8 @@ const products: Product[] = [
   { id: "T9701", modelNumber: "T9701", name: "EPSON WF-M5799 全新原廠墨水袋 (高容量)", price: 11500, compatibility: "WF-M5799 / WF-M5299", brand: "EPSON", category: "墨水袋" },
 ];
 
+const ITEMS_PER_PAGE = 20;
+
 const OrderOriginal = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -157,6 +159,7 @@ const OrderOriginal = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("全部");
   const [selectedBrand, setSelectedBrand] = useState<string>("全部");
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Get unique categories and brands
   const categories = ["全部", ...Array.from(new Set(products.map(p => p.category)))];
@@ -172,6 +175,27 @@ const OrderOriginal = () => {
     
     return matchesSearch && matchesCategory && matchesBrand;
   });
+
+  // Pagination
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedProducts = filteredProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  // Reset to page 1 when filters change
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    setCurrentPage(1);
+  };
+
+  const handleBrandChange = (value: string) => {
+    setSelectedBrand(value);
+    setCurrentPage(1);
+  };
 
   const getQuantity = (productId: string) => selectedQuantities[productId] || 1;
   const getTaxOption = (productId: string) => selectedTaxOptions[productId] || "untaxed";
@@ -266,7 +290,7 @@ const OrderOriginal = () => {
                   type="text"
                   placeholder="搜尋產品型號、名稱或適用機型..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                   className="text-lg"
                 />
               </div>
@@ -275,7 +299,7 @@ const OrderOriginal = () => {
               <div className="flex flex-wrap gap-4 justify-center">
                 <div className="flex flex-col gap-2">
                   <Label className="text-sm text-muted-foreground">產品類別</Label>
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <Select value={selectedCategory} onValueChange={handleCategoryChange}>
                     <SelectTrigger className="w-[180px]">
                       <SelectValue />
                     </SelectTrigger>
@@ -291,7 +315,7 @@ const OrderOriginal = () => {
                 
                 <div className="flex flex-col gap-2">
                   <Label className="text-sm text-muted-foreground">品牌</Label>
-                  <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+                  <Select value={selectedBrand} onValueChange={handleBrandChange}>
                     <SelectTrigger className="w-[180px]">
                       <SelectValue />
                     </SelectTrigger>
@@ -309,12 +333,12 @@ const OrderOriginal = () => {
 
             {/* Product Count */}
             <div className="mb-4 text-center text-muted-foreground">
-              共 {filteredProducts.length} 項產品
+              共 {filteredProducts.length} 項產品 (第 {currentPage} / {totalPages || 1} 頁)
             </div>
             
             {/* Products Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.map((product) => {
+              {paginatedProducts.map((product) => {
                 const quantity = getQuantity(product.id);
                 const taxOption = getTaxOption(product.id);
                 const displayPrice = taxOption === "taxed" ? Math.round(product.price * 1.05) : product.price;
@@ -406,6 +430,41 @@ const OrderOriginal = () => {
                 );
               })}
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-8">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                  <Button
+                    key={page}
+                    variant={currentPage === page ? "default" : "outline"}
+                    size="icon"
+                    onClick={() => setCurrentPage(page)}
+                    className={currentPage === page ? "eco-gradient text-primary-foreground" : ""}
+                  >
+                    {page}
+                  </Button>
+                ))}
+                
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                  disabled={currentPage === totalPages}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
 
             {filteredProducts.length === 0 && (
               <div className="text-center py-12 text-muted-foreground">
